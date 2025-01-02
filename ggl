@@ -1,97 +1,98 @@
 #!/usr/bin/env python3
-import sys, subprocess
+import sys, subprocess, json
 
-DEFAULT_PROFILE = "Profile 6" # farhandaniels189
-DEFAULT_BROWSER = "Google Chrome"
+def load_profiles():
+  try:
+    with open('config.json', 'r') as file:
+      config = json.load(file)
+      return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES']
+  except FileNotFoundError:
+    print("Error: Configuration file 'config.json' not found.")
+    return None, [], []
+
+DEFAULT_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES = load_profiles()
 profile = DEFAULT_PROFILE
-browser = DEFAULT_BROWSER
 args = sys.argv[1:]
 guest = False
 
-
 # Checking if arguments are passed correctly
 if len(sys.argv) < 2:
-    print("""Usage: ggl [-b|--browser <browser name>] [-p|--profile <profile name>] [-h|--help] [-l|--list] <search query>
+    print("""Usage: ggl [-p|--profile <profile name>] <search query>
+       ggl [-l|--list]
+       ggl [-h|--help]
 Use ggl -h or ggl --help to get help""")
     sys.exit(1)
 
 
-# Checking each flags
-if ("-b" in args) or ("--browser" in args):
-    if "-b" in args:
-        b_index = args.index("-b")
-    else: b_index = args.index("--browser")
-    
-    if b_index + 1 < len(args):
-        browser = args[b_index + 1]
-        del args[b_index:b_index + 2] # Remove -b flag and browser name from args
-    else:
-        print("Error: No browser is specified after -b or --browser")
-        print("Usage: ggl [-b|--browser <browser name>] [-p|--profile <profile name>] [-h|--help] [-l|--list] <search query>")
-        print("Use ggl -h or ggl --help to get help")
-        sys.exit(1)
-    
-elif ("-p" in args) or ("--profile" in args):
-    if "-p" in args:
-        p_index = args.index("-p")        
-    else: p_index = args.index("--profile")
+def main():
+    global guest
+    global profile
+    global args
 
-    if p_index + 1 < len(args):
-        profile = args[p_index + 1]
-        if profile == "1": profile = "Profile 6" # farhandaniels189
-        elif profile == "2": profile = "Default" # taraqfarhan
-        elif profile == "3": profile = "Profile 8" # taraqfarhan189
-        else: guest = True
-        del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
-    else:
-        print("Error: No profile is specified after -p or --profile")
-        print("Usage: ggl [-b|--browser <browser name>] [-p|--profile <profile name>] [-h|--help] [-l|--list] <search query>")
-        print("Use ggl -l or ggl --list to see all the chrome profiles")
-        sys.exit(1)
+    if DEFAULT_PROFILE and OTHER_PROFILES:
+        # Checking each flags    
+        if ("-p" in args) or ("--profile" in args):
+            if "-p" in args:
+                p_index = args.index("-p")        
+            else: p_index = args.index("--profile")
 
-elif ("-l" in args) or ("--list" in args):
-    if "-l" in args:
-        l_index = args.index("-l")
-    else: l_index = args.index("--list")
-    
-    print("""----------------Chrome Profiles---------------
-farhandaniels189        default profile (doesn't require the -p --profile flag), set the option to 1 to explicitly specify
-taraqfarhan             set the option to 2 to use this profile
-taraqfarhan189          set the option to 3 to use this profile
-guest profile           set any other option to use the guest profile""")
-    sys.exit(0)
-    
-elif ("-h" in args) or ("--help" in args):
-    if "-h" in args:
-        h_index = args.index("-h")
-    else: h_index = args.index("--help")
-    
-    print("""Search Google with a specific Chrome profile right from the Terminal
-"Usage: ggl [-b|--browser <browser name>] [-p|--profile <profile name>] [-h|--help] [-l|--list] <search query>"
+            if p_index + 1 < len(args):
+                profile = args[p_index + 1]
+                if profile == "1": profile = "Profile 6" 
+                elif profile == "2": profile = "Default" 
+                elif profile == "3": profile = "Profile 8" 
+                else: guest = True
+                del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
+            else:
+                print("""Error: No profile is specified after -p or --profile
+    Usage: ggl [-p|--profile <profile name>] <search query>
+    Use ggl -l or ggl --list to see all the chrome profiles""" )
+                sys.exit(1)
 
--b --browser        select a web-browser (Google Chrome is default, all the functionalities are not available for other web browsers rather than Google Chrome right now)
--p --profile        set a specific chrome profile for searching 
--l --list           list all the chrome profiles
--h --help           display this help page
+        elif ("-l" in args) or ("--list" in args):
+            if "-l" in args:
+                l_index = args.index("-l")
+            else: l_index = args.index("--list")
+            
+            print(f"""----------------Chrome Profiles---------------
+        {DEFAULT_PROFILE}       default profile (doesn't require the -p --profile flag), set the option to 1 to explicitly specify
+        {OTHER_PROFILES[0]}     set the option to 2 to use this profile
+        {OTHER_PROFILES[1]}     set the option to 3 to use this profile
+        guest profile           set any other option to use the guest profile""")
+            sys.exit(0)
+            
+        elif ("-h" in args) or ("--help" in args):
+            if "-h" in args:
+                h_index = args.index("-h")
+            else: h_index = args.index("--help")
+            
+            print("""Search Google with a specific Chrome profile right from the Terminal
+        Usage: ggl [-p|--profile <profile name>] <search query>
+            ggl [-l|--list]
+            ggl [-h|--help]
+        
 
-EXAMPLES:
-ggl Python Documentation
-ggl "What's the capital of Russia"
-ggl 'What does the word "vector" mean'
-ggl -p 3 Vietnam War
-ggl --profile 2 How does money work?
-ggl -p random search using the guest profile
-ggl -b Safari "what's the capital of Bangladesh\"""")
-    sys.exit(0)
+        -p --profile        set a specific chrome profile for searching 
+        -l --list           list all the chrome profiles
+        -h --help           display this help page
+
+        EXAMPLES:
+        ggl Python Documentation
+        ggl "What's the capital of Russia"
+        ggl 'What does the word "vector" mean'
+        ggl -p 3 Vietnam War
+        ggl --profile 2 How does money work?
+        ggl -p random how to use the dark web""")
+            sys.exit(0)
 
 
-query = "+".join(args)
-url = f"https://www.google.com/search?q={query}"
+        query = "+".join(args)
+        url = f"https://www.google.com/search?q={query}"
 
 
-# commands after --args are specific to Google-Chrome
-if (guest):
-    subprocess.run(["open", "-na", browser, "--args", "--guest", url])
-else:
-    if (browser == DEFAULT_BROWSER): subprocess.run(["open", "-na", browser, "--args", f"--profile-directory={profile}", url])
-    else: subprocess.run(["open", "-na", browser, url])
+        if (guest): subprocess.run(["open", "-na", "Google Chrome", "--args", "--guest", url])
+        else: subprocess.run(["open", "-na", "Google Chrome", "--args", f"--profile-directory={profile}", url])
+
+
+if __name__ == "__main__":
+  main()
