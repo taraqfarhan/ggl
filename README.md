@@ -1,6 +1,6 @@
 # ggl : Search google with a specific Google Chrome profile right from the terminal
 
-Another life-changing script to automate a process which will save you prolly 3 to 5 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist you can always email me at farhandaniels189@gmail.com
+Another life-changing script to automate a process which will save you prolly 3 to 5 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist you can always email me at taraqfarhan@gmail.com
 
 ## Configuration
 
