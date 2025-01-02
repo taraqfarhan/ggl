@@ -38,11 +38,13 @@ def main():
 
             if p_index + 1 < len(args):
                 profile = args[p_index + 1]
-                if profile == "1": profile = "Profile 6" 
-                elif profile == "2": profile = "Default" 
-                elif profile == "3": profile = "Profile 8" 
-                else: guest = True
-                del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
+                if (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
+                    if profile == "1": profile = "Profile 6" 
+                    elif profile == "2": profile = "Default" 
+                    elif profile == "3": profile = "Profile 8" 
+                    elif profile == "guest": profile = "guest"
+                    else: guest = True
+                    del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
             else:
                 print("""Error: No profile is specified after -p or --profile
     Usage: ggl [-p|--profile <profile name>] <search query>
@@ -54,11 +56,10 @@ def main():
                 l_index = args.index("-l")
             else: l_index = args.index("--list")
             
-            print(f"""----------------Chrome Profiles---------------
-        {DEFAULT_PROFILE}       default profile (doesn't require the -p --profile flag), set the option to 1 to explicitly specify
-        {OTHER_PROFILES[0]}     set the option to 2 to use this profile
-        {OTHER_PROFILES[1]}     set the option to 3 to use this profile
-        guest profile           set any other option to use the guest profile""")
+            print(f"{DEFAULT_PROFILE}                default profile (doesn't require the -p --profile flag)")
+            for profile_index, profiles in enumerate(OTHER_PROFILES):
+                print(f"{profiles}              use key {KEYS_FOR_OTHER_PROFILES[profile_index]} for the {profiles} ")                
+            print("Guest profile          use key 'guest' for the guest profile")
             sys.exit(0)
             
         elif ("-h" in args) or ("--help" in args):
@@ -67,22 +68,22 @@ def main():
             else: h_index = args.index("--help")
             
             print("""Search Google with a specific Chrome profile right from the Terminal
-        Usage: ggl [-p|--profile <profile name>] <search query>
-            ggl [-l|--list]
-            ggl [-h|--help]
+Usage: ggl [-p|--profile <profile name>] <search query>
+       ggl [-l|--list]
+       ggl [-h|--help]
         
 
-        -p --profile        set a specific chrome profile for searching 
-        -l --list           list all the chrome profiles
-        -h --help           display this help page
+-p --profile        set a specific chrome profile for searching 
+-l --list           list all the chrome profiles
+-h --help           display this help page
 
-        EXAMPLES:
-        ggl Python Documentation
-        ggl "What's the capital of Russia"
-        ggl 'What does the word "vector" mean'
-        ggl -p 3 Vietnam War
-        ggl --profile 2 How does money work?
-        ggl -p random how to use the dark web""")
+EXAMPLES:
+ggl Python Documentation
+ggl "What's the capital of Russia"
+ggl 'What does the word "vector" mean'
+ggl -p 3 Vietnam War
+ggl --profile 2 How does money work?
+ggl -p guest how to use the dark web""")
             sys.exit(0)
 
 
