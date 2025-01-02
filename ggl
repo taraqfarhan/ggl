@@ -10,27 +10,24 @@ def load_profiles():
     print("Error: Configuration file 'config.json' not found.")
     return None, [], []
 
-DEFAULT_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES = load_profiles()
-profile = DEFAULT_PROFILE
-args = sys.argv[1:]
-guest = False
 
-# Checking if arguments are passed correctly
+# Checking if at least one argument is passed for each successful run
 if len(sys.argv) < 2:
     print("""Usage: ggl [-p|--profile <profile name>] <search query>
        ggl [-l|--list]
        ggl [-h|--help]
+       
 Use ggl -h or ggl --help to get help""")
     sys.exit(1)
 
 
 def main():
-    global guest
-    global profile
-    global args
+    DEFAULT_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES = load_profiles()
+    profile = DEFAULT_PROFILE
+    args = sys.argv[1:]
+    guest = False
 
-    if DEFAULT_PROFILE and OTHER_PROFILES:
-        # Checking each flags    
+    if DEFAULT_PROFILE or OTHER_PROFILES:
         if ("-p" in args) or ("--profile" in args):
             if "-p" in args:
                 p_index = args.index("-p")        
@@ -38,17 +35,25 @@ def main():
 
             if p_index + 1 < len(args):
                 profile = args[p_index + 1]
-                if (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
-                    if profile == "1": profile = "Profile 6" 
-                    elif profile == "2": profile = "Default" 
-                    elif profile == "3": profile = "Profile 8" 
-                    elif profile == "guest": profile = "guest"
-                    else: guest = True
-                    del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
+                if profile in ("guest", "g"): guest = True
+                elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
+                    for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                        if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
+                            profile = profile_name
+                            break
+                else: 
+                    print("""Error: Invalid profile name is used after -p or --profile flag
+Usage: ggl [-p|--profile <profile name>] <search query>
+
+Use ggl -l or ggl --list to see all the chrome profiles""" )
+                    sys.exit(1)
+
+                del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
             else:
-                print("""Error: No profile is specified after -p or --profile
-    Usage: ggl [-p|--profile <profile name>] <search query>
-    Use ggl -l or ggl --list to see all the chrome profiles""" )
+                print("""Error: No profile is specified after -p or --profile flag
+Usage: ggl [-p|--profile <profile name>] <search query>
+    
+Use ggl -l or ggl --list to see all the chrome profiles""" )
                 sys.exit(1)
 
         elif ("-l" in args) or ("--list" in args):
@@ -57,14 +62,13 @@ def main():
             else: l_index = args.index("--list")
             
             print(f"{DEFAULT_PROFILE}                default profile (doesn't require the -p --profile flag)")
-            for profile_index, profiles in enumerate(OTHER_PROFILES):
-                print(f"{profiles}              use key {KEYS_FOR_OTHER_PROFILES[profile_index]} for the {profiles} ")                
-            print("Guest profile          use key 'guest' for the guest profile")
+            for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                print(f"{profile_name}              use key '{KEYS_FOR_OTHER_PROFILES[profile_index]}' for the {profile_name} ")                
+            print("Guest profile          use key 'g' or 'guest' for the guest profile")
             sys.exit(0)
             
         elif ("-h" in args) or ("--help" in args):
-            if "-h" in args:
-                h_index = args.index("-h")
+            if "-h" in args: h_index = args.index("-h")
             else: h_index = args.index("--help")
             
             print("""Search Google with a specific Chrome profile right from the Terminal
@@ -78,11 +82,11 @@ Usage: ggl [-p|--profile <profile name>] <search query>
 -h --help           display this help page
 
 EXAMPLES:
-ggl Python Documentation
+ggl why programmers are so unhappy
 ggl "What's the capital of Russia"
-ggl 'What does the word "vector" mean'
-ggl -p 3 Vietnam War
-ggl --profile 2 How does money work?
+ggl 'What does the word "retarded" mean'
+ggl -p 3 python programming for beginners
+ggl --profile business How does money work?
 ggl -p guest how to use the dark web""")
             sys.exit(0)
 
@@ -93,7 +97,11 @@ ggl -p guest how to use the dark web""")
 
         if (guest): subprocess.run(["open", "-na", "Google Chrome", "--args", "--guest", url])
         else: subprocess.run(["open", "-na", "Google Chrome", "--args", f"--profile-directory={profile}", url])
+        
 
-
+    else: 
+        print("""You don't currently have any Chrome Profile""")
+        sys.exit(1)
+        
 if __name__ == "__main__":
   main()
