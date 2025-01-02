@@ -13,7 +13,7 @@ To use this python script, you need to configure the **config.json** file first.
 Locate Chrome’s User Data Directory:
 1. **macOS**: ~/Library/Application Support/Google/Chrome/
 2. **Linux**: ~/.config/google-chrome/
-3. **Windows**: C:\Users\YourUserName>\AppData\Local\Google\Chrome\User Data\
+3. **Windows**: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
 
 Inspect the Directory. Match the folder name with the corresponding Chrome profile.
 1. **Default**: The main profile.
