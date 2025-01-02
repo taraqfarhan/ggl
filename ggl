@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-import sys, subprocess, json
+import sys, subprocess, json, platform
+os_name = platform.system()
 
-def load_profiles():
+def configurations():
   try:
-    with open('config.json', 'r') as file:
-      config = json.load(file)
-      return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES']
+    with open('config.json', 'r') as file: config = json.load(file)
+    
+    if (os_name.lower() == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
+    elif (os_name.lower() == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
+    elif (os_name.lower() == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
+    
+    return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES'], CHROME_PATH
   except FileNotFoundError:
     print("Error: Configuration file 'config.json' not found.")
-    return None, [], []
-
-
+    return None, [], [], None
+    
 # Checking if at least one argument is passed for each successful run
 if len(sys.argv) < 2:
     print("""Usage: ggl [-p|--profile <profile name>] <search query>
@@ -20,9 +24,8 @@ if len(sys.argv) < 2:
 Use ggl -h or ggl --help to get help""")
     sys.exit(1)
 
-
 def main():
-    DEFAULT_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES = load_profiles()
+    DEFAULT_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations()
     profile = DEFAULT_PROFILE
     args = sys.argv[1:]
     guest = False
@@ -90,18 +93,26 @@ ggl --profile business How does money work?
 ggl -p guest how to use the dark web""")
             sys.exit(0)
 
-
+        
         query = "+".join(args)
         url = f"https://www.google.com/search?q={query}"
 
 
-        if (guest): subprocess.run(["open", "-na", "Google Chrome", "--args", "--guest", url])
-        else: subprocess.run(["open", "-na", "Google Chrome", "--args", f"--profile-directory={profile}", url])
-        
+        if os_name.lower() == "darwin":
+            if (guest): subprocess.run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
+            else: subprocess.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
+        elif os_name.lower() == "linux":
+            if (guest): subprocess.run([CHROME_PATH, "--guest", url])
+            else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
+        elif os_name.lower() == "windows":
+            if (guest): subprocess.run(CHROME_PATH, "--guest", url)
+            else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
 
+    
     else: 
         print("""You don't currently have any Chrome Profile""")
         sys.exit(1)
         
+        
 if __name__ == "__main__":
-  main()
+    main()

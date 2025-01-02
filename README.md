@@ -1,5 +1,17 @@
 # ggl 
-Search google with a specific Chrome profile right from the mac terminal. As programmers spend most of their time in the terminal, this small python script might be helpful.
+Search google with a specific Chrome profile right from the terminal. Another life-changing script to automate a process which will save you prolly 3-5 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist you can always email me at **farhandaniels189@gmail.com**
 
 ## Configuration
-To use this python script, you need to configure the config.json file. Set the values of the keys according to your own needs. For mac users check the following path to know the names of the Chrome Profiles **'~/Library/Application Support/Google/Chrome'**
+To use this python script, you need to configure the **config.json** file first. 
+Set the values (your own customized value) of the keys (Chrome Profiles) according to your own needs. 
+Then set the Google Chrome's path. Check the path for Google Chrome on your operating system and set the path to the **config.json** file if needed. 
+Then you're good to go
+
+## How to Find Your Chrome Profile Names
+Locate Chrome’s User Data Directory:
+
+macOS: **~/Library/Application Support/Google/Chrome/**
+Linux: **~/.config/google-chrome/**
+Windows: **C:\Users\<YourUserName>\AppData\Local\Google\Chrome\User Data\**
+
+Inspect the Directory. **Default: The main profile. Profile 1, Profile 2, etc.: Additional profiles.** Match the folder name with the corresponding Chrome profile.
