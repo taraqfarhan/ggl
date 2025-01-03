@@ -1,37 +1,61 @@
 #!/usr/bin/env python3
-import sys, subprocess, json, platform, os
+import sys, subprocess, json, platform, os, time
 os_name = platform.system()
- 
+flag = True
+  
 def get_config_file_path():
     # Determine the base config directory
     if os.name == "nt": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
     else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux (os.name = posix)
 
-    os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists
+    os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
 
     return os.path.join(config_dir, "config.json") # Return the full path to the config file
 
+config_file_format = r""" 
+"DEFAULT_PROFILE": "Default",
+  "OTHER_PROFILES": [
+    "Profile 6",
+    "Profile 8",
+    "Profile 3",
+    "Profile 7",
+    "Profile 34"
+  ],
+  "KEYS_FOR_OTHER_PROFILES": ["2", "3", "work", "business", "code"],
+  "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
+  "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
+  "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+"""
 
 config_path = get_config_file_path()
-# Get Google Chrome's path and user-defined keys for each Chrome Profile
 def configurations():
-  try:  
-    if not os.path.exists(config_path): raise FileNotFoundError()
-    
-    with open(config_path, 'r') as file: config = json.load(file)
+  try:      
+    with open(config_path, 'r') as file: 
+        content = file.read().strip()
+        file.seek(0)
+        # checking if the file is empty
+        if(os.path.getsize(config_path)) and (content != ""):            
+            config = json.load(file)
+            if (os_name.lower() == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
+            elif (os_name.lower() == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
+            elif (os_name.lower() == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
+        else:
+            print(f"""Looks like your config.json file is empty, please configure it from {config_path}
 
-    if (os_name.lower() == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
-    elif (os_name.lower() == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
-    elif (os_name.lower() == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
+Error: empty config.json file
+
+The file should look like the following. Only update the value of the keys and save the file.)
+{config_file_format}
+""")
+            sys.exit(1)
 
     return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES'], CHROME_PATH
 
   except FileNotFoundError:
-    print(f"""Error: config.json file not found in {config_path}
-Create a config.json file {config_path}
-
-The config.json should look like: (Don't change the keys, only modify the values and put it in your config.json file in {config_path})
-
+    print(f"Error: config.json file not found in this {config_path} path\nCreating an empty config.json file in {config_path}")
+    print("creating ............")
+    with open(config_path, 'w') as file:  # This creates an 'config.json' file if there is no file in the configured path
+        file.write(r"""{
   "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
     "Profile 6",
@@ -44,8 +68,16 @@ The config.json should look like: (Don't change the keys, only modify the values
   "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+}""")
+
+    time.sleep(1) 
+    print(f"config.json file has been created for you now.\nThe path for the file is {config_path}\n")
+    
+    print(f"""Now, please edit the config.json file from {config_path}.\nThe file should look like the following. Only update the value of the keys and save the file.
+
+  {config_file_format}
 """)
-    return None, [], [], None
+    sys.exit(1)
     
 # At least one argument is needed to be passed for any successful run
 if len(sys.argv) < 2:
@@ -144,7 +176,7 @@ ggl -p guest how to use the dark web""")
             else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
 
     else: 
-        print("You either haven't configured your config.json file yet or currently don't have any Chrome Profile")
+        print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
         sys.exit(1)
                 
 if __name__ == "__main__":
