@@ -4,7 +4,13 @@ Another life-changing script to automate a process which will save you prolly 3 
 
 ## Configuration
 
-To use this python script, you need to configure the **config.json** file first.
+Place the config.json File in the Correct Location (specified below). Manually place the config.json file if needed. You have to place your config.json file in:
+
+1. **macOS/linux**: ~/.config/ggl/config.json
+2. **Windows**: %APPDATA%\ggl\config.json
+
+After setting the **config.json** file in correct location specified above, you need to configure the **config.json** file.
+
 1. Set the values (your own customized value) of the keys (Chrome Profiles) according to your own needs.
 2. Then set the Google Chrome's path. Check the path for Google Chrome on your computer and set the path to the **config.json** file if needed.
 
