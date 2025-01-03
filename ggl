@@ -66,10 +66,10 @@ Use ggl -l or ggl --list to see all the chrome profiles""" )
             if "-l" in args: l_index = args.index("-l")
             else: l_index = args.index("--list")
             
-            print(f"{DEFAULT_PROFILE}                default profile (doesn't require the -p --profile flag)")
+            print(f"{DEFAULT_PROFILE}".ljust(30), "default profile (doesn't require the -p --profile flag)")
             for profile_index, profile_name in enumerate(OTHER_PROFILES):
-                print(f"{profile_name}              use key '{KEYS_FOR_OTHER_PROFILES[profile_index]}' for the {profile_name} ")                
-            print("Guest profile          use key 'g' or 'guest' for the guest profile")
+                print(f"{profile_name}".ljust(30), f"use key '{KEYS_FOR_OTHER_PROFILES[profile_index]}' for the {profile_name} ")                
+            print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
             sys.exit(0)
             
         elif ("-h" in args) or ("--help" in args):
