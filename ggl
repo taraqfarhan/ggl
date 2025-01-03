@@ -77,7 +77,7 @@ The file should look like the following. Only update the value of the keys and s
 
   {config_file_format}
 """)
-    sys.exit(1)
+    sys.exit(0)
     
 # At least one argument is needed to be passed for any successful run
 if len(sys.argv) < 2:
