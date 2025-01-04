@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import sys, subprocess, json, platform, os, time
 os_name = platform.system()
-flag = True
   
 def get_config_file_path():
     # Determine the base config directory
