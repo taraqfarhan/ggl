@@ -5,8 +5,8 @@ flag = True
   
 def get_config_file_path():
     # Determine the base config directory
-    if os.name == "nt": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
-    else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux (os.name = posix)
+    if os_name.lower() == "windows": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
+    else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux
 
     os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
 
