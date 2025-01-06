@@ -91,7 +91,7 @@ brew install ggl
 > IF AND ONLY IF YOU WANT TO USE THE -p --profile FLAG (which is specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
 > THIS SCRIPT WAS INITIALLY WRITTEN FOR MACOS. YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
 
-A config.json file has already been created if run this scipt for the first time. You will find the file in:
+A config.json file will be created if you run this scipt for the first time. You will find that configuration file in:
 
 ```
 1. macOS/linux: ~/.config/ggl/config.json
