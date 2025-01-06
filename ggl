@@ -1,14 +1,63 @@
 #!/usr/bin/env python3
-import sys, subprocess, json, platform, os, time
+import sys, subprocess, json, platform, os, time 
+import webbrowser as wb
+
+browser = "Google Chrome"
 os_name = platform.system()
-  
+args = sys.argv[1:]
+url = ""
+
+# handling all the common flags for searching
+def catch_the_flag(options):
+    if (option in args for option in options): return True
+    return False
+    
+def common_flags():
+    if(catch_the_flag('-im','--img','--image')): pass   
+    elif (catch_the_flag ("-v","--vid",'--video')): pass
+    elif (catch_the_flag('-y','-yt','--youtube')): pass
+    elif (catch_the_flag("-w","--wiki",'--wikipedia')): pass
+    elif(catch_the_flag ("-g","-gh",'--github','--git')): pass
+    elif (catch_the_flag ("-s","--stack","--stackoverflow",'-st')): pass
+    elif (catch_the_flag ("-d","--ddg","--duckduckgo")): pass
+    elif (catch_the_flag(('-i','--incog','--incongnito'))) : pass
+    elif(catch_the_flag(("-gm",'--gmail'))): pass
+    elif (catch_the_flag(('-h','--help'))):
+        print("""Search Google with a specific Chrome profile right from the Terminal and 
+Usage: ggl [-p|--profile <profile name>] <search query>
+ggl [-l|--list]
+ggl [-h|--help]
+
+
+-p --profile        set a specific chrome profile for searching 
+-l --list           list all the chrome profiles
+-h --help           display this help page
+
+EXAMPLES:
+ggl why programmers are so unhappy
+ggl "What's the capital of Russia"
+ggl 'What does the word "retarded" mean'
+ggl -p 3 python programming for beginners
+ggl --profile business How does money work?
+ggl -p guest how to use the dark web""")
+        sys.exit(0)
+    
+# handling the length of user input
+if len(sys.argv) < 2: # At least one argument is needed to be passed for any successful run
+    print("""Usage: ggl [-p|--profile <profile name>] <search query>
+       ggl [-l|--list]
+       ggl [-h|--help]
+       
+       
+Use ggl -h or ggl --help to get help""")
+    sys.exit(1)
+
+
+# functions only used for Google Chrome Profiles
 def get_config_file_path():
-    # Determine the base config directory
     if os_name.lower() == "windows": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
     else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux
-
     os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
-
     return os.path.join(config_dir, "config.json") # Return the full path to the config file
 
 config_file_format = r""" 
@@ -27,7 +76,8 @@ config_file_format = r"""
 """
 
 config_path = get_config_file_path()
-def configurations():
+
+def configurations_for_chrome_profile():
   try:      
     with open(config_path, 'r') as file: 
         content = file.read().strip()
@@ -77,106 +127,77 @@ The file should look like the following. Only update the value of the keys and s
   {config_file_format}
 """)
     sys.exit(0)
-    
-# At least one argument is needed to be passed for any successful run
-if len(sys.argv) < 2:
-    print("""Usage: ggl [-p|--profile <profile name>] <search query>
-       ggl [-l|--list]
-       ggl [-h|--help]
-       
-Use ggl -h or ggl --help to get help""")
-    sys.exit(1)
 
-def main():
-    DEFAULT_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations()
-    profile = DEFAULT_PROFILE
-    args = sys.argv[1:]
-    guest = False
 
-    if DEFAULT_PROFILE or OTHER_PROFILES:
-        # handling flags
-        if ("-p" in args) or ("--profile" in args):
-            if "-p" in args: p_index = args.index("-p")        
-            else: p_index = args.index("--profile")
+# the main function
+def main():   
+    if (browser == "Google Chrome"):
+        DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
+        profile = DEFAULT_CHROME_PROFILE
+        guest = False
+        
+        if DEFAULT_CHROME_PROFILE or OTHER_PROFILES:
+            # handling flags
+            if ("-p" in args) or ("--profile" in args):
+                if "-p" in args: p_index = args.index("-p")        
+                else: p_index = args.index("--profile")
 
-            if p_index + 1 < len(args): # profile name is needed after specifying -p or --profile flag
-                profile = args[p_index + 1] # get the profile name
-                
-                # checking the validity of the profile names (and the keys for the profile names specified in the config.json file)
-                if profile in ("guest", "g"): guest = True
-                elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
-                    for profile_index, profile_name in enumerate(OTHER_PROFILES):
-                        if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
-                            profile = profile_name
-                            break
-                else: 
-                    print("""Error: Invalid profile name is used after -p or --profile flag
-Usage: ggl [-p|--profile <profile name>] <search query>
+                if p_index + 1 < len(args): # profile name is needed after specifying -p or --profile flag
+                    profile = args[p_index + 1] # get the profile name
+                    
+                    # checking the validity of the profile names (and the keys for the profile names specified in the config.json file)
+                    if profile in ("guest", "g"): guest = True
+                    elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
+                        for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                            if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
+                                profile = profile_name
+                                break
+                    else: 
+                        print("""Error: Invalid profile name is used after -p or --profile flag
+    Usage: ggl [-p|--profile <profile name>] <search query>
 
-Use ggl -l or ggl --list to see all the chrome profiles""" )
+    Use ggl -l or ggl --list to see all the chrome profiles""" )
+                        sys.exit(1)
+
+                    del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
+                else:
+                    print("""Error: No profile is specified after -p or --profile flag
+    Usage: ggl [-p|--profile <profile name>] <search query>
+        
+    Use ggl -l or ggl --list to see all the chrome profiles""" )
                     sys.exit(1)
 
-                del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
-            else:
-                print("""Error: No profile is specified after -p or --profile flag
-Usage: ggl [-p|--profile <profile name>] <search query>
-    
-Use ggl -l or ggl --list to see all the chrome profiles""" )
-                sys.exit(1)
-
-        elif ("-l" in args) or ("--list" in args):
-            if "-l" in args: l_index = args.index("-l")
-            else: l_index = args.index("--list")
-            
-            print(f"{DEFAULT_PROFILE}".ljust(30), "your default profile (doesn't require the -p --profile flag)")
-            for profile_index, profile_name in enumerate(OTHER_PROFILES):
-                print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
-            print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
-            print(f"\nTo change any of these profile's key configure the config.json file ({config_path})")
-            sys.exit(0)
-            
-        elif ("-h" in args) or ("--help" in args):
-            if "-h" in args: h_index = args.index("-h")
-            else: h_index = args.index("--help")
-            
-            print("""Search Google with a specific Chrome profile right from the Terminal
-Usage: ggl [-p|--profile <profile name>] <search query>
-       ggl [-l|--list]
-       ggl [-h|--help]
-        
-
--p --profile        set a specific chrome profile for searching 
--l --list           list all the chrome profiles
--h --help           display this help page
-
-EXAMPLES:
-ggl why programmers are so unhappy
-ggl "What's the capital of Russia"
-ggl 'What does the word "retarded" mean'
-ggl -p 3 python programming for beginners
-ggl --profile business How does money work?
-ggl -p guest how to use the dark web""")
-            sys.exit(0)
-
-        # set the url
-        query = "+".join(args)
-        url = f"https://www.google.com/search?q={query}"
-
-
-        # executing commands depending on user's operating system
-        if os_name.lower() == "darwin": # macOS
-            if (guest): subprocess.run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
-            else: subprocess.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
-        elif os_name.lower() == "linux": # linux
-            if (guest): subprocess.run([CHROME_PATH, "--guest", url])
-            else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
-        elif os_name.lower() == "windows": # windows
-            if (guest): subprocess.run(CHROME_PATH, "--guest", url)
-            else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
-
-    else: 
-        print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
-        sys.exit(1)
+            elif ("-l" in args) or ("--list" in args):
+                if "-l" in args: l_index = args.index("-l")
+                else: l_index = args.index("--list")
                 
+                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "your default profile (doesn't require the -p --profile flag)")
+                for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                    print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
+                print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
+                print(f"\nTo change any of these profile's key configure the config.json file ({config_path})")
+                sys.exit(0)
+
+            # set the url
+            query = "+".join(args)
+            url = f"https://www.google.com/search?q={query}"
+
+
+            # executing commands depending on user's operating system
+            if os_name.lower() == "darwin": # macOS
+                if (guest): subprocess.run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
+                else: subprocess.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
+            elif os_name.lower() == "linux": # linux
+                if (guest): subprocess.run([CHROME_PATH, "--guest", url])
+                else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
+            elif os_name.lower() == "windows": # windows
+                if (guest): subprocess.run(CHROME_PATH, "--guest", url)
+                else: subprocess.run(CHROME_PATH, f"--profile-directory={profile}", url)
+
+        else: 
+            print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
+            sys.exit(1)
+    common_flags()
+             
 if __name__ == "__main__":
     main()
