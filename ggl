@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-import sys, subprocess as sp, json, platform, os, time, webbrowser as wb
+import sys, subprocess as sp, json, platform, os, time, webbrowser as wb, shutil
 
-browser = "Google Chrome"
 os_name = platform.system()
 args = sys.argv[1:]
+
 
 # handling the length of user input
 if len(args) < 1: # At least one argument is needed to be passed for any successful run
@@ -28,6 +28,25 @@ ggl [-l|--list]
 Use ggl -h or ggl --help to get help""")
     sys.exit(0)
 
+# checking if the user has chrome installed in their system
+def is_chrome_installed():
+    if os_name.lower() == "darwin": 
+        paths = [
+            "/Applications/Google Chrome.app",
+            "~/Applications/Google Chrome.app",
+        ]
+        return any(os.path.exists(os.path.expanduser(path)) for path in paths)
+    elif os_name.lower() == "linux":  
+        return shutil.which("google-chrome") is not None or shutil.which("google-chrome-stable") is not None
+    elif os_name.lower() == "windows":  
+        paths = [
+            os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
+            os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
+            os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
+        ]
+        return any(os.path.exists(path) for path in paths)
+    else : return False
+
 
 # handling all the common flags for searching
 def catch_the_flag(options):
@@ -38,7 +57,7 @@ def catch_the_flag(options):
     
     
 def common_flags(var1, var2):
-    if (browser == "Google Chrome"):
+    if (is_chrome_installed()):
         if os_name.lower() == "darwin": sp.run(["open", "-na", var1, "--args", f"--profile-directory={var2}", f"https://www.google.com/search?q={"+".join(args)}"])
         elif os_name.lower() == "linux": sp.run([var1, f"--profile-directory={var2}", f"https://www.google.com/search?q={"+".join(args)}"])
         elif os_name.lower() == "windows": sp.run([var1, f"--profile-directory={var2}", f"https://www.google.com/search?q={"+".join(args)}"])
@@ -213,7 +232,7 @@ The file should look like the following. Only update the value of the keys and s
 
 # the main function
 def main():  
-    if (browser == "Google Chrome"):
+    if (is_chrome_installed()):
         DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
         profile = DEFAULT_CHROME_PROFILE
         guest = False
@@ -265,17 +284,17 @@ def main():
             url = f"https://www.google.com/search?q={"+".join(args)}"
 
             # executing commands depending on user's operating system
-            if os_name.lower() == "darwin": # macOS
+            if os_name.lower() == "darwin": 
                 if (guest): sp.run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
                 elif (incog): sp.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", "--incognito", url])
                 elif (specific_profile): sp.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
                 else : common_flags(CHROME_PATH, profile)
-            elif os_name.lower() == "linux": # linux
+            elif os_name.lower() == "linux": 
                 if (guest): sp.run([CHROME_PATH, "--guest", url])
                 elif (incog): sp.run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
                 elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
                 else: common_flags(CHROME_PATH, profile)
-            elif os_name.lower() == "windows": # windows
+            elif os_name.lower() == "windows": 
                 if (guest): sp.run([CHROME_PATH, "--guest", url])
                 elif (incog): sp.run([CHROME_PATH, "--incognito", url])
                 elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
