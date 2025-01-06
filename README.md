@@ -17,13 +17,13 @@ You can search:
 And you can also :
 
 - open email's inbox (if you're using gmail)
-- email (texts only) to someone from the terminal (using gmail)
+- email (texts only) to someone from the terminal (using gmail) (coming soon)
 - open browser in incognito mode (if you're using chrome)
 
 # Usage
 
 ```
-For every web-browsers (These flags can't be used with a specific chrome profile)
+For every web-browsers
 ggl <search query>
 ggl [-im|--img|--image] <search query>
 ggl [-v|--vid|--video] <search query>
