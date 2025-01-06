@@ -7,7 +7,6 @@ You can search:
 
 - google even with a specific Google Chrome profile (if you're using Google Chrome)
 - google images and videos
-- prompt chatgpt 
 - youtube
 - github, stack overflow
 - wikipedia
@@ -15,8 +14,7 @@ You can search:
 - gmail
 
 And you can also :
-
-- open email's inbox (if you're using gmail)
+- prompt chatgpt
 - email (texts only) to someone from the terminal (using gmail) (coming soon)
 - open browser in incognito mode (if you're using chrome)
 
@@ -28,16 +26,18 @@ ggl <search query>
 ggl [-im|--img|--image] <search query>
 ggl [-v|--vid|--video] <search query>
 ggl [-y|-yt|--youtube] <search query>
+ggl [-cg|--gpt|--chatgpt] <your prompt>
 ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query]
+ggl [-gm|--gmail] [search query] 
 ggl [-h|--help]
+ggl [--mail|--send-mail] <receiver's address> [your text]
 
 The following command are only for Google Chrome
-ggl [-i|--incog|--incongnito] <search query>
-ggl [-p|--profile <profile name>] <search query>
+ggl [-i|--incog|--incongnito] [search query]
+ggl [-p|--profile <profile name>] [search query]
 ggl [-l|--list]
 
 
@@ -45,13 +45,15 @@ For every web-browsers
 -im --img --image                   show the image section for the search
 -v --vid --video                    show the video section from the search
 -y -yt --youtube                    search the youtube
+-cg --gpt --chatgpt                 prompt chatgpt
 -w --wiki --wikipedia               search the wiki
 -g -gh --git --github               search the github
 -s -st --stack --stackoverflow      search stack-overflow
 -d --ddg --duckduckgo               search duckduckgo search engine instead of google
 -h --help                           display this help page
--gm --gmail                         open your gmail's inbox if query is not passed,
-                                    else search your mail with that search-query
+-gm --gmail                         search your mail with that search-query
+--mail --send-mail                  send mail to someone with their mail address
+                                    
 
 Only for Google Chrome
 -i --incog --incognito              open Google Chrome in incognito mode
@@ -70,7 +72,9 @@ ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
 ggl -s "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
-ggl -gm contract proposal
+ggl --gmail contract proposal
+ggl --chatgpt why we should even bother about the command line interface
+ggl --send-mail taraqfarhan@gmail.com send me the docs asap
 
 Specific to Google Chrome only
 ggl -p 3 online train ticket

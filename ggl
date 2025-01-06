@@ -8,25 +8,26 @@ args = sys.argv[1:]
 
 # handling the length of user input
 if len(args) < 1: # At least one argument is needed to be passed for any successful run
-    print("""Usage: For every web-browsers
+    print("""Usages: 
+
+For every web-browsers
 ggl <search query>
 ggl [-im|--img|--image] <search query>
 ggl [-v|--vid|--video] <search query>
 ggl [-y|-yt|--youtube] <search query>
+ggl [-cg|--gpt|--chatgpt] <your prompt>
 ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query]
+ggl [-gm|--gmail] [search query] 
 ggl [-h|--help]
+ggl [--mail|--send-mail] <receiver's address> [your text]
 
-The following command are only for Google Chrome
-ggl [-i|--incog|--incongnito] <search query>
-ggl [-p|--profile <profile name>] <search query>
-ggl [-l|--list]
-       
-       
-Use ggl -h or ggl --help to get help""")
+The following flags are only for Google Chrome
+ggl [-i|--incog|--incongnito] [search query]
+ggl [-p|--profile <profile name>] [search query]
+ggl [-l|--list]""")
     sys.exit(0)
 
 
@@ -136,22 +137,23 @@ The file should look like the following. Only update the value of the keys and s
 
 def common_flags():
     if (flag:=catch_the_flag(('-h','--help'))):
-        print("""ggl : Search google from the terminal (and many more)
-For every web-browsers (These flags can't be used with a specific chrome profile directly)
+        print("""For every web-browsers
 ggl <search query>
 ggl [-im|--img|--image] <search query>
 ggl [-v|--vid|--video] <search query>
 ggl [-y|-yt|--youtube] <search query>
+ggl [-cg|--gpt|--chatgpt] <your prompt>
 ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query]
+ggl [-gm|--gmail] [search query] 
 ggl [-h|--help]
+ggl [--mail|--send-mail] <receiver's address> [your text]
 
-The following command are only for Google Chrome
-ggl [-i|--incog|--incongnito] <search query>
-ggl [-p|--profile <profile name>] <search query>
+The following flags are only for Google Chrome
+ggl [-i|--incog|--incongnito] [search query]
+ggl [-p|--profile <profile name>] [search query]
 ggl [-l|--list]
 
 
@@ -159,18 +161,20 @@ For every web-browsers
 -im --img --image                   show the image section for the search
 -v --vid --video                    show the video section from the search
 -y -yt --youtube                    search the youtube
+-cg --gpt --chatgpt                 prompt chatgpt
 -w --wiki --wikipedia               search the wiki
 -g -gh --git --github               search the github
 -s -st --stack --stackoverflow      search stack-overflow
 -d --ddg --duckduckgo               search duckduckgo search engine instead of google
 -h --help                           display this help page
--gm --gmail                         open your gmail's inbox if query is not passed,
-                                    else search your mail with that search-query
-
+-gm --gmail                         search your mail with that search-query
+--mail --send-mail                  send mail to someone with their mail address
+                                    
 Only for Google Chrome
 -i --incog --incognito              open Google Chrome in incognito mode
 -p --profile                        set a specific chrome profile for searching
 -l --list                           list all the chrome profiles
+
 
 EXAMPLES:
 ggl why programmers hate everyone
@@ -183,14 +187,16 @@ ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
 ggl -s "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
-ggl -gm contract proposal
-ggl -i --vid why bitcoin is illegal in some countries
+ggl --gmail contract proposal
+ggl --chatgpt why we should even bother about the command line interface
+ggl --send-mail taraqfarhan@gmail.com send me the docs asap
 
 Specific to Google Chrome only
 ggl -p 3 online train ticket
 ggl --profile business How does money work?
 ggl -p guest how to use the dark web
-ggl -i -p "Profile 3" "build linux kernel from the scratch" """)
+ggl -i -p "Profile 3" "build linux kernel from the scratch"
+ggl -i why bitcoin is illegal in some countries """)
         sys.exit(0)
     elif(flag:=catch_the_flag(('-im','--img','--image'))): 
         index = args.index(flag)
