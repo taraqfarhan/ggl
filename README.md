@@ -18,7 +18,7 @@ And you can also :
 
 - open email's inbox (if you're using gmail)
 - email (texts only) to someone from the terminal (using gmail)
-- open browser in incognito mode
+- open browser in incognito mode (if you're using chrome)
 
 # Usage
 
@@ -32,11 +32,11 @@ ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-i|--incog|--incongnito] <search query>
 ggl [-gm|--gmail] [search query]
 ggl [-h|--help]
 
 The following command are only for Google Chrome
+ggl [-i|--incog|--incongnito] <search query>
 ggl [-p|--profile <profile name>] <search query>
 ggl [-l|--list]
 
@@ -49,12 +49,12 @@ For every web-browsers
 -g -gh --git --github               search the github
 -s -st --stack --stackoverflow      search stack-overflow
 -d --ddg --duckduckgo               search duckduckgo search engine instead of google
--i --incog --incognito              open the browser in incognito mode
 -h --help                           display this help page
 -gm --gmail                         open your gmail's inbox if query is not passed,
                                     else search your mail with that search-query
 
 Only for Google Chrome
+-i --incog --incognito              open Google Chrome in incognito mode
 -p --profile                        set a specific chrome profile for searching
 -l --list                           list all the chrome profiles
 
