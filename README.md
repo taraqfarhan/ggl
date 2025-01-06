@@ -14,7 +14,7 @@ You can search:
 - gmail
 
 And you can also :
-- prompt chatgpt
+- prompt chatgpt, gemini
 - email (texts only) to someone from the terminal (using gmail) (coming soon)
 - open browser in incognito mode (if you're using chrome)
 
@@ -27,6 +27,7 @@ ggl [-im|--img|--image] <search query>
 ggl [-v|--vid|--video] <search query>
 ggl [-y|-yt|--youtube] <search query>
 ggl [-cg|--gpt|--chatgpt] <your prompt>
+ggl [--gem|--gemini] <your prompt>
 ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
@@ -46,6 +47,7 @@ For every web-browsers
 -v --vid --video                    show the video section from the search
 -y -yt --youtube                    search the youtube
 -cg --gpt --chatgpt                 prompt chatgpt
+-gem --gemini                       prompt gemini
 -w --wiki --wikipedia               search the wiki
 -g -gh --git --github               search the github
 -s -st --stack --stackoverflow      search stack-overflow
@@ -70,7 +72,7 @@ ggl --video how to learn to code
 ggl -yt stuxnet documentary
 ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
-ggl -s "what language is used to write unix commands"
+ggl --stack "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
 ggl --gmail contract proposal
 ggl --chatgpt why we should even bother about the command line interface
