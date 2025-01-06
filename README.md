@@ -2,6 +2,25 @@
 
 Another life-changing script to automate a process which will save you prolly 3 to 5 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist you can always email me at taraqfarhan@gmail.com
 
+# Usage
+
+ggl [-p|--profile <profile name>] <search query>
+ggl [-l|--list]
+ggl [-h|--help]
+        
+
+-p --profile        set a specific chrome profile for searching 
+-l --list           list all the chrome profiles
+-h --help           display this help page
+
+EXAMPLES:
+ggl why programmers are so unhappy
+ggl "What's the capital of Russia"
+ggl 'What does the word "retarded" mean'
+ggl -p 3 python programming for beginners
+ggl --profile business How does money work?
+ggl -p guest how to use the dark web
+
 ## Configuration
 
 Place the config.json File in the Correct Location (specified below). Manually place the config.json file if needed. You have to place your config.json file in:
@@ -13,6 +32,8 @@ After setting the **config.json** file in correct location specified above, you 
 
 1. Set the values (your own customized value) of the keys (Chrome Profiles) according to your own needs.
 2. Then set the Google Chrome's path. Check the path for Google Chrome on your computer and set the path to the **config.json** file if needed.
+
+<span style="color:red;"> THIS SCRIPT IS INITIALLY WRITTEN FOR MACOS, YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY, OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES </span>
 
 ## How to Find Your Google Chrome Profile Names
 
