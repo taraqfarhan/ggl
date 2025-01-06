@@ -54,7 +54,6 @@ For every web-browsers
 -gm --gmail                         search your mail with that search-query
 --mail --send-mail                  send mail to someone with their mail address
                                     
-
 Only for Google Chrome
 -i --incog --incognito              open Google Chrome in incognito mode
 -p --profile                        set a specific chrome profile for searching
@@ -62,6 +61,7 @@ Only for Google Chrome
 
 
 EXAMPLES:
+For every web-browser
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
 ggl 'What does the word "retarded" mean'
