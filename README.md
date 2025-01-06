@@ -36,27 +36,27 @@ ggl [-i|--incog|--incongnito] <search query>
 ggl [-gm|--gmail] [search query]
 ggl [-h|--help]
 
-
-The following two commands will only work for Google Chrome :
+The following command are only for Google Chrome
 ggl [-p|--profile <profile name>] <search query>
 ggl [-l|--list]
 
 
 For every web-browsers
--im --img --image                                   show the image section for the search
--v --vid --video                                    show the video section from the search
--y -yt --youtube                                    search the youtube
--w --wiki --wikipedia                               search the wiki
--g -gh --git --github                               search the github
--s -st --stack --stackoverflow                      search stack-overflow
--d --ddg --duckduckgo                               search duckduckgo search engine instead of google
--gm --gmail                                         open your gmail's inbox if query is not given else search your mail
--h --help                                           display this help page
--i --incog --incognito
+-im --img --image                   show the image section for the search
+-v --vid --video                    show the video section from the search
+-y -yt --youtube                    search the youtube
+-w --wiki --wikipedia               search the wiki
+-g -gh --git --github               search the github
+-s -st --stack --stackoverflow      search stack-overflow
+-d --ddg --duckduckgo               search duckduckgo search engine instead of google
+-i --incog --incognito              open the browser in incognito mode
+-h --help                           display this help page
+-gm --gmail                         open your gmail's inbox if query is not passed,
+                                    else search your mail with that search-query
 
-Only for Google Chrome:
--p --profile                                        set a specific chrome profile for searching
--l --list                                           list all the chrome profiles
+Only for Google Chrome
+-p --profile                        set a specific chrome profile for searching
+-l --list                           list all the chrome profiles
 
 EXAMPLES:
 ggl why programmers hate everyone
@@ -82,7 +82,7 @@ ggl -i -p "Profile 3" "build linux kernel from the scratch"
 # Configuration (for a specific Google Chrome profile)
 
 > IF AND ONLY IF YOU WANT TO USE THE -p --profile FLAG (which is specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
-> THIS SCRIPT WAS INITIALLY WRITTEN FOR MACOS, YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY, OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES, THIS PROBLEM BE FIXED SOON
+> THIS SCRIPT WAS INITIALLY WRITTEN FOR MACOS. YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
 
 A config.json file has already been created if run this scipt for the first time. You will find the file in:
 
