@@ -5,6 +5,7 @@ import webbrowser as wb
 browser = "Google Chrome"
 os_name = platform.system()
 args = sys.argv[1:]
+query = "+".join(args)
 url = ""
 
 # handling all the common flags for searching
@@ -130,14 +131,14 @@ The file should look like the following. Only update the value of the keys and s
 
 
 # the main function
-def main():   
+def main():  
+    global url 
     if (browser == "Google Chrome"):
         DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
         profile = DEFAULT_CHROME_PROFILE
         guest = False
         
         if DEFAULT_CHROME_PROFILE or OTHER_PROFILES:
-            # handling flags
             if ("-p" in args) or ("--profile" in args):
                 if "-p" in args: p_index = args.index("-p")        
                 else: p_index = args.index("--profile")
@@ -178,10 +179,7 @@ def main():
                 print(f"\nTo change any of these profile's key configure the config.json file ({config_path})")
                 sys.exit(0)
 
-            # set the url
-            query = "+".join(args)
             url = f"https://www.google.com/search?q={query}"
-
 
             # executing commands depending on user's operating system
             if os_name.lower() == "darwin": # macOS

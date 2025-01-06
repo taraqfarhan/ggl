@@ -79,6 +79,13 @@ ggl -p guest how to use the dark web
 ggl -i -p "Profile 3" "build linux kernel from the scratch"
 ```
 
+# How to use script this on your own machine
+Just clone this repo and run the python script. Ofc you'll need python3 installed on your machine first to run a python script duh!
+This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using 
+```sh
+brew install ggl
+```
+
 # Configuration (for a specific Google Chrome profile)
 
 > IF AND ONLY IF YOU WANT TO USE THE -p --profile FLAG (which is specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
