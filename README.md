@@ -33,7 +33,7 @@ After setting the **config.json** file in correct location specified above, you 
 1. Set the values (your own customized value) of the keys (Chrome Profiles) according to your own needs.
 2. Then set the Google Chrome's path. Check the path for Google Chrome on your computer and set the path to the **config.json** file if needed.
 
-<span style="color:red;"> THIS SCRIPT IS INITIALLY WRITTEN FOR MACOS, YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY, OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES </span>
+> THIS SCRIPT IS INITIALLY WRITTEN FOR MACOS, YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY, OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES
 
 ## How to Find Your Google Chrome Profile Names
 
