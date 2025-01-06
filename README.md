@@ -5,7 +5,7 @@ Of course, you as a programmer need this kinda productivity. You don't need to t
 
 You can search:
 
-- google even with a specific Google Chrome profile (if you're using Google Chrome)
+- google stuffs (even with a specific Google Chrome profile: if you're using Google Chrome)
 - google images and videos
 - youtube
 - github, stack overflow
@@ -14,6 +14,7 @@ You can search:
 - gmail
 
 And you can also :
+
 - prompt chatgpt, gemini
 - email (texts only) to someone from the terminal (using gmail) (coming soon)
 - open browser in incognito mode (if you're using chrome)
@@ -47,7 +48,7 @@ For every web-browsers
 -v --vid --video                    show the video section from the search
 -y -yt --youtube                    search the youtube
 -cg --gpt --chatgpt                 prompt chatgpt
--gem --gemini                       prompt gemini
+--gem --gemini                      prompt gemini
 -w --wiki --wikipedia               search the wiki
 -g -gh --git --github               search the github
 -s -st --stack --stackoverflow      search stack-overflow
@@ -63,6 +64,7 @@ Only for Google Chrome
 
 
 EXAMPLES:
+
 For every web-browser
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
