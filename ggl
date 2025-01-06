@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys, subprocess as sp, json, platform, os, time, webbrowser as wb, shutil
 
+
 os_name = platform.system()
 args = sys.argv[1:]
 
@@ -27,6 +28,7 @@ ggl [-l|--list]
        
 Use ggl -h or ggl --help to get help""")
     sys.exit(0)
+
 
 # checking if the user has chrome installed in their system
 def is_chrome_installed():
@@ -55,111 +57,14 @@ def catch_the_flag(options):
             return element
     return False
     
-    
-def common_flags(var1, var2):
-    if (is_chrome_installed()):
-        if os_name.lower() == "darwin": sp.run(["open", "-na", var1, "--args", f"--profile-directory={var2}", f"https://www.google.com/search?q={"+".join(args)}"])
-        elif os_name.lower() == "linux": sp.run([var1, f"--profile-directory={var2}", f"https://www.google.com/search?q={"+".join(args)}"])
-        elif os_name.lower() == "windows": sp.run([var1, f"--profile-directory={var2}", f"https://www.google.com/search?q={"+".join(args)}"])
-    else:
-        if (flag:=catch_the_flag(('-h','--help'))):
-            print("""ggl : Search google from the terminal (and many more)
-    For every web-browsers
-    ggl <search query>
-    ggl [-im|--img|--image] <search query>
-    ggl [-v|--vid|--video] <search query>
-    ggl [-y|-yt|--youtube] <search query>
-    ggl [-w|--wiki|--wikipedia] <search query>
-    ggl [-g|-gh|--git|--github] <search query>
-    ggl [-s|-st|--stack|--stackoverflow] <search query>
-    ggl [-d|--ddg|--duckduckgo] <search query>
-    ggl [-gm|--gmail] [search query]
-    ggl [-h|--help]
 
-    The following command are only for Google Chrome
-    ggl [-i|--incog|--incongnito] <search query>
-    ggl [-p|--profile <profile name>] <search query>
-    ggl [-l|--list]
-
-
-    For every web-browsers
-    -im --img --image                   show the image section for the search
-    -v --vid --video                    show the video section from the search
-    -y -yt --youtube                    search the youtube
-    -w --wiki --wikipedia               search the wiki
-    -g -gh --git --github               search the github
-    -s -st --stack --stackoverflow      search stack-overflow
-    -d --ddg --duckduckgo               search duckduckgo search engine instead of google
-    -h --help                           display this help page
-    -gm --gmail                         open your gmail's inbox if query is not passed,
-                                        else search your mail with that search-query
-
-    Only for Google Chrome
-    -i --incog --incognito              open Google Chrome in incognito mode
-    -p --profile                        set a specific chrome profile for searching
-    -l --list                           list all the chrome profiles
-
-    EXAMPLES:
-    ggl why programmers hate everyone
-    ggl "What's the capital of Russia"
-    ggl 'What does the word "retarded" mean'
-    ggl --img a flycatcher
-    ggl --video how to learn to code
-    ggl -yt stuxnet documentary
-    ggl -w computer science terminologies
-    ggl --git taraqfarhan/ggl
-    ggl -s "what language is used to write unix commands"
-    ggl --ddg why duckduckgo is better than google
-    ggl -gm contract proposal
-    ggl -i --vid why bitcoin is illegal in some countries
-
-    Specific to Google Chrome only
-    ggl -p 3 online train ticket
-    ggl --profile business How does money work?
-    ggl -p guest how to use the dark web
-    ggl -i -p "Profile 3" "build linux kernel from the scratch" """)
-            sys.exit(0)
-        elif(flag:=catch_the_flag(('-im','--img','--image'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=isch")
-        elif (flag:=catch_the_flag(("-v","--vid",'--video'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=vid")
-        elif (flag:=catch_the_flag(('-y','-yt','--youtube'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://www.youtube.com/results?search_query={"+".join(args)}")
-        elif (flag:=catch_the_flag(("-w","--wiki",'--wikipedia'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args)}")
-        elif(flag:=catch_the_flag (("-g","-gh",'--github','--git'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://github.com/search?q={"+".join(args)}")
-        elif (flag:=catch_the_flag (("-s","--stack","--stackoverflow",'-st'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://stackoverflow.com/search?q={"+".join(args)}")
-        elif (flag:=catch_the_flag (("-d","--ddg","--duckduckgo"))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://duckduckgo.com/?&q={"+".join(args)}")
-        elif(flag:=catch_the_flag(("-gm",'--gmail'))): 
-            index = args.index(flag)
-            del args[index:index+1]
-            wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
-        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}")
-    
-
-# functions only used for Google Chrome Profiles
+# functions only used for confGoogle Chrome Profiles
 def get_config_file_path():
     if os_name.lower() == "windows": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
     else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux
     os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
     return os.path.join(config_dir, "config.json") # Return the full path to the config file
+
 
 config_file_format = r""" 
 "DEFAULT_PROFILE": "Default",
@@ -175,8 +80,8 @@ config_file_format = r"""
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 """
-
 config_path = get_config_file_path()
+
 
 def configurations_for_chrome_profile():
   try:      
@@ -230,7 +135,104 @@ The file should look like the following. Only update the value of the keys and s
     sys.exit(0)
 
 
-# the main function
+def common_flags():
+    if (flag:=catch_the_flag(('-h','--help'))):
+        print("""ggl : Search google from the terminal (and many more)
+For every web-browsers (These flags can't be used with a specific chrome profile directly)
+ggl <search query>
+ggl [-im|--img|--image] <search query>
+ggl [-v|--vid|--video] <search query>
+ggl [-y|-yt|--youtube] <search query>
+ggl [-w|--wiki|--wikipedia] <search query>
+ggl [-g|-gh|--git|--github] <search query>
+ggl [-s|-st|--stack|--stackoverflow] <search query>
+ggl [-d|--ddg|--duckduckgo] <search query>
+ggl [-gm|--gmail] [search query]
+ggl [-h|--help]
+
+The following command are only for Google Chrome
+ggl [-i|--incog|--incongnito] <search query>
+ggl [-p|--profile <profile name>] <search query>
+ggl [-l|--list]
+
+
+For every web-browsers
+-im --img --image                   show the image section for the search
+-v --vid --video                    show the video section from the search
+-y -yt --youtube                    search the youtube
+-w --wiki --wikipedia               search the wiki
+-g -gh --git --github               search the github
+-s -st --stack --stackoverflow      search stack-overflow
+-d --ddg --duckduckgo               search duckduckgo search engine instead of google
+-h --help                           display this help page
+-gm --gmail                         open your gmail's inbox if query is not passed,
+                                    else search your mail with that search-query
+
+Only for Google Chrome
+-i --incog --incognito              open Google Chrome in incognito mode
+-p --profile                        set a specific chrome profile for searching
+-l --list                           list all the chrome profiles
+
+EXAMPLES:
+ggl why programmers hate everyone
+ggl "What's the capital of Russia"
+ggl 'What does the word "retarded" mean'
+ggl --img a flycatcher
+ggl --video how to learn to code
+ggl -yt stuxnet documentary
+ggl -w computer science terminologies
+ggl --git taraqfarhan/ggl
+ggl -s "what language is used to write unix commands"
+ggl --ddg why duckduckgo is better than google
+ggl -gm contract proposal
+ggl -i --vid why bitcoin is illegal in some countries
+
+Specific to Google Chrome only
+ggl -p 3 online train ticket
+ggl --profile business How does money work?
+ggl -p guest how to use the dark web
+ggl -i -p "Profile 3" "build linux kernel from the scratch" """)
+        sys.exit(0)
+    elif(flag:=catch_the_flag(('-im','--img','--image'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=isch")
+    elif (flag:=catch_the_flag(("-v","--vid",'--video'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=vid")
+    elif (flag:=catch_the_flag(('-y','-yt','--youtube'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://www.youtube.com/results?search_query={"+".join(args)}")
+    elif (flag:=catch_the_flag(("-w","--wiki",'--wikipedia'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args)}")
+    elif(flag:=catch_the_flag (("-g","-gh",'--github','--git'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://github.com/search?q={"+".join(args)}")
+    elif (flag:=catch_the_flag (("-s","--stack","--stackoverflow",'-st'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://stackoverflow.com/search?q={"+".join(args)}")
+    elif (flag:=catch_the_flag (("-d","--ddg","--duckduckgo"))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://duckduckgo.com/?&q={"+".join(args)}")
+    elif(flag:=catch_the_flag(("-gm",'--gmail'))): 
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
+    else:
+        if (is_chrome_installed()):
+            if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
+            elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
+            elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
+        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}")
+
+
 def main():  
     if (is_chrome_installed()):
         DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
@@ -256,17 +258,17 @@ def main():
                                 break 
                     else: 
                         print("""Error: Invalid profile name is used after -p or --profile flag
-    Usage: ggl [-p|--profile <profile name>] <search query>
+Usage: ggl [-p|--profile <profile name>] <search query>
 
-    Use ggl -l or ggl --list to see all the chrome profiles""" )
+Use ggl -l or ggl --list to see all the chrome profiles""" )
                         sys.exit(1)
 
                     del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
                 else:
                     print("""Error: No profile is specified after -p or --profile flag
-    Usage: ggl [-p|--profile <profile name>] <search query>
-        
-    Use ggl -l or ggl --list to see all the chrome profiles""" )
+Usage: ggl [-p|--profile <profile name>] <search query>
+    
+Use ggl -l or ggl --list to see all the chrome profiles""" )
                     sys.exit(1)
             elif (flag:=catch_the_flag(('-l','--list'))):                
                 print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "your default profile (doesn't require the -p --profile flag)")
@@ -288,21 +290,21 @@ def main():
                 if (guest): sp.run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
                 elif (incog): sp.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", "--incognito", url])
                 elif (specific_profile): sp.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
-                else : common_flags(CHROME_PATH, profile)
+                else : common_flags()
             elif os_name.lower() == "linux": 
                 if (guest): sp.run([CHROME_PATH, "--guest", url])
                 elif (incog): sp.run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
                 elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
-                else: common_flags(CHROME_PATH, profile)
+                else: common_flags()
             elif os_name.lower() == "windows": 
                 if (guest): sp.run([CHROME_PATH, "--guest", url])
                 elif (incog): sp.run([CHROME_PATH, "--incognito", url])
                 elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
-                else: common_flags(CHROME_PATH, profile)
+                else: common_flags()
         else: 
             print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
             sys.exit(1)
-    else: common_flags(CHROME_PATH, profile)
+    else: common_flags()
              
 if __name__ == "__main__":
     main()

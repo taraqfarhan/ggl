@@ -23,7 +23,7 @@ And you can also :
 # Usage
 
 ```
-For every web-browsers
+For every web-browsers (These flags can't be used with a specific chrome profile)
 ggl <search query>
 ggl [-im|--img|--image] <search query>
 ggl [-v|--vid|--video] <search query>
@@ -58,6 +58,7 @@ Only for Google Chrome
 -p --profile                        set a specific chrome profile for searching
 -l --list                           list all the chrome profiles
 
+
 EXAMPLES:
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
@@ -70,13 +71,13 @@ ggl --git taraqfarhan/ggl
 ggl -s "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
 ggl -gm contract proposal
-ggl -i --vid why bitcoin is illegal in some countries
 
 Specific to Google Chrome only
 ggl -p 3 online train ticket
 ggl --profile business How does money work?
 ggl -p guest how to use the dark web
 ggl -i -p "Profile 3" "build linux kernel from the scratch"
+ggl -i why bitcoin is illegal in some countries
 ```
 
 # How to use script this on your own machine
