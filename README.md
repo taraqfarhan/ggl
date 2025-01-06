@@ -7,7 +7,7 @@ You can search:
 
 - google even with a specific Google Chrome profile (if you're using Google Chrome)
 - google images and videos
-- prompt chatgpt, gemini (coming soon)
+- prompt chatgpt 
 - youtube
 - github, stack overflow
 - wikipedia

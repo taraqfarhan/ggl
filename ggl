@@ -47,21 +47,20 @@ def is_chrome_installed():
             os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
         ]
         return any(os.path.exists(path) for path in paths)
-    else : return False
+    else: return False
 
 
 # handling all the common flags for searching
 def catch_the_flag(options):
-    for element in options:
-        if element in args:
-            return element
+    for element in options: 
+        if element in args: return element
     return False
     
 
 # functions only used for confGoogle Chrome Profiles
 def get_config_file_path():
     if os_name.lower() == "windows": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
-    else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux
+    else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux 
     os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
     return os.path.join(config_dir, "config.json") # Return the full path to the config file
 
@@ -221,6 +220,10 @@ ggl -i -p "Profile 3" "build linux kernel from the scratch" """)
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://duckduckgo.com/?&q={"+".join(args)}")
+    elif ((flag:=catch_the_flag(('-cg','--gpt','--chatgpt')))):
+        index = args.index(flag)
+        del args[index:index+1]
+        wb.open(f"https://chatgpt.com/?q={"+".join(args)}") # https://chatgpt.com/?model=gpt-4&q=%s
     elif(flag:=catch_the_flag(("-gm",'--gmail'))): 
         index = args.index(flag)
         del args[index:index+1]
