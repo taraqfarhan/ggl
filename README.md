@@ -97,13 +97,22 @@ ggl -i why bitcoin is illegal in some countries
 
 # How to use this script on your own machine
 
-Just clone this repo and run the python script. Ofc you'll need **python3** installed on your machine first to run a python script duh!
-This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using
+I will recommend to use ```Google Chrome``` on your machine to get the most out of this tool.
+
+Anyway, to use this script Just clone this repo using 
+```bash
+git clone https://www.github.com/taraqfarhan/ggl
+``` 
+Then run this python script. Ofc you'll need ```python3``` installed on your machine first to run a python script duh! 
+
+# Homebrew installation (for macOS/linux)
+
+This software isn't fully developed yet. It's still in it's experimental phase. After finishing completely, I will add this to ```Homebrew```.
+Then For ```macOS``` and ```linux``` you can install it using
 
 ```bash
 brew install ggl
 ```
-I will recommend to use **Google Chrome** on your machine to get the most out of this tool.
 
 # To use a python script globally (RECOMMENDED)
 > THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
@@ -112,7 +121,7 @@ python3 path/to/the/ggl/script (for macOS/linux)
 python path/to/the/ggl/script (windows)
 ```
 
-To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on **Windows**, **macOS**, and **Linux**, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
+To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on ```Windows```, ```macOS```, and ```Linux```, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
 
 ### **Step 1: Place Your Script in a Directory**
 Move the script (`ggl`) to a directory accessible to the PATH. Common locations:
