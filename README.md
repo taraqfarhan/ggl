@@ -100,13 +100,13 @@ ggl -i why bitcoin is illegal in some countries
 Just clone this repo and run the python script. Ofc you'll need **python3** installed on your machine first to run a python script duh!
 This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using
 
-```sh
+```bash
 brew install ggl
 ```
 I will recommend to use **Google Chrome** on your machine to get the most out of this tool.
 
 # To use a python script globally (RECOMMENDED)
-> THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY FROM THE TERMINAL. OTHERWISE, YOU HAVE TO EXPLICITLY SPECIFY THE PATH EACH TIME
+> THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 ```bash
 python3 path/to/the/ggl/script (for macOS/linux)
 python path/to/the/ggl/script (windows)
@@ -187,7 +187,7 @@ No need to make the script executable explicitly.
   ggl.py
   ```
 
-## **4. Testing the Script**
+** Testing the Script**
 Run the script in a terminal to verify it works globally:
 ```bash
 ggl
