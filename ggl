@@ -181,7 +181,7 @@ For every web-browsers
 
 For emails (gmail)
 -gm --gmail                       search your mail with that search-query
---mail --send-mail                send mail to someone with their mail address
+--mail --send-mail                prompt to send mail to someone with their mail address
 --sub --subject                   option for --mail --send-mail flag to add a subject (optional)
 
 Only for Google Chrome
@@ -259,7 +259,6 @@ ggl -i why bitcoin is illegal in some countries """)
         wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
     elif(flag:=catch_the_flag(('--send-mail','--mail'))):
         index = args.index(flag)
-        
         if index + 1 < len(args): # receiver's email address is needed after specifying this flag
             recipient_email = args[index + 1] # get the receiver's email address
             del args[index:index+2]
@@ -267,6 +266,7 @@ ggl -i why bitcoin is illegal in some countries """)
             if (is_valid_email(recipient_email)):
                 if (flag:=catch_the_flag(('--subject','--sub'))): 
                     index = args.index(flag)
+                    
                     if index + 1 < len(args):
                         subject = args[index+1]
                         del args[index:index+2]
@@ -274,6 +274,7 @@ ggl -i why bitcoin is illegal in some countries """)
                         print("No subject is specified after --sub or --subject flag")
                         subject = ""
                         del args[index:index+1]
+                        
                 else: subject = ""
             
                 # https://mail.google.com/mail/?view=cm&fs=1&to=recipient@example.com,to=another@gmail.com&cc=cc_recipient@example.com,cc=another@hotmail.com&bcc=bcc_recipient@example.com,bcc=another@yahoo.com&su=Greetings&body=Hi+there,+this+is+a+test+email.
@@ -286,12 +287,12 @@ ggl -i why bitcoin is illegal in some countries """)
             print("No email address is provided after --send-mail or --mail flag")
             print("Usage: ggl [--mail|--send-mail] <receiver's address> [your text]")
             sys.exit(1)
-
     else:
         if (is_chrome_installed()): # to search using chrome with the default chrome profile
             if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
-            elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
+            # elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
+            elif os_name.lower() == "windows": sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
         else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)
 
 
@@ -359,9 +360,12 @@ Use ggl -l or ggl --list to see all the chrome profiles""" )
                 elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
                 else: common_flags()
             elif os_name.lower() == "windows": 
-                if (guest): sp.run([CHROME_PATH, "--guest", url])
-                elif (incog): sp.run([CHROME_PATH, "--incognito", url])
-                elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
+                # if (guest): sp.run([CHROME_PATH, "--guest", url])
+                if (guest): sp.run(['start','chrome.exe', "--guest", url])
+                # elif (incog): sp.run([CHROME_PATH, "--incognito", url])
+                elif (incog): sp.run(['start', 'chrome.exe', "--incognito", url])
+                # elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
+                elif (specific_profile): sp.run(["start", "chrome.exe", f"--profile-directory={profile}", url])
                 else: common_flags()
         else: 
             print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
