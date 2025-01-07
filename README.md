@@ -173,7 +173,7 @@ If the directory containing your script is not already in the PATH, you need to 
 #### **Linux/macOS**
 Make the script executable:
    ```bash
-   chmod +x ~/bin/ggl
+   sudo chmod +x ~/bin/ggl
    ```
 
 #### **Windows**
