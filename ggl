@@ -52,7 +52,6 @@ def is_chrome_installed():
     else: return False
 
 
-# handling all the common flags for searching
 def catch_the_flag(options):
     for element in options: 
         if element in args: return element
@@ -136,6 +135,7 @@ The file should look like the following. Only update the value of the keys and s
     sys.exit(0)
 
 
+# handling all the common flags for searching
 def common_flags():
     if (flag:=catch_the_flag(('-h','--help'))):
         print("""For every web-browsers
@@ -242,11 +242,11 @@ ggl -i why bitcoin is illegal in some countries """)
         del args[index:index+1]
         wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
     else:
-        if (is_chrome_installed()):
+        if (is_chrome_installed()): # to search using chrome with the default chrome profile
             if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
-        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}")
+        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser
 
 
 def main():  

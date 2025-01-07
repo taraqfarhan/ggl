@@ -17,7 +17,7 @@ And you can also :
 
 - prompt chatgpt, gemini
 - email (texts only) to someone from the terminal (using gmail) (coming soon)
-- open browser in incognito mode (if you're using chrome)
+- browse chrome in incognito mode (if you're using chrome)
 
 # Usage
 
@@ -33,9 +33,9 @@ ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query] 
-ggl [-h|--help]
+ggl [-gm|--gmail] [search query]
 ggl [--mail|--send-mail] <receiver's address> [your text]
+ggl [-h|--help]
 
 The following command are only for Google Chrome
 ggl [-i|--incog|--incongnito] [search query]
@@ -53,10 +53,10 @@ For every web-browsers
 -g -gh --git --github               search the github
 -s -st --stack --stackoverflow      search stack-overflow
 -d --ddg --duckduckgo               search duckduckgo search engine instead of google
--h --help                           display this help page
 -gm --gmail                         search your mail with that search-query
 --mail --send-mail                  send mail to someone with their mail address
-                                    
+-h --help                           display this help page
+
 Only for Google Chrome
 -i --incog --incognito              open Google Chrome in incognito mode
 -p --profile                        set a specific chrome profile for searching
@@ -89,8 +89,10 @@ ggl -i why bitcoin is illegal in some countries
 ```
 
 # How to use script this on your own machine
+
 Just clone this repo and run the python script. Ofc you'll need python3 installed on your machine first to run a python script duh!
-This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using 
+This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using
+
 ```sh
 brew install ggl
 ```
