@@ -7,6 +7,7 @@ You can search:
 
 - google stuffs (even with a specific Google Chrome profile: if you're using Google Chrome)
 - google images and videos
+- browse chrome in incognito mode (if you're using chrome)
 - youtube
 - github, stack overflow
 - wikipedia
@@ -16,8 +17,7 @@ You can search:
 And you can also :
 
 - prompt chatgpt, gemini
-- email (texts only) to someone from the terminal (using gmail)
-- browse chrome in incognito mode (if you're using chrome)
+- prompt to send emails (texts only) to someone from the terminal (using gmail)
 
 # Usage
 
@@ -58,7 +58,7 @@ For every web-browsers
 
 For emails (gmail)
 -gm --gmail                       search your mail with that search-query
---mail --send-mail                send mail to someone with their mail address
+--mail --send-mail                prompt to send mail to someone with their mail address
 --sub --subject                   option for --mail --send-mail flag to add a subject (optional)
 
 Only for Google Chrome
@@ -97,19 +97,20 @@ ggl -i why bitcoin is illegal in some countries
 
 # How to use script this on your own machine
 
-Just clone this repo and run the python script. Ofc you'll need python3 installed on your machine first to run a python script duh!
+Just clone this repo and run the python script. Ofc you'll need **python3** installed on your machine first to run a python script duh!
 This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using
 
 ```sh
 brew install ggl
 ```
+I will recommend to use **Google Chrome** on your machine to get the most out of this tool.
 
 # Configuration (for a specific Google Chrome profile)
 
 > IF AND ONLY IF YOU WANT TO USE THE -p --profile FLAG (which is specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
 > THIS SCRIPT WAS INITIALLY WRITTEN FOR MACOS. YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
 
-A config.json file will be created if you run this scipt for the first time. You will find that configuration file in:
+A **config.json** file will be created automatically if you run this scipt for the first time. You will find that configuration file in:
 
 ```
 1. macOS/linux: ~/.config/ggl/config.json
