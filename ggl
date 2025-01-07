@@ -292,7 +292,7 @@ ggl -i why bitcoin is illegal in some countries """)
             if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             # elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
-            elif os_name.lower() == "windows": wb.open(f"https://www.google.com/search?q={"+".join(args)}")
+            elif os_name.lower() == "windows": wb.open(f"https://www.google.com/search?q={"+".join(args)}") # temporary solution
             # sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])                
         else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)
 
