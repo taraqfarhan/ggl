@@ -95,7 +95,7 @@ ggl -i -p "Profile 3" "build linux kernel from the scratch"
 ggl -i why bitcoin is illegal in some countries
 ```
 
-# How to use script this on your own machine
+# How to use this script on your own machine
 
 Just clone this repo and run the python script. Ofc you'll need **python3** installed on your machine first to run a python script duh!
 This software isn't completed fully yet. After finishing, I will add this to Homebrew so that mac and linux users can install this software just using

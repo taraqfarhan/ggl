@@ -102,12 +102,12 @@ Error: empty config.json file
 The file should look like the following. Only update the value of the keys and save the file.)
 {config_file_format}
 """)
-            sys.exit(1)
-
+            sys.exit(1)        
+        
     return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES'], CHROME_PATH
 
   except FileNotFoundError:
-    print(f"Error: config.json file not found in this {config_path} path\nCreating an empty config.json file in {config_path}")
+    print(f"Error: config.json file not found in this {config_path} path\nCreating an config.json file in {config_path}")
     print("creating ............")
     with open(config_path, 'w') as file:  # This creates an 'config.json' file if there is no file in the configured path
         file.write(r"""{
@@ -217,7 +217,7 @@ ggl -p guest how to use the dark web
 ggl -i -p "Profile 3" "build linux kernel from the scratch"
 ggl -i why bitcoin is illegal in some countries """)
         sys.exit(0)
-    elif(flag:=catch_the_flag(('-im','--img','--image'))): 
+    elif (flag:=catch_the_flag(('-im','--img','--image'))): 
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=isch")
@@ -233,7 +233,7 @@ ggl -i why bitcoin is illegal in some countries """)
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args)}")
-    elif(flag:=catch_the_flag (("-g","-gh",'--github','--git'))): 
+    elif (flag:=catch_the_flag (("-g","-gh",'--github','--git'))): 
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://github.com/search?q={"+".join(args)}")
@@ -253,11 +253,11 @@ ggl -i why bitcoin is illegal in some countries """)
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://gemini.google.com/search?q={"+".join(args)}")
-    elif(flag:=catch_the_flag(("-gm",'--gmail'))): 
+    elif (flag:=catch_the_flag(("-gm",'--gmail'))): 
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
-    elif(flag:=catch_the_flag(('--send-mail','--mail'))):
+    elif (flag:=catch_the_flag(('--send-mail','--mail'))):
         index = args.index(flag)
         if index + 1 < len(args): # receiver's email address is needed after specifying this flag
             recipient_email = args[index + 1] # get the receiver's email address
@@ -290,10 +290,10 @@ ggl -i why bitcoin is illegal in some countries """)
     else:
         if (is_chrome_installed()): # to search using chrome with the default chrome profile
             if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
-            elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
+            # elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             # elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
-            elif os_name.lower() == "windows": wb.open(f"https://www.google.com/search?q={"+".join(args)}") # temporary solution
-            # sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])                
+            # elif os_name.lower() == "windows": sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"], shell=True)   
+            else: wb.open(f"https://www.google.com/search?q={"+".join(args)}")          
         else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)
 
 
@@ -362,11 +362,11 @@ Use ggl -l or ggl --list to see all the chrome profiles""" )
                 else: common_flags()
             elif os_name.lower() == "windows": 
                 # if (guest): sp.run([CHROME_PATH, "--guest", url])
-                if (guest): sp.run(['start','chrome.exe', "--guest", url])
+                if (guest): sp.run(['start','chrome.exe', "--guest", url], shell=True)
                 # elif (incog): sp.run([CHROME_PATH, "--incognito", url])
-                elif (incog): sp.run(['start', 'chrome.exe', "--incognito", url])
+                elif (incog): sp.run(['start', 'chrome.exe', "--incognito", url], shell=True)
                 # elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
-                elif (specific_profile): sp.run(["start", "chrome.exe", f"--profile-directory={profile}", url])
+                elif (specific_profile): sp.run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
                 else: common_flags()
         else: 
             print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
