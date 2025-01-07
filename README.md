@@ -1,7 +1,6 @@
 # ggl : Search google from the terminal (and many more)
 
-This is an another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time.
-Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
+This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
 You can search:
 
@@ -182,22 +181,12 @@ No need to make the script executable explicitly.
 ## **3. Running the Script Globally**
 Run the script in a terminal to verify it works globally.
 
-- **macOS/Linux**:
+- **macOS/Linux/Windows**:
   Open a new terminal and type:
   ```bash
   ggl
   ```
-
-- **Windows**:
-  Open a new terminal and type:
-  ```cmd
-  ggl
-  ```
-  or:
-  ```cmd
-  ggl.py
-  ```
-
+  
 
 # Configuration (for a specific Google Chrome profile)
 
