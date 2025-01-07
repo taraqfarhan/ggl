@@ -178,14 +178,14 @@ Make the script executable:
 #### **Windows**
 No need to make the script executable explicitly.
 
-## **3. Running the Script Globally**
+### **Step 4: Testing**
 Run the script in a terminal to verify it works globally.
 
-- **macOS/Linux/Windows**:
-  Open a new terminal and type:
-  ```bash
-  ggl
-  ```
+**macOS/Linux/Windows**:
+Open a new terminal and type:
+   ```bash
+   ggl
+   ```
   
 
 # Configuration (for a specific Google Chrome profile)
