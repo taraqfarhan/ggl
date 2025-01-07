@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, subprocess as sp, json, platform, os, time, webbrowser as wb, shutil
+import sys, subprocess as sp, json, platform, os, time, webbrowser as wb, shutil, re
 
 
 os_name = platform.system()
@@ -21,11 +21,11 @@ ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query] 
+ggl [-gm|--gmail] [search query]
+ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [your text]
 ggl [-h|--help]
-ggl [--mail|--send-mail] <receiver's address> [your text]
 
-The following flags are only for Google Chrome
+The following command are only for Google Chrome
 ggl [-i|--incog|--incongnito] [search query]
 ggl [-p|--profile <profile name>] [search query]
 ggl [-l|--list]""")
@@ -135,6 +135,13 @@ The file should look like the following. Only update the value of the keys and s
     sys.exit(0)
 
 
+def is_valid_email(address):
+    regex = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
+    
+    if re.fullmatch(regex, address): return True
+    else: return False
+    
+
 # handling all the common flags for searching
 def common_flags():
     if (flag:=catch_the_flag(('-h','--help'))):
@@ -149,50 +156,59 @@ ggl [-w|--wiki|--wikipedia] <search query>
 ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query] 
+ggl [-gm|--gmail] [search query]
+ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [your text]
 ggl [-h|--help]
-ggl [--mail|--send-mail] <receiver's address> [your text]
 
-The following flags are only for Google Chrome
+The following command are only for Google Chrome
 ggl [-i|--incog|--incongnito] [search query]
 ggl [-p|--profile <profile name>] [search query]
 ggl [-l|--list]
 
 
 For every web-browsers
--im --img --image                   show the image section for the search
--v --vid --video                    show the video section from the search
--y -yt --youtube                    search the youtube
--cg --gpt --chatgpt                 prompt chatgpt
--gem --gemini                       prompt gemini
--w --wiki --wikipedia               search the wiki
--g -gh --git --github               search the github
--s -st --stack --stackoverflow      search stack-overflow
--d --ddg --duckduckgo               search duckduckgo search engine instead of google
--h --help                           display this help page
--gm --gmail                         search your mail with that search-query
---mail --send-mail                  send mail to someone with their mail address
-                                    
+-h --help                         display this help page
+
+-im --img --image                 show the image section for the search
+-v --vid --video                  show the video section from the search
+-y -yt --youtube                  search the youtube
+-cg --gpt --chatgpt               prompt chatgpt
+--gem --gemini                    prompt gemini
+-w --wiki --wikipedia             search the wiki
+-g -gh --git --github             search the github
+-s -st --stack --stackoverflow    search stack-overflow
+-d --ddg --duckduckgo             search duckduckgo search engine instead of google
+
+For emails (gmail)
+-gm --gmail                       search your mail with that search-query
+--mail --send-mail                send mail to someone with their mail address
+--sub --subject                   option for --mail --send-mail flag to add a subject (optional)
+
 Only for Google Chrome
--i --incog --incognito              open Google Chrome in incognito mode
--p --profile                        set a specific chrome profile for searching
--l --list                           list all the chrome profiles
+-i --incog --incognito            open Google Chrome in incognito mode
+-p --profile                      set a specific chrome profile for searching
+-l --list                         list all the chrome profiles
 
 
 EXAMPLES:
+
+For any web-browser 
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
 ggl 'What does the word "retarded" mean'
+ggl -yt stuxnet documentary
 ggl --img a flycatcher
 ggl --video how to learn to code
-ggl -yt stuxnet documentary
 ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
-ggl -s "what language is used to write unix commands"
+ggl --stack "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
-ggl --gmail contract proposal
 ggl --chatgpt why we should even bother about the command line interface
+
+Mail (gmail)
+ggl --gmail contract proposal
 ggl --send-mail taraqfarhan@gmail.com send me the docs asap
+ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assignment by tomorrow
 
 Specific to Google Chrome only
 ggl -p 3 online train ticket
@@ -241,12 +257,42 @@ ggl -i why bitcoin is illegal in some countries """)
         index = args.index(flag)
         del args[index:index+1]
         wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
+    elif(flag:=catch_the_flag(('--send-mail','--mail'))):
+        index = args.index(flag)
+        
+        if index + 1 < len(args): # receiver's email address is needed after specifying this flag
+            recipient_email = args[index + 1] # get the receiver's email address
+            del args[index:index+2]
+            
+            if (is_valid_email(recipient_email)):
+                if (flag:=catch_the_flag(('--subject','--sub'))): 
+                    index = args.index(flag)
+                    if index + 1 < len(args):
+                        subject = args[index+1]
+                        del args[index:index+2]
+                    else :
+                        print("No subject is specified after --sub or --subject flag")
+                        subject = ""
+                        del args[index:index+1]
+                else: subject = ""
+            
+                # https://mail.google.com/mail/?view=cm&fs=1&to=recipient@example.com,to=another@gmail.com&cc=cc_recipient@example.com,cc=another@hotmail.com&bcc=bcc_recipient@example.com,bcc=another@yahoo.com&su=Greetings&body=Hi+there,+this+is+a+test+email.
+                wb.open(f"https://mail.google.com/mail/?view=cm&fs=1&to={recipient_email}&su={subject}&body={"+".join(args)}")
+
+            else: 
+                print("Invalid email address")
+                sys.exit(1)
+        else: 
+            print("No email address is provided after --send-mail or --mail flag")
+            print("Usage: ggl [--mail|--send-mail] <receiver's address> [your text]")
+            sys.exit(1)
+
     else:
         if (is_chrome_installed()): # to search using chrome with the default chrome profile
             if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
             elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
-        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser
+        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)
 
 
 def main():  

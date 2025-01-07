@@ -16,7 +16,7 @@ You can search:
 And you can also :
 
 - prompt chatgpt, gemini
-- email (texts only) to someone from the terminal (using gmail) (coming soon)
+- email (texts only) to someone from the terminal (using gmail)
 - browse chrome in incognito mode (if you're using chrome)
 
 # Usage
@@ -34,7 +34,7 @@ ggl [-g|-gh|--git|--github] <search query>
 ggl [-s|-st|--stack|--stackoverflow] <search query>
 ggl [-d|--ddg|--duckduckgo] <search query>
 ggl [-gm|--gmail] [search query]
-ggl [--mail|--send-mail] <receiver's address> [your text]
+ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [your text]
 ggl [-h|--help]
 
 The following command are only for Google Chrome
@@ -44,41 +44,48 @@ ggl [-l|--list]
 
 
 For every web-browsers
--im --img --image                   show the image section for the search
--v --vid --video                    show the video section from the search
--y -yt --youtube                    search the youtube
--cg --gpt --chatgpt                 prompt chatgpt
---gem --gemini                      prompt gemini
--w --wiki --wikipedia               search the wiki
--g -gh --git --github               search the github
--s -st --stack --stackoverflow      search stack-overflow
--d --ddg --duckduckgo               search duckduckgo search engine instead of google
--gm --gmail                         search your mail with that search-query
---mail --send-mail                  send mail to someone with their mail address
--h --help                           display this help page
+-h --help                         display this help page
+
+-im --img --image                 show the image section for the search
+-v --vid --video                  show the video section from the search
+-y -yt --youtube                  search the youtube
+-cg --gpt --chatgpt               prompt chatgpt
+--gem --gemini                    prompt gemini
+-w --wiki --wikipedia             search the wiki
+-g -gh --git --github             search the github
+-s -st --stack --stackoverflow    search stack-overflow
+-d --ddg --duckduckgo             search duckduckgo search engine instead of google
+
+For emails (gmail)
+-gm --gmail                       search your mail with that search-query
+--mail --send-mail                send mail to someone with their mail address
+--sub --subject                   option for --mail --send-mail flag to add a subject (optional)
 
 Only for Google Chrome
--i --incog --incognito              open Google Chrome in incognito mode
--p --profile                        set a specific chrome profile for searching
--l --list                           list all the chrome profiles
+-i --incog --incognito            open Google Chrome in incognito mode
+-p --profile                      set a specific chrome profile for searching
+-l --list                         list all the chrome profiles
 
 
 EXAMPLES:
 
-For every web-browser
+For any web-browser 
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
 ggl 'What does the word "retarded" mean'
+ggl -yt stuxnet documentary
 ggl --img a flycatcher
 ggl --video how to learn to code
-ggl -yt stuxnet documentary
 ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
 ggl --stack "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
-ggl --gmail contract proposal
 ggl --chatgpt why we should even bother about the command line interface
+
+Mail (gmail)
+ggl --gmail contract proposal
 ggl --send-mail taraqfarhan@gmail.com send me the docs asap
+ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assignment by tomorrow
 
 Specific to Google Chrome only
 ggl -p 3 online train ticket
