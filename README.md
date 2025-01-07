@@ -171,6 +171,8 @@ Make the script executable:
 No need to make the script executable explicitly.
 
 ## **3. Running the Script Globally**
+Run the script in a terminal to verify it works globally.
+
 - **macOS/Linux**:
   Open a new terminal and type:
   ```bash
@@ -186,12 +188,6 @@ No need to make the script executable explicitly.
   ```cmd
   ggl.py
   ```
-
-** Testing the Script**
-Run the script in a terminal to verify it works globally:
-```bash
-ggl
-```
 
 
 # Configuration (for a specific Google Chrome profile)
