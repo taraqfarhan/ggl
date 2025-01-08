@@ -104,10 +104,9 @@ git clone https://www.github.com/taraqfarhan/ggl
 ``` 
 Then run this python script. Ofc you'll need ```python3``` installed on your machine first to run a python script duh! 
 
-# Homebrew installation (for macOS/linux)
+# Homebrew installation (for macOS/linux) (coming soon)
 
-This software isn't fully developed yet. It's still in it's experimental phase. After finishing completely, I will add this to ```Homebrew```.
-Then For ```macOS``` and ```linux``` you can install it using
+I will add this to ```Homebrew``` soon. Then, for ```macOS``` and ```linux``` you can install ```ggl``` using
 
 ```bash
 brew install ggl
@@ -124,8 +123,8 @@ To use a Python script globally (i.e., you can execute it from anywhere in the t
 
 ### **Step 1: Place Your Script in a Directory**
 Move the script (`ggl`) to a directory accessible to the PATH. Common locations:
-- **Windows**: A folder like `C:\Scripts` or a directory already in the PATH (e.g., `C:\Python\Scripts`).
 - **macOS/Linux**: Use `/usr/local/bin`, `~/bin`, or another directory in your PATH.
+- **Windows**: A folder like `C:\Scripts` or a directory already in the PATH (e.g., `C:\Python\Scripts`).
 
 To create a new directory for scripts:
 For macOS/linux:
@@ -154,6 +153,7 @@ If the directory containing your script is not already in the PATH, you need to 
    ```bash
    source ~/.bashrc (for bash)
    source ~/.zshrc (for zsh)
+   source ~/.config/fish/config.fish (for fish)
    ```
 
 #### **Windows**
@@ -181,22 +181,27 @@ No need to make the script executable explicitly.
 ### **Step 4: Testing**
 Run the script in a terminal to verify it works globally.
 
-**macOS/Linux/Windows**:
+**macOS/Linux**:
 Open a new terminal and type:
    ```bash
    ggl 
-
-   ggl.py # for Windows, rename the script from ggl to ggl.py (if needed)
-   # if it doesn't work on Windows then run (either of the following)
+   ```
+**windows**
+(if you're using WSL then your commands will be same as macOS/linux)
+Open Command Prompt or Windows Powershell and try 
+   ```cmd
+   ggl
+   ggl.py
    python ggl
    python ggl.py
+   python replace/this/with/your/path/to/ggl
    ```
   
 
 # Configuration (for a specific Google Chrome profile)
 
-> IF AND ONLY IF YOU WANT TO USE THE -p --profile FLAG (which is specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
-> THIS SCRIPT WAS INITIALLY WRITTEN FOR MACOS. YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
+> IF AND ONLY IF YOU WANT TO USE (flags that are specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
+> YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
 
 A **config.json** file will be created automatically if you run this scipt for the first time. You will find that configuration file in:
 
