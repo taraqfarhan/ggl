@@ -2,7 +2,7 @@
 
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
-You can search:
+You can search :
 
 - google stuffs (even with a specific Google Chrome profile: if you're using Google Chrome)
 - google images and videos
@@ -187,7 +187,7 @@ Open a new terminal and type:
    ```bash
    ggl 
    ```
-**windows**
+**windows**:
 Open Command Prompt or Windows Powershell and try 
    ```cmd
    ggl
