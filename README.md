@@ -184,7 +184,12 @@ Run the script in a terminal to verify it works globally.
 **macOS/Linux/Windows**:
 Open a new terminal and type:
    ```bash
-   ggl
+   ggl 
+
+   ggl.py # for Windows, rename the script from ggl to ggl.py (if needed)
+   # if it doesn't work on Windows then run (either of the following)
+   python ggl
+   python ggl.py
    ```
   
 
