@@ -106,7 +106,7 @@ Then run this python script. Ofc you'll need ```python3``` installed on your mac
 
 # Homebrew installation (for macOS/linux) (coming soon)
 
-I will add this to ```Homebrew``` soon. Then, for ```macOS``` and ```linux``` you can install ```ggl``` using
+```ggl``` will be added to ```Homebrew``` soon. Then, for ```macOS``` and ```linux``` you can install ```ggl``` using
 
 ```bash
 brew install ggl
@@ -176,7 +176,8 @@ Make the script executable:
    ```
 
 #### **Windows**
-No need to make the script executable explicitly.
+No need to make the script executable explicitly. 
+But You might need to rename the script from ggl to ggl.py (if needed). Check the following steps to learn more.
 
 ### **Step 4: Testing**
 Run the script in a terminal to verify it works globally.
@@ -187,7 +188,6 @@ Open a new terminal and type:
    ggl 
    ```
 **windows**
-(if you're using WSL then your commands will be same as macOS/linux)
 Open Command Prompt or Windows Powershell and try 
    ```cmd
    ggl
