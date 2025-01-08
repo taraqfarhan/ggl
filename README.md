@@ -96,7 +96,7 @@ ggl -i why bitcoin is illegal in some countries
 
 # How to use this script on your own machine
 
-I will recommend to use ```Google Chrome``` on your machine to get the most out of this tool.
+I will recommend you to use ```Google Chrome``` on your machine as your default browser to get the most out of this tool. If Google Chrome is installed on your machine, ```ggl``` will use Google Chrome for browsing, otherwise ```ggl``` will use your Default Browser.
 
 Anyway, to use this script Just clone this repo using 
 ```bash

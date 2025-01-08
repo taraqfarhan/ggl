@@ -288,13 +288,13 @@ ggl -i why bitcoin is illegal in some countries """)
             print("Usage: ggl [--mail|--send-mail] <receiver's address> [your text]")
             sys.exit(1)
     else:
-        if (is_chrome_installed()): # to search using chrome with the default chrome profile
-            if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
-            elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
-            # elif os_name.lower() == "windows": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"]) 
-            elif os_name.lower() == "windows": sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"], shell=True)
-            else: wb.open(f"https://www.google.com/search?q={"+".join(args)}")       
-        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)
+        if (is_chrome_installed() and (not catch_the_flag(('rm','-rf','/')))): # to search using chrome with the default chrome profile
+            try:
+                if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
+                elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
+                elif os_name.lower() == "windows": sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"], shell=True,check=True)
+            except: wb.open(f"https://www.google.com/search?q={"+".join(args)}")
+        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)        
 
 
 def main():  
@@ -361,11 +361,8 @@ Use ggl -l or ggl --list to see all the chrome profiles""" )
                 elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
                 else: common_flags()
             elif os_name.lower() == "windows": 
-                # if (guest): sp.run([CHROME_PATH, "--guest", url])
                 if (guest): sp.run(['start','chrome.exe', "--guest", url],shell=True)
-                # elif (incog): sp.run([CHROME_PATH, "--incognito", url])
                 elif (incog): sp.run(['start', 'chrome.exe', "--incognito", url], shell=True)
-                # elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
                 elif (specific_profile): sp.run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
                 else: common_flags()
         else: 
