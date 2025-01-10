@@ -1,4 +1,4 @@
-# ggl : Search google from the terminal (and many more)
+# ggl : Search the web from the terminal (and much more)
 
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
