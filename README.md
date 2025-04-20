@@ -17,29 +17,29 @@ This is another life-changing python script to automate a process which will pro
 
 ```
 ggl [-p profile] [--incog] [options] <query|prompt>
-ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [text]
+ggl [--mail <receiver's address> [--sub|--subject]] <text>
 
 options:
-   -h --help                         display this help page
+   -h --help                         display the help page
    -im --img                         show the image section for the search
    -v --vid                          show the video section from the search
    -y -yt                            search the youtube
    -c --gpt                          prompt chatgpt
    -g --gem                          prompt gemini
-   -w --wiki --wikipedia             search the wiki
+   -w --wiki                         search the wiki
    -gh --git                         search the github
    -s -st --stack                    search stack-overflow
    -d --ddg                          search duckduckgo search engine instead of google
 
 For emails (gmail)
    -gm --gmail                       search your mail with that search-query
-   --mail --send-mail                prompt to send mail to someone with their mail address
-   --sub --subject                   option for --mail --send-mail flag to add a subject (optional)
+   --mail                            prompt to send mail to someone with their mail address
+   --sub                             option for --mail flag to add a subject (optional)
 
 Only for Google Chrome
-   -i --incog                        open Google Chrome in incognito mode
    -p                                set a specific chrome profile for searching
    -l --list                         list all the chrome profiles
+   -i --incog                        open Google Chrome in incognito mode
 
 
 EXAMPLES:

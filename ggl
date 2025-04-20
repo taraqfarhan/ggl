@@ -12,12 +12,13 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 os_name = system().lower()
 
 parser = ArgumentParser(description = "common internet searches from the command line",\
-                        prog = "ggl", formatter_class = RawTextHelpFormatter,\
-                        epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com")
+        prog = "ggl", usage="""ggl [-h] [-l | -p profile [-i]] [options | [--mail address [--sub subject]]] [query ...]
+options: [-d | -gh | -w | -im | -v | -s | -y | -c | -g | -gm]""", formatter_class = RawTextHelpFormatter,\
+        epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com")
 parser.add_argument("-p", metavar="profile", help="select a specific chrome profile (use profile name or customized key)")
 parser.add_argument("-l", "--list",action="store_true", help="show the customized keys for specific chrome profiles")
 parser.add_argument("-i", "--incog", action="store_true", help="go incognito mode")
-parser.add_argument("query", type=str, nargs='*', help="search query")
+parser.add_argument("query", nargs='*', help="search query")
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-d", "--ddg", action="store_true", help="search with duckduckgo instead of google")
@@ -30,8 +31,14 @@ group.add_argument("-y", "-yt", action="store_true", help="search the youtube")
 group.add_argument("-c", "--gpt", action="store_true", help="prompt chatgpt")
 group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
 group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail inbox")
-
+group.add_argument("--mail", metavar="address", help="specify the recipient's email address")
+parser.add_argument('--sub', metavar="subject", default="", help='subject of the email (optional with --mail)')
+    
 args = parser.parse_args()
+
+if args.mail is not None:
+    if not args.query: parser.error("A text message is required when using --mail")
+if args.sub != "" and args.mail is None: parser.error("--sub requires --mail")
 
 
 def chrome_installed():
@@ -154,6 +161,7 @@ def get_url():
     elif args.gpt: return f"https://chatgpt.com/?q={"+".join(args.query)}" # https://chatgpt.com/?model=gpt-4&q=%s
     elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
     elif args.gmail: return f"https://mail.google.com/mail/u/0/#search/{"+".join(args.query)}"
+    elif args.mail: return f"https://mail.google.com/mail/?view=cm&fs=1&to={args.mail}&su={args.sub}&body={"+".join(args.query)}"
     else: return f"https://www.google.com/search?q={"+".join(args.query)}"
 
 
@@ -170,22 +178,20 @@ def main():
             if args.p:
                 profile = args.p
 
-                # checking the validity of the profile names (and the keys for the profile names specified in the config.json file)
-                if (profile == DEFAULT_CHROME_PROFILE): profile = DEFAULT_CHROME_PROFILE
+                if profile == DEFAULT_CHROME_PROFILE: profile = DEFAULT_CHROME_PROFILE
+                elif profile in ("g", "guest"): guest = True
                 elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
                     for profile_index, profile_name in enumerate(OTHER_PROFILES):
                         if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
                             profile = profile_name
                             break         
                 else:
-                    print("""Error: Invalid profile name is used after -p or flag
-Usage: ggl [-p profile] [--incog] [options] <search query>
-
-Use ggl -l or ggl --list to see all the chrome profiles""" )
+                    print("Error: Invalid profile name is used after -p or flag")
+                    print("Use ggl -l or ggl --list to see all the chrome profiles")
                     exit(1)
 
             elif args.list:                
-                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "use key ' ' (default profile)")
+                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "-p flag is not needed (your default profile)")
                 for profile_index, profile_name in enumerate(OTHER_PROFILES):
                     print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
                 print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
