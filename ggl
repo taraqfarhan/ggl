@@ -14,9 +14,9 @@ os_name = system().lower()
 parser = ArgumentParser(description = "common internet searches from the command line",\
                         prog = "ggl", formatter_class = RawTextHelpFormatter,\
                         epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com")
-parser.add_argument("-p", metavar="profilekey", help="select a specific chrome profile")
-parser.add_argument("-l", "--list",action="store_true", help="list of the customized keys for specific chrome profiles")
-parser.add_argument("--incog", action="store_true", help="go incognito mode")
+parser.add_argument("-p", metavar="profile", help="select a specific chrome profile (use profile name or customized key)")
+parser.add_argument("-l", "--list",action="store_true", help="show the customized keys for specific chrome profiles")
+parser.add_argument("-i", "--incog", action="store_true", help="go incognito mode")
 parser.add_argument("query", type=str, nargs='*', help="search query")
 
 group = parser.add_mutually_exclusive_group()

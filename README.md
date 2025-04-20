@@ -1,4 +1,4 @@
-# ggl : search the internet from the command line
+# ggl : common internet searches from the command line
 
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
@@ -13,69 +13,48 @@ This is another life-changing python script to automate a process which will pro
 - prompt chatgpt, gemini
 - prompt to send emails (texts only) to someone from the terminal (using gmail)
 
-Using Google Chrome is RECOMMENDED. But if you use other browser this script will use that browser if you don't have Google Chrome installed on your machine.
 # Usage
 
 ```
-For every web-browsers
-ggl <search query>
-ggl [-im|--img|--image] <search query>
-ggl [-v|--vid|--video] <search query>
-ggl [-y|-yt|--youtube] <search query>
-ggl [-cg|--gpt|--chatgpt] <your prompt>
-ggl [--gem|--gemini] <your prompt>
-ggl [-w|--wiki|--wikipedia] <search query>
-ggl [-g|-gh|--git|--github] <search query>
-ggl [-s|-st|--stack|--stackoverflow] <search query>
-ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query]
-ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [your text]
-ggl [-h|--help]
+ggl [-p profile] [--incog] [options] <query|prompt>
+ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [text]
 
-The following command are only for Google Chrome
-ggl [-i|--incog|--incongnito] [search query]
-ggl [-p|--profile <profile name>] [search query]
-ggl [-l|--list]
-
-
-For every web-browsers
--h --help                         display this help page
-
--im --img --image                 show the image section for the search
--v --vid --video                  show the video section from the search
--y -yt --youtube                  search the youtube
--cg --gpt --chatgpt               prompt chatgpt
---gem --gemini                    prompt gemini
--w --wiki --wikipedia             search the wiki
--g -gh --git --github             search the github
--s -st --stack --stackoverflow    search stack-overflow
--d --ddg --duckduckgo             search duckduckgo search engine instead of google
+options:
+   -h --help                         display this help page
+   -im --img                         show the image section for the search
+   -v --vid                          show the video section from the search
+   -y -yt                            search the youtube
+   -c --gpt                          prompt chatgpt
+   -g --gem                          prompt gemini
+   -w --wiki --wikipedia             search the wiki
+   -gh --git                         search the github
+   -s -st --stack                    search stack-overflow
+   -d --ddg                          search duckduckgo search engine instead of google
 
 For emails (gmail)
--gm --gmail                       search your mail with that search-query
---mail --send-mail                prompt to send mail to someone with their mail address
---sub --subject                   option for --mail --send-mail flag to add a subject (optional)
+   -gm --gmail                       search your mail with that search-query
+   --mail --send-mail                prompt to send mail to someone with their mail address
+   --sub --subject                   option for --mail --send-mail flag to add a subject (optional)
 
 Only for Google Chrome
--i --incog --incognito            open Google Chrome in incognito mode
--p --profile                      set a specific chrome profile for searching
--l --list                         list all the chrome profiles
+   -i --incog                        open Google Chrome in incognito mode
+   -p                                set a specific chrome profile for searching
+   -l --list                         list all the chrome profiles
 
 
 EXAMPLES:
 
-For any web-browser 
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
 ggl 'What does the word "retarded" mean'
 ggl -yt stuxnet documentary
 ggl --img a flycatcher
-ggl --video how to learn to code
+ggl --vid how to learn to code
 ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
 ggl --stack "what language is used to write unix commands"
 ggl --ddg why duckduckgo is better than google
-ggl --chatgpt why we should even bother about the command line interface
+ggl --gpt why we should even bother about the command line interface
 
 Mail (gmail)
 ggl --gmail contract proposal
@@ -83,8 +62,8 @@ ggl --send-mail taraqfarhan@gmail.com send me the docs asap
 ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assignment by tomorrow
 
 Specific to Google Chrome only
-ggl -p 3 online train ticket
-ggl --profile business How does money work?
+ggl -p 3 --img chess board
+ggl -p business -yt How does money work?
 ggl -p guest how to use the dark web
 ggl -i -p "Profile 3" "build linux kernel from the scratch"
 ggl -i why bitcoin is illegal in some countries
@@ -94,7 +73,7 @@ ggl -i why bitcoin is illegal in some countries
 
 I will recommend you to use ```Google Chrome``` on your machine as your default browser to get the most out of this tool. If Google Chrome is installed on your machine, ```ggl``` will use Google Chrome for browsing, otherwise ```ggl``` will use your Default Browser.
 
-Anyway, to use this script Just clone this repo using 
+Anyway, to use this script just clone this repo using 
 ```bash
 git clone https://www.github.com/taraqfarhan/ggl
 ``` 
@@ -109,10 +88,9 @@ brew install ggl
 ```
 
 # To use a python script globally (RECOMMENDED)
-> THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
+> THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 ```bash
-python3 path/to/the/ggl/script (for macOS/linux)
-python path/to/the/ggl/script (windows)
+python3 path/to/the/ggl/script
 ```
 
 To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on ```Windows```, ```macOS```, and ```Linux```, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
@@ -130,15 +108,13 @@ mkdir -p ~/bin
 
 For Windows, manually create a folder, e.g., `C:\Scripts`.
 
-
 ### **Step 2: Add the Script Directory to PATH**
 If the directory containing your script is not already in the PATH, you need to add it.
 
-#### **macOS/Linux**
+#### **mac/linux**
 1. Edit your shell configuration file:
    - For **bash**: `~/.bashrc`
    - For **zsh**: `~/.zshrc`
-   - For **fish**: `~/.config/fish/config.fish`
 
 2. Add the following line:
    ```bash
@@ -149,7 +125,6 @@ If the directory containing your script is not already in the PATH, you need to 
    ```bash
    source ~/.bashrc (for bash)
    source ~/.zshrc (for zsh)
-   source ~/.config/fish/config.fish (for fish)
    ```
 
 #### **Windows**
@@ -164,8 +139,8 @@ If the directory containing your script is not already in the PATH, you need to 
 3. Save and restart your terminal.
 
 
-### **Step 3: Make the Script Executable** (if needed)
-#### **Linux/macOS**
+### **Step 3: Make the Script Executable**
+#### **linux/mac**
 Make the script executable:
    ```bash
    sudo chmod +x ~/bin/ggl
@@ -178,23 +153,12 @@ But You might need to rename the script from ggl to ggl.py (if needed). Check th
 ### **Step 4: Testing**
 Run the script in a terminal to verify it works globally.
 
-**macOS/Linux**:
 Open a new terminal and type:
    ```bash
-   ggl 
+   ggl -h
    ```
-**windows**:
-Open Command Prompt or Windows Powershell and try 
-   ```cmd
-   ggl
-   ggl.py
-   python ggl
-   python ggl.py
-   python replace/this/with/your/path/to/ggl
-   ```
-  
 
-# Configuration (for a specific Google Chrome profile)
+# Configuration (for Google Chrome profiles)
 
 > IF AND ONLY IF YOU WANT TO USE (flags that are specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
 > YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
