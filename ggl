@@ -1,48 +1,49 @@
 #!/usr/bin/env python3
-import sys, subprocess as sp, json, platform, os, time, webbrowser as wb, shutil, re
+import os
+from json import load
+from time import sleep
+from shutil import which
+from re import fullmatch
+from subprocess import run
+from platform import system
+from webbrowser import open as webbrowser_open
+from argparse import ArgumentParser, RawTextHelpFormatter
+
+os_name = system().lower()
+
+parser = ArgumentParser(description = "common internet searches from the command line",\
+                        prog = "ggl", formatter_class = RawTextHelpFormatter,\
+                        epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com")
+parser.add_argument("-p", metavar="profilekey", help="select a specific chrome profile")
+parser.add_argument("-l", "--list",action="store_true", help="list of the customized keys for specific chrome profiles")
+parser.add_argument("--incog", action="store_true", help="go incognito mode")
+parser.add_argument("query", type=str, nargs='*', help="search query")
+
+group = parser.add_mutually_exclusive_group()
+group.add_argument("-d", "--ddg", action="store_true", help="search with duckduckgo instead of google")
+group.add_argument("-gh", "--git", action="store_true", help="search the github repos")
+group.add_argument("-w", "--wiki", action="store_true", help="search the wikipedia pages")
+group.add_argument("-im", "--img", action="store_true", help="show the image seaction from the search")
+group.add_argument("-v", "--vid", action="store_true", help="show the video section from the search")
+group.add_argument("-s", "-st", "--stack", action="store_true", help="search stack-overflow")
+group.add_argument("-y", "-yt", action="store_true", help="search the youtube")
+group.add_argument("-c", "--gpt", action="store_true", help="prompt chatgpt")
+group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
+group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail inbox")
+
+args = parser.parse_args()
 
 
-os_name = platform.system()
-args = sys.argv[1:]
-
-
-# handling the length of user input
-if len(args) < 1: # At least one argument is needed to be passed for any successful run
-    print("""Usages: 
-
-For every web-browsers
-ggl <search query>
-ggl [-im|--img|--image] <search query>
-ggl [-v|--vid|--video] <search query>
-ggl [-y|-yt|--youtube] <search query>
-ggl [-cg|--gpt|--chatgpt] <your prompt>
-ggl [--gem|--gemini] <your prompt>
-ggl [-w|--wiki|--wikipedia] <search query>
-ggl [-g|-gh|--git|--github] <search query>
-ggl [-s|-st|--stack|--stackoverflow] <search query>
-ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query]
-ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [your text]
-ggl [-h|--help]
-
-The following command are only for Google Chrome
-ggl [-i|--incog|--incongnito] [search query]
-ggl [-p|--profile <profile name>] [search query]
-ggl [-l|--list]""")
-    sys.exit(0)
-
-
-# checking if the user has chrome installed in their system
-def is_chrome_installed():
-    if os_name.lower() == "darwin": 
+def chrome_installed():
+    if (os_name == "darwin"): 
         paths = [
             "/Applications/Google Chrome.app",
             "~/Applications/Google Chrome.app",
         ]
         return any(os.path.exists(os.path.expanduser(path)) for path in paths)
-    elif os_name.lower() == "linux":  
-        return shutil.which("google-chrome") is not None or shutil.which("google-chrome-stable") is not None
-    elif os_name.lower() == "windows":  
+    elif (os_name == "linux"):  
+        return which("google-chrome") is not None or which("google-chrome-stable") is not None
+    elif (os_name == "windows"):
         paths = [
             os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
             os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
@@ -52,18 +53,14 @@ def is_chrome_installed():
     else: return False
 
 
-def catch_the_flag(options):
-    for element in options: 
-        if element in args: return element
-    return False
-    
-
-# functions only used for confGoogle Chrome Profiles
 def get_config_file_path():
-    if os_name.lower() == "windows": config_dir = os.path.join(os.getenv("APPDATA"), "ggl") # Windows
-    else: config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl") # macOS/Linux 
-    os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
-    return os.path.join(config_dir, "config.json") # Return the full path to the config file
+    flag = True
+    if (os_name == "windows"): config_dir = os.path.join(os.getenv("APPDATA"), "ggl")
+    elif (os_name in ("darwin", "linux")): config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl")
+    else: flag = False
+    if flag == True:
+        os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
+        return os.path.join(config_dir, "config.json") # Return the full path to the config file
 
 
 config_file_format = r""" 
@@ -80,35 +77,13 @@ config_file_format = r"""
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 """
+
+
 config_path = get_config_file_path()
 
 
-def configurations_for_chrome_profile():
-  try:      
-    with open(config_path, 'r') as file: 
-        content = file.read().strip()
-        file.seek(0)
-        # checking if the file is empty
-        if(os.path.getsize(config_path)) and (content != ""):
-            config = json.load(file)
-            if (os_name.lower() == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
-            elif (os_name.lower() == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
-            elif (os_name.lower() == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
-        else:
-            print(f"""Looks like your config.json file is empty, please configure it from {config_path}
-
-Error: empty config.json file
-
-The file should look like the following. Only update the value of the keys and save the file.)
-{config_file_format}
-""")
-            sys.exit(1)        
-        
-    return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES'], CHROME_PATH
-
-  except FileNotFoundError:
-    print(f"Error: config.json file not found in this {config_path} path\nCreating an config.json file in {config_path}")
-    print("creating ............")
+def write_config_file(config_path):
+    print(f"config.json file was not found in this {config_path} path\n\nCreating an config.json file in {config_path}")
     with open(config_path, 'w') as file:  # This creates an 'config.json' file if there is no file in the configured path
         file.write(r"""{
   "DEFAULT_PROFILE": "Default",
@@ -124,251 +99,126 @@ The file should look like the following. Only update the value of the keys and s
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 }""")
-
-    time.sleep(1) 
-    print(f"config.json file has been created for you now.\nThe path for the file is {config_path}\n")
+    print(f"config.json file has been created for you now.\nThe path for the file is {config_path}\n\n")
+    print(f"""The config file will be opened to you to be edited. Please edit the config.json file from {config_path} if it doesn't open automatically for you.\nThe file should look like the following. Only update the value of the keys and save the file.
+  {config_file_format}""")
     
-    print(f"""Now, please edit the config.json file from {config_path}.\nThe file should look like the following. Only update the value of the keys and save the file.
+    
+def edit_config_file():
+    if os_name == "darwin": run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+    elif os_name == "linux": run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+    elif os_name == "windows": pass
 
-  {config_file_format}
-""")
-    sys.exit(0)
+
+def configurations_for_chrome_profile():
+  try:      
+    with open(config_path, 'r') as file: 
+        content = file.read().strip()
+        file.seek(0)
+        if(os.path.getsize(config_path)) and (content != ""): 
+            config = load(file)
+            if (os_name == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
+            elif (os_name == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
+            elif (os_name == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
+        else:
+            print(f"""Looks like your config.json file is empty, please configure it from {config_path}
+Error: empty config.json file
+
+The file should look like the following. Only update the value of the keys and save the file.
+{config_file_format}""")
+            exit(1)        
+        
+    return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES'], CHROME_PATH
+
+  except FileNotFoundError:
+    write_config_file(config_path)
+    sleep(3)
+    edit_config_file()
+    exit(0)
 
 
-def is_valid_email(address):
+def valid_email(address):
     regex = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
     
-    if re.fullmatch(regex, address): return True
-    else: return False
-    
-
-# handling all the common flags for searching
-def common_flags():
-    if (flag:=catch_the_flag(('-h','--help'))):
-        print("""For every web-browsers
-ggl <search query>
-ggl [-im|--img|--image] <search query>
-ggl [-v|--vid|--video] <search query>
-ggl [-y|-yt|--youtube] <search query>
-ggl [-cg|--gpt|--chatgpt] <your prompt>
-ggl [--gem|--gemini] <your prompt>
-ggl [-w|--wiki|--wikipedia] <search query>
-ggl [-g|-gh|--git|--github] <search query>
-ggl [-s|-st|--stack|--stackoverflow] <search query>
-ggl [-d|--ddg|--duckduckgo] <search query>
-ggl [-gm|--gmail] [search query]
-ggl [--mail|--send-mail] <receiver's address> [--sub|--subject] [your text]
-ggl [-h|--help]
-
-The following command are only for Google Chrome
-ggl [-i|--incog|--incongnito] [search query]
-ggl [-p|--profile <profile name>] [search query]
-ggl [-l|--list]
+    return True if fullmatch(regex, address) else False
 
 
-For every web-browsers
--h --help                         display this help page
-
--im --img --image                 show the image section for the search
--v --vid --video                  show the video section from the search
--y -yt --youtube                  search the youtube
--cg --gpt --chatgpt               prompt chatgpt
---gem --gemini                    prompt gemini
--w --wiki --wikipedia             search the wiki
--g -gh --git --github             search the github
--s -st --stack --stackoverflow    search stack-overflow
--d --ddg --duckduckgo             search duckduckgo search engine instead of google
-
-For emails (gmail)
--gm --gmail                       search your mail with that search-query
---mail --send-mail                prompt to send mail to someone with their mail address
---sub --subject                   option for --mail --send-mail flag to add a subject (optional)
-
-Only for Google Chrome
--i --incog --incognito            open Google Chrome in incognito mode
--p --profile                      set a specific chrome profile for searching
--l --list                         list all the chrome profiles
+def get_url():
+    if args.ddg: return f"https://duckduckgo.com/?&q={"+".join(args.query)}"
+    elif args.img: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=isch"
+    elif args.vid: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=vid"
+    elif args.y: return f"https://www.youtube.com/results?search_query={"+".join(args.query)}"
+    elif args.wiki: return f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args.query)}"
+    elif args.git: return f"https://github.com/search?q={"+".join(args.query)}"
+    elif args.stack: return f"https://stackoverflow.com/search?q={"+".join(args.query)}"
+    elif args.gpt: return f"https://chatgpt.com/?q={"+".join(args.query)}" # https://chatgpt.com/?model=gpt-4&q=%s
+    elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
+    elif args.gmail: return f"https://mail.google.com/mail/u/0/#search/{"+".join(args.query)}"
+    else: return f"https://www.google.com/search?q={"+".join(args.query)}"
 
 
-EXAMPLES:
+def main():
+    url = get_url()
+    incog = True if args.incog else False
 
-For any web-browser 
-ggl why programmers hate everyone
-ggl "What's the capital of Russia"
-ggl 'What does the word "retarded" mean'
-ggl -yt stuxnet documentary
-ggl --img a flycatcher
-ggl --video how to learn to code
-ggl -w computer science terminologies
-ggl --git taraqfarhan/ggl
-ggl --stack "what language is used to write unix commands"
-ggl --ddg why duckduckgo is better than google
-ggl --chatgpt why we should even bother about the command line interface
-
-Mail (gmail)
-ggl --gmail contract proposal
-ggl --send-mail taraqfarhan@gmail.com send me the docs asap
-ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assignment by tomorrow
-
-Specific to Google Chrome only
-ggl -p 3 online train ticket
-ggl --profile business How does money work?
-ggl -p guest how to use the dark web
-ggl -i -p "Profile 3" "build linux kernel from the scratch"
-ggl -i why bitcoin is illegal in some countries """)
-        sys.exit(0)
-    elif (flag:=catch_the_flag(('-im','--img','--image'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=isch")
-    elif (flag:=catch_the_flag(("-v","--vid",'--video'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://www.google.com/search?q={"+".join(args)}&tbm=vid")
-    elif (flag:=catch_the_flag(('-y','-yt','--youtube'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://www.youtube.com/results?search_query={"+".join(args)}")
-    elif (flag:=catch_the_flag(("-w","--wiki",'--wikipedia'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args)}")
-    elif (flag:=catch_the_flag (("-g","-gh",'--github','--git'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://github.com/search?q={"+".join(args)}")
-    elif (flag:=catch_the_flag (("-s","--stack","--stackoverflow",'-st'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://stackoverflow.com/search?q={"+".join(args)}")
-    elif (flag:=catch_the_flag (("-d","--ddg","--duckduckgo"))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://duckduckgo.com/?&q={"+".join(args)}")
-    elif (flag:=catch_the_flag(('-cg','--gpt','--chatgpt'))):
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://chatgpt.com/?q={"+".join(args)}") # https://chatgpt.com/?model=gpt-4&q=%s
-    elif (flag:=catch_the_flag(('--gem','--gemini'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://gemini.google.com/search?q={"+".join(args)}")
-    elif (flag:=catch_the_flag(("-gm",'--gmail'))): 
-        index = args.index(flag)
-        del args[index:index+1]
-        wb.open(f"https://mail.google.com/mail/u/0/#search/{"+".join(args)}")
-    elif (flag:=catch_the_flag(('--send-mail','--mail'))):
-        index = args.index(flag)
-        if index + 1 < len(args): # receiver's email address is needed after specifying this flag
-            recipient_email = args[index + 1] # get the receiver's email address
-            del args[index:index+2]
-            
-            if (is_valid_email(recipient_email)):
-                if (flag:=catch_the_flag(('--subject','--sub'))): 
-                    index = args.index(flag)
-                    
-                    if index + 1 < len(args):
-                        subject = args[index+1]
-                        del args[index:index+2]
-                    else :
-                        print("No subject is specified after --sub or --subject flag")
-                        subject = ""
-                        del args[index:index+1]
-                        
-                else: subject = ""
-            
-                # https://mail.google.com/mail/?view=cm&fs=1&to=recipient@example.com,to=another@gmail.com&cc=cc_recipient@example.com,cc=another@hotmail.com&bcc=bcc_recipient@example.com,bcc=another@yahoo.com&su=Greetings&body=Hi+there,+this+is+a+test+email.
-                wb.open(f"https://mail.google.com/mail/?view=cm&fs=1&to={recipient_email}&su={subject}&body={"+".join(args)}")
-
-            else: 
-                print("Invalid email address")
-                sys.exit(1)
-        else: 
-            print("No email address is provided after --send-mail or --mail flag")
-            print("Usage: ggl [--mail|--send-mail] <receiver's address> [your text]")
-            sys.exit(1)
-    else:
-        if (is_chrome_installed() and (not catch_the_flag(('rm','-rf','/')))): # to search using chrome with the default chrome profile
-            try:
-                if os_name.lower() == "darwin": sp.run(["open", "-na", configurations_for_chrome_profile()[3], "--args", f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
-                elif os_name.lower() == "linux": sp.run([configurations_for_chrome_profile()[3], f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"])
-                elif os_name.lower() == "windows": sp.run(["start", 'chrome.exe', f"--profile-directory={configurations_for_chrome_profile()[0]}", f"https://www.google.com/search?q={"+".join(args)}"], shell=True,check=True)
-            except: wb.open(f"https://www.google.com/search?q={"+".join(args)}")
-        else: wb.open(f"https://www.google.com/search?q={"+".join(args)}") # use the default web-browser (if chrome is not installed)        
-
-
-def main():  
-    if (is_chrome_installed()):
+    if chrome_installed():
         DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
         profile = DEFAULT_CHROME_PROFILE
         guest = False
-        incog = False
-        specific_profile = False
-        
+
         if DEFAULT_CHROME_PROFILE or OTHER_PROFILES:
-            if (flag :=catch_the_flag(('-p','--profile'))):
-                specific_profile = True
-                p_index = args.index(flag)
+            if args.p:
+                profile = args.p
 
-                if p_index + 1 < len(args): # profile name is needed after specifying -p or --profile flag
-                    profile = args[p_index + 1] # get the profile name
-                    
-                    # checking the validity of the profile names (and the keys for the profile names specified in the config.json file)
-                    if profile in ("guest", "g"): guest = True
-                    elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
-                        for profile_index, profile_name in enumerate(OTHER_PROFILES):
-                            if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
-                                profile = profile_name
-                                break 
-                    else: 
-                        print("""Error: Invalid profile name is used after -p or --profile flag
-Usage: ggl [-p|--profile <profile name>] <search query>
-
-Use ggl -l or ggl --list to see all the chrome profiles""" )
-                        sys.exit(1)
-
-                    del args[p_index:p_index + 2]  # Remove -p flag and profile name from args
+                # checking the validity of the profile names (and the keys for the profile names specified in the config.json file)
+                if (profile == DEFAULT_CHROME_PROFILE): profile = DEFAULT_CHROME_PROFILE
+                elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
+                    for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                        if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
+                            profile = profile_name
+                            break         
                 else:
-                    print("""Error: No profile is specified after -p or --profile flag
-Usage: ggl [-p|--profile <profile name>] <search query>
-    
+                    print("""Error: Invalid profile name is used after -p or flag
+Usage: ggl [-p profile] [--incog] [options] <search query>
+
 Use ggl -l or ggl --list to see all the chrome profiles""" )
-                    sys.exit(1)
-            elif (flag:=catch_the_flag(('-l','--list'))):                
-                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "your default profile (doesn't require the -p --profile flag)")
+                    exit(1)
+
+            elif args.list:                
+                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "use key ' ' (default profile)")
                 for profile_index, profile_name in enumerate(OTHER_PROFILES):
                     print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
                 print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
                 print(f"\nTo change any of these profile's key configure the config.json file ({config_path})")
-                sys.exit(0)
+                exit(0)
             
-            if (flag:=catch_the_flag(('-i','--incog','--incognito'))): 
-                incog = True
-                index = args.index(flag)
-                del args[index:index+1]
-
-            url = f"https://www.google.com/search?q={"+".join(args)}"
-
-            # executing commands depending on user's operating system
-            if os_name.lower() == "darwin": 
-                if (guest): sp.run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
-                elif (incog): sp.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", "--incognito", url])
-                elif (specific_profile): sp.run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
-                else : common_flags()
-            elif os_name.lower() == "linux": 
-                if (guest): sp.run([CHROME_PATH, "--guest", url])
-                elif (incog): sp.run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
-                elif (specific_profile): sp.run([CHROME_PATH, f"--profile-directory={profile}", url])
-                else: common_flags()
-            elif os_name.lower() == "windows": 
-                if (guest): sp.run(['start','chrome.exe', "--guest", url],shell=True)
-                elif (incog): sp.run(['start', 'chrome.exe', "--incognito", url], shell=True)
-                elif (specific_profile): sp.run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
-                else: common_flags()
         else: 
             print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
-            sys.exit(1)
-    else: common_flags()
+            exit(1)
+        
+        if (os_name == "darwin"): 
+            if incog:
+                if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", "--incognito", url])
+                else: run(["open", "-na", CHROME_PATH, "--args", "--incognito", f"--profile-directory={profile}", url])
+            else:
+                if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
+                else: run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
+        elif (os_name == "linux"): 
+            if incog:
+                if guest: run([CHROME_PATH, "--guest", "--incognito" ,url])
+                else: run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
+            else:
+                if guest: run([CHROME_PATH, "--guest", url])
+                else: run([CHROME_PATH, f"--profile-directory={profile}", url])
+        elif (os_name == "windows"): 
+            if incog:
+                if guest: run(['start','chrome.exe', "--guest","--incognito", url],shell=True)
+                else: run(["start", "chrome.exe", f"--profile-directory={profile}","--incognito", url], shell=True)
+            else: 
+                if guest: run(['start','chrome.exe', "--guest", url],shell=True)
+                else: run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
+    else:
+        if incog: pass
+        else: webbrowser_open(url)
              
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()

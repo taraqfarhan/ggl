@@ -1,23 +1,19 @@
-# ggl : Search the web from the terminal (and much more)
+# ggl : search the internet from the command line
 
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
-You can search :
-
-- google stuffs (even with a specific Google Chrome profile: if you're using Google Chrome)
+- google (even with a specific Google Chrome profile: if you're using Google Chrome)
+- browse chrome in incognito mode 
 - google images and videos
-- browse chrome in incognito mode (if you're using chrome)
-- youtube
-- github, stack overflow
-- wikipedia
-- duckduckgo
-- gmail
-
-And you can also :
-
+- search with duckduckgo
+- github repos, stack overflow discussions
+- search youtube
+- wikipedia pages
+- search your gmail inbox
 - prompt chatgpt, gemini
 - prompt to send emails (texts only) to someone from the terminal (using gmail)
 
+Using Google Chrome is RECOMMENDED. But if you use other browser this script will use that browser if you don't have Google Chrome installed on your machine.
 # Usage
 
 ```
