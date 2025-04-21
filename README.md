@@ -2,44 +2,49 @@
 
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
-- google (even with a specific Google Chrome profile: if you're using Google Chrome)
+- google (even with a specific Google Chrome profile if you're using Google Chrome)
 - browse chrome in incognito mode
 - google images and videos
-- search with duckduckgo
-- github repos, stack overflow discussions
-- search youtube
-- wikipedia pages
-- search your gmail inbox
+- search youtube videos
 - prompt chatgpt, gemini
+- github repos, stack overflow
+- wikipedia pages
+- search with duckduckgo
+- search your gmail inbox
 - prompt to send emails (texts only) to someone from the terminal (using gmail)
+
 
 # Usage
 
 ```
 ggl [-p profile] [-i | --incog] [options] <query|prompt>
 ggl [--mail address [--sub subject]] <text>
+ggl [-h | --config]
 
-options:
-   -h --help                         display the help page
-   -im --img                         show the image section for the search
-   -v --vid                          show the video section from the search
-   -y -yt                            search the youtube
-   -c --gpt                          prompt chatgpt
-   -g --gem                          prompt gemini
-   -w --wiki                         search the wiki
-   -gh --git                         search the github
-   -s -st --stack                    search stack-overflow
-   -d --ddg                          search duckduckgo search engine instead of google
+helper options:
+   -h --help             display the help page
+   --config              open the config file
+
+common options:
+   -im --img             show the image section for the search
+   -v --vid              show the video section from the search
+   -y -yt                search the youtube
+   -c --gpt              prompt chatgpt
+   -g --gem              prompt gemini
+   -w --wiki             search the wiki
+   -gh --git             search the github
+   -s -st --stack        search stack-overflow
+   -d --ddg              search duckduckgo search engine instead of google
 
 For emails (gmail)
-   -gm --gmail                       search your mail with that search-query
-   --mail                            prompt to send mail to someone with their mail address
-   --sub                             option for --mail flag to add a subject (optional)
+   -gm --gmail           search your mail with that search-query
+   --mail                prompt to send mail to someone with their mail address
+   --sub                 option for --mail flag to add a subject (optional)
 
 Only for Google Chrome
-   -p                                set a specific chrome profile for searching
-   -l --list                         list all the chrome profiles
-   -i --incog                        open Google Chrome in incognito mode
+   -p                    set a specific chrome profile for searching
+   -l --list             list all the chrome profiles
+   -i --incog            open Google Chrome in incognito mode
 
 
 EXAMPLES:
@@ -52,7 +57,7 @@ ggl --img a flycatcher
 ggl --vid how to learn to code
 ggl -w computer science terminologies
 ggl --git taraqfarhan/ggl
-ggl --stack "what language is used to write unix commands"
+ggl --stack "what language was used to write unix commands"
 ggl --ddg why duckduckgo is better than google
 ggl --gpt why we should even bother about the command line interface
 
@@ -82,7 +87,9 @@ git clone https://www.github.com/taraqfarhan/ggl
 Then run this python script. Ofc you'll need `python3` installed on your machine first to run a python script duh!
 
 ```bash
-python3 /path/to/ggl
+python3 /path/to/ggl  # mac/linux
+py /path/to/ggl  # windows
+
 ```
 
 <details markdown='1'><summary>To run ggl globally without specifying `python3 /path/to/ggl` each time refer to this section</summary>
@@ -90,7 +97,8 @@ python3 /path/to/ggl
 > THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 
 ```bash
-python3 path/to/the/ggl/script
+python3 path/to/the/ggl/script  # mac/linux
+py path/to/the/ggl/script  # windows
 ```
 
 To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on `Windows`, `macOS`, and `Linux`, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
@@ -175,14 +183,6 @@ ggl -h
 
 </details>
 
-# Homebrew installation (for macOS/linux) (coming soon)
-
-`ggl` will be added to `Homebrew` soon. Then, for `macOS` and `linux` you can install `ggl` using
-
-```bash
-brew install ggl
-```
-
 # Configuration (for Google Chrome profiles)
 
 > IF AND ONLY IF YOU WANT TO USE (flags that are specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
@@ -191,8 +191,8 @@ brew install ggl
 A **config.json** file will be created automatically if you run this scipt for the first time. You will find that configuration file in:
 
 ```
-1. macOS/linux: ~/.config/ggl/config.json    (/Users/Username/.config/ggl/config.json)
-2. Windows: %APPDATA%\ggl\config.json        (C:\Users\Username\Appdata\Roaming\ggl\config.json)
+1. macOS/linux: ~/.config/ggl/config.json (/Users/Username/.config/ggl/config.json)
+2. Windows: %APPDATA%\ggl\config.json (C:\Users\Username\Appdata\Roaming\ggl\config.json)
 ```
 
 Now, you need to configure this **config.json** file.
@@ -213,6 +213,6 @@ Locate Chrome’s User Data Directory:
 Inspect the Directory. Match the folder name with the corresponding Chrome profile.
 
 ```
-1. Default: The main profile.
-2. Profile 1, Profile 2, etc.: Additional profiles.
+1. Default: The main profile. (You can change this in the config.json file)
+2. Profile 1, Profile 2, ... Profile <some number> : Additional profiles.
 ```
