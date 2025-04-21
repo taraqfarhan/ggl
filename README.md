@@ -77,17 +77,13 @@ Anyway, to use this script just clone this repo using
 ```bash
 git clone https://www.github.com/taraqfarhan/ggl
 ``` 
-Then run this python script. Ofc you'll need ```python3``` installed on your machine first to run a python script duh! 
-
-# Homebrew installation (for macOS/linux) (coming soon)
-
-```ggl``` will be added to ```Homebrew``` soon. Then, for ```macOS``` and ```linux``` you can install ```ggl``` using
-
+Then run this python script. Ofc you'll need ```python3``` installed on your machine first to run a python script duh!
 ```bash
-brew install ggl
+python3 /path/to/ggl
 ```
 
-# To use a python script globally (RECOMMENDED)
+<details markdown='1'><summary>To run ggl globally without specifying `python3 /path/to/ggl` each time refer to this section</summary> 
+
 > THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 ```bash
 python3 path/to/the/ggl/script
@@ -157,6 +153,17 @@ Open a new terminal and type:
    ```bash
    ggl -h
    ```
+</details>
+
+# Homebrew installation (for macOS/linux) (coming soon)
+
+```ggl``` will be added to ```Homebrew``` soon. Then, for ```macOS``` and ```linux``` you can install ```ggl``` using
+
+```bash
+brew install ggl
+```
+
+
 
 # Configuration (for Google Chrome profiles)
 
