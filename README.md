@@ -3,7 +3,7 @@
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
 
 - google (even with a specific Google Chrome profile: if you're using Google Chrome)
-- browse chrome in incognito mode 
+- browse chrome in incognito mode
 - google images and videos
 - search with duckduckgo
 - github repos, stack overflow discussions
@@ -71,33 +71,40 @@ ggl -i why bitcoin is illegal in some countries
 
 # How to use this script on your own machine
 
-I will recommend you to use ```Google Chrome``` on your machine as your default browser to get the most out of this tool. If Google Chrome is installed on your machine, ```ggl``` will use Google Chrome for browsing, otherwise ```ggl``` will use your Default Browser.
+I will recommend you to use `Google Chrome` on your machine as your default browser to get the most out of this tool. If Google Chrome is installed on your machine, `ggl` will use Google Chrome for browsing, otherwise `ggl` will use your Default Browser.
 
-Anyway, to use this script just clone this repo using 
+Anyway, to use this script just clone this repo using
+
 ```bash
 git clone https://www.github.com/taraqfarhan/ggl
-``` 
-Then run this python script. Ofc you'll need ```python3``` installed on your machine first to run a python script duh!
+```
+
+Then run this python script. Ofc you'll need `python3` installed on your machine first to run a python script duh!
+
 ```bash
 python3 /path/to/ggl
 ```
 
-<details markdown='1'><summary>To run ggl globally without specifying `python3 /path/to/ggl` each time refer to this section</summary> 
+<details markdown='1'><summary>To run ggl globally without specifying `python3 /path/to/ggl` each time refer to this section</summary>
 
 > THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
+
 ```bash
 python3 path/to/the/ggl/script
 ```
 
-To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on ```Windows```, ```macOS```, and ```Linux```, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
+To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on `Windows`, `macOS`, and `Linux`, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
 
 ### **Step 1: Place Your Script in a Directory**
+
 Move the script (`ggl`) to a directory accessible to the PATH. Common locations:
+
 - **macOS/Linux**: Use `/usr/local/bin`, `~/bin`, or another directory in your PATH.
 - **Windows**: A folder like `C:\Scripts` or a directory already in the PATH (e.g., `C:\Python\Scripts`).
 
 To create a new directory for scripts:
 For macOS/linux:
+
 ```bash
 mkdir -p ~/bin
 ```
@@ -105,14 +112,18 @@ mkdir -p ~/bin
 For Windows, manually create a folder, e.g., `C:\Scripts`.
 
 ### **Step 2: Add the Script Directory to PATH**
+
 If the directory containing your script is not already in the PATH, you need to add it.
 
 #### **mac/linux**
+
 1. Edit your shell configuration file:
+
    - For **bash**: `~/.bashrc`
    - For **zsh**: `~/.zshrc`
 
 2. Add the following line:
+
    ```bash
    export PATH="$PATH:~/bin"
    ```
@@ -124,46 +135,53 @@ If the directory containing your script is not already in the PATH, you need to 
    ```
 
 #### **Windows**
+
 1. Open **Environment Variables**:
+
    - Press `Win + S`, search for **Environment Variables**, and click **Edit the system environment variables**.
    - In the **System Properties** window, click **Environment Variables**.
 
 2. Add the Directory to PATH:
+
    - Under **System Variables** or **User Variables**, find `Path` and click **Edit**.
    - Add your directory (e.g., `C:\Scripts`).
 
 3. Save and restart your terminal.
 
-
 ### **Step 3: Make the Script Executable**
+
 #### **linux/mac**
+
 Make the script executable:
-   ```bash
-   sudo chmod +x ~/bin/ggl
-   ```
+
+```bash
+sudo chmod +x ~/bin/ggl
+```
 
 #### **Windows**
-No need to make the script executable explicitly. 
+
+No need to make the script executable explicitly.
 But You might need to rename the script from ggl to ggl.py (if needed). Check the following steps to learn more.
 
 ### **Step 4: Testing**
+
 Run the script in a terminal to verify it works globally.
 
 Open a new terminal and type:
-   ```bash
-   ggl -h
-   ```
+
+```bash
+ggl -h
+```
+
 </details>
 
 # Homebrew installation (for macOS/linux) (coming soon)
 
-```ggl``` will be added to ```Homebrew``` soon. Then, for ```macOS``` and ```linux``` you can install ```ggl``` using
+`ggl` will be added to `Homebrew` soon. Then, for `macOS` and `linux` you can install `ggl` using
 
 ```bash
 brew install ggl
 ```
-
-
 
 # Configuration (for Google Chrome profiles)
 
@@ -173,8 +191,8 @@ brew install ggl
 A **config.json** file will be created automatically if you run this scipt for the first time. You will find that configuration file in:
 
 ```
-1. macOS/linux: ~/.config/ggl/config.json
-2. Windows: %APPDATA%\ggl\config.json
+1. macOS/linux: ~/.config/ggl/config.json    (/Users/Username/.config/ggl/config.json)
+2. Windows: %APPDATA%\ggl\config.json        (C:\Users\Username\Appdata\Roaming\ggl\config.json)
 ```
 
 Now, you need to configure this **config.json** file.

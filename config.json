@@ -2,12 +2,10 @@
   "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
     "Profile 6",
-    "Profile 8",
     "Profile 3",
-    "Profile 7",
-    "Profile 34"
+    "Profile 7"
   ],
-  "KEYS_FOR_OTHER_PROFILES": ["2", "3", "work", "business", "code"],
+  "KEYS_FOR_OTHER_PROFILES": ["2", "code", "personal"],
   "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"

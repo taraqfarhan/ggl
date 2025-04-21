@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 import os
-from json import load
 from time import sleep
 from shutil import which
 from re import fullmatch
 from subprocess import run
 from platform import system
+from json import load, decoder
 from webbrowser import open as webbrowser_open
 from argparse import ArgumentParser, RawTextHelpFormatter
 
 os_name = system().lower()
 
 parser = ArgumentParser(description = "common internet searches from the command line", prog = "ggl", \
-usage="""ggl [-h] [-l | -p profile [-i]] [options | [--mail address [--sub subject]]] [query ...]
+usage="""ggl [-h | --config] [-l | -p profile [-i]] [options | [--mail address [--sub subject]]] [query ...]
 options: [-d | -gh | -w | -im | -v | -s | -y | -c | -g | -gm]""", formatter_class = RawTextHelpFormatter,\
-        epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com")
+        epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com", add_help=False)
 parser.add_argument("-p", metavar="profile", help="select a specific chrome profile (use profile name or customized key)")
 parser.add_argument("-l", "--list",action="store_true", help="show the customized keys for specific chrome profiles")
 parser.add_argument("-i", "--incog", action="store_true", help="go incognito mode")
@@ -33,6 +33,10 @@ group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
 group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail inbox")
 group.add_argument("--mail", metavar="address", help="specify the recipient's email address")
 parser.add_argument('--sub', metavar="subject", default="", help='subject of the email (optional with --mail)')
+
+helper_grp = parser.add_mutually_exclusive_group()
+helper_grp.add_argument("--config", action="store_true", help="open the config file")
+helper_grp.add_argument("-h", "--help", action="store_true", help="show this help message and exit")
     
 args = parser.parse_args()
 
@@ -82,48 +86,45 @@ config_file_format = r"""
   "OTHER_PROFILES": [
     "Profile 6",
     "Profile 8",
-    "Profile 3",
-    "Profile 7",
-    "Profile 34"
+    "Profile 3"
   ],
-  "KEYS_FOR_OTHER_PROFILES": ["2", "3", "work", "business", "code"],
-  "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
-  "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
-  "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+"KEYS_FOR_OTHER_PROFILES": ["2", "code", "personal""],
+"CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
+"CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
+"CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 """
 
 
 config_path = get_config_file_path()
 
 
-def write_config_file(config_path):
-    print(f"config.json file was not found in this {config_path} path\n\nCreating an config.json file in {config_path}")
+def write_config_file():
     with open(config_path, 'w') as file:  # This creates an 'config.json' file if there is no file in the configured path
         file.write(r"""{
   "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
     "Profile 6",
     "Profile 8",
-    "Profile 3",
-    "Profile 7",
-    "Profile 34"
+    "Profile 3"
   ],
-  "KEYS_FOR_OTHER_PROFILES": ["2", "3", "work", "business", "code"],
+  "KEYS_FOR_OTHER_PROFILES": ["3", "code", "personal"],
   "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 }""")
-    print(f"config.json file has been created for you now.\nThe path for the file is {config_path}\n\n")
-    print(f"""The config file will be opened to you to be edited. Please edit the config.json file from {config_path} if it doesn't open automatically for you.\nThe file should look like the following. Only update the value of the keys and save the file.
+    print(f"""The config file will be opened automatically to you to be edited. Please edit the config.json file from {config_path} if it doesn't open automatically for you.\nThe file should look like the following. Only update the value of the keys and save the file.
   {config_file_format}""")
     
-### not configured for windows yet
+
 def edit_config_file():
-    if os_name == "darwin": run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+    if os_name == "darwin": 
+        run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
     elif os_name == "linux": 
         try: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
         except: run(["nano", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-    elif os_name == "windows": pass
+    elif os_name == "windows": 
+        try: run(["powershell.exe", "notepad", r'$env:APPDATA\ggl\config.json'])
+        except: pass
 
 
 def configurations_for_chrome_profile():
@@ -133,25 +134,42 @@ def configurations_for_chrome_profile():
         file.seek(0)
         if(os.path.getsize(config_path)) and (content != ""): 
             config = load(file)
+
+            other_profiles = config["OTHER_PROFILES"]
+            keys = config["KEYS_FOR_OTHER_PROFILES"]
+            len_other_profiles = len(other_profiles)
+            len_keys = len(keys)
+            
+            # remove garbage elements if OTHER_PROFILES have more options than KEYS_FOR_OTHER_PROFILES or vice-versa
+            if len_other_profiles != len_keys:
+                min_len = min(len_other_profiles, len_keys)
+                if len_other_profiles > min_len: config["OTHER_PROFILES"] = other_profiles[:min_len]
+                elif len_keys > min_len: config["KEYS_FOR_OTHER_PROFILES"] = keys[:min_len] 
+
             if (os_name == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
             elif (os_name == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
             elif (os_name == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
         else:
-            print(f"""Looks like your config.json file is empty, please configure it from {config_path}
-Error: empty config.json file
-
-The file should look like the following. Only update the value of the keys and save the file.
-{config_file_format}""")
-            exit(1)        
-        
+            print("Looks like your config.json file is empty. Writing the empty file with default values.")
+            write_config_file()
+            sleep(5)
+            edit_config_file()
+            exit(1)      
+    
     return config['DEFAULT_PROFILE'], config['OTHER_PROFILES'], config['KEYS_FOR_OTHER_PROFILES'], CHROME_PATH
 
   except FileNotFoundError:
-    write_config_file(config_path)
+    print(f"config.json file was not found in this {config_path} path\n\nCreating an config.json file in {config_path}")
+    write_config_file()
+    sleep(3)
+    print(r'''Check your 
+1. macOS: ~/Library/Application Support/Google/Chrome/
+2. Linux: ~/.config/google-chrome/
+3. Windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
+directory to get the name of your Chrome Profiles (eg. Default, Profile 1, Profile 2, ... Profile <some number>)''')
     sleep(3)
     edit_config_file()
-    exit(0)
-
+    exit(1)
 
 
 def get_url():
@@ -170,11 +188,28 @@ def get_url():
 
 
 def main():
+    if (args.config): 
+        print("Opening your config.json file")
+        edit_config_file()
+        exit(0)
+    elif(args.help):
+        parser.print_help()
+        exit(0)
+    
     url = get_url()
     incog = True if args.incog else False
 
     if chrome_installed():
-        DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
+        try: DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
+        except decoder.JSONDecodeError : 
+            print("Check your config.json file to see if there is any problem (like not removing extra (trailing) comma when it's not needed or any other problem)")
+            print(f"\nAn ideal config.json file should look like\n{config_file_format}")
+            print("Automatically openning your config.json file")
+            print(f"If it doesn't open automatically in a few seconds edit the file from {config_path}")
+            sleep(5)
+            edit_config_file()
+            exit(1)
+            
         profile = DEFAULT_CHROME_PROFILE
         guest = False
 
@@ -190,12 +225,12 @@ def main():
                             profile = profile_name
                             break         
                 else:
-                    print("Error: Invalid profile name is used after -p or flag")
+                    print("Error: Invalid profile name is used after -p flag")
                     print("Use ggl -l or ggl --list to see all the chrome profiles")
                     exit(1)
 
             elif args.list:                
-                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "-p flag is not needed (your default profile)")
+                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "your default profile (no need to specify -p flag)")
                 for profile_index, profile_name in enumerate(OTHER_PROFILES):
                     print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
                 print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
