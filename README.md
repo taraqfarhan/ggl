@@ -16,8 +16,8 @@ This is another life-changing python script to automate a process which will pro
 # Usage
 
 ```
-ggl [-p profile] [--incog] [options] <query|prompt>
-ggl [--mail <receiver's address> [--sub|--subject]] <text>
+ggl [-p profile] [-i | --incog] [options] <query|prompt>
+ggl [--mail address [--sub subject]] <text>
 
 options:
    -h --help                         display the help page
