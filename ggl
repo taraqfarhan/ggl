@@ -3,9 +3,9 @@ import os
 from time import sleep
 from shutil import which
 from re import fullmatch
-from subprocess import run
 from platform import system
 from json import load, decoder
+from subprocess import run, Popen, DEVNULL
 from webbrowser import open as webbrowser_open
 from argparse import ArgumentParser, RawTextHelpFormatter
 
@@ -141,15 +141,17 @@ def write_config_file():
     
 
 def edit_config_file():
-    if os_name == "darwin": 
-        try: run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-        except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-    elif os_name == "linux": 
-        try: run(["xdg-open", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-        except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-    elif os_name == "windows": 
-        try: run(["powershell.exe", "notepad", r'$env:APPDATA\ggl\config.json'])
-        except: pass
+    try:
+        if os_name == "darwin": 
+            try: run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+            except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+        elif os_name == "linux": 
+            try: run(["xdg-open", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+            except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+        elif os_name == "windows": 
+            try: run(["powershell.exe", "notepad", r'$env:APPDATA\ggl\config.json'])
+            except: pass
+    except FileExistsError or FileNotFoundError: write_config_file() # if file doesn't exist write config.json file automatically
 
 
 def configurations_for_chrome_profile():
@@ -271,11 +273,11 @@ def main():
                     else: run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
             elif (os_name == "linux"): 
                 if incog:
-                    if guest: run([CHROME_PATH, "--guest", "--incognito" ,url])
-                    else: run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
+                    if guest: Popen([CHROME_PATH, "--guest", "--incognito", url], stdin=DEVNULL, stderr=DEVNULL, stdout=DEVNULL, start_new_session=True) 
+                    else: Popen([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
                 else:
-                    if guest: run([CHROME_PATH, "--guest", url])
-                    else: run([CHROME_PATH, f"--profile-directory={profile}", url])
+                    if guest: Popen([CHROME_PATH, "--guest", url], stdin=DEVNULL, stderr=DEVNULL, stdout=DEVNULL, start_new_session=True) 
+                    else: Popen([CHROME_PATH, f"--profile-directory={profile}", url], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
             elif (os_name == "windows"): 
                 if incog:
                     if guest: run(['start','chrome.exe', "--guest","--incognito", url],shell=True)
