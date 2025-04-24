@@ -1,4 +1,4 @@
-# ggl : common internet searches from the command line
+# ggl : common google searches from the command line
 
 This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
 
@@ -90,7 +90,7 @@ py /path/to/ggl  # windows
 
 ```
 
-<details markdown='1'><summary>To run `ggl` globally without specifying `python3 /path/to/ggl` each time refer to this section</summary>
+<details markdown='1'><summary>To run `ggl` globally without specifying `python3 /path/to/ggl or py path/to/ggl` each time (like the EXAMPLES) refer to this section</summary>
 
 > THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 
@@ -188,7 +188,7 @@ ggl -h
 
 A **config.json** file will be created automatically if you run this scipt for the first time. You need to configure that **config.json** file. Read the **COMMENTS** from the config file to follow along
 
-1. Set the values (your own customized value) of the keys (Profiles) according to your own needs. 
+1. Set the values (your own customized value) of the keys (Profiles) according to your own needs.
 2. Then set the Google Chrome or Chromium or Brave Browser's path. Check the path on your computer and set the path to the **config.json** file if needed. These browsers are usually in:
 
 ```
@@ -209,13 +209,13 @@ A **config.json** file will be created automatically if you run this scipt for t
 ### How to Find Your Browser's Profile Names
 
 ```
-1. mac: inside ~/Library/Application Support/ 
+1. mac: inside ~/Library/Application Support/
    ~/Library/Application Support/Google/Chrome/ (for Chrome)
    ~/Library/Application Support/Chromium/ (for Chromium)
    ~/Library/Application Support/BraveSoftware/Brave-Browser (for Brave)
-2. linux: inside ~/.config/ 
+2. linux: inside ~/.config/
    ~/.config/google-chrome/ (for google chrome)
-   ~/.config/chromium (for chromium) 
+   ~/.config/chromium (for chromium)
    ~/.config/BraveSoftware/ (for Brave)
 3. windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
 ```
@@ -227,5 +227,7 @@ Inspect the Directory. Match the folder name with the corresponding Chrome profi
 2. Profile 1, Profile 2, ... Profile <some number> : Additional profiles.
 ```
 
-# Caveats 
+# Caveats (Only in Windows)
+
 - In **Windows** you can use `ggl` for Google Chrome Profiles only (not for Chromium and Brave)
+- In **Windows** while prompting to send email if you use quotes in your text you might face problems

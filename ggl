@@ -11,7 +11,7 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 
 os_name = system().lower()
 
-parser = ArgumentParser(description = "common internet searches from the command line", prog = "ggl", \
+parser = ArgumentParser(description = "common google searches from the command line", prog = "ggl", \
 usage="""ggl [-h | --config] [-l | -p profile [-i]] [options | [--mail address [--sub subject]]] [query ...]
 options: [-d | -gh | -w | -im | -v | -s | -y | -c | -g | -gm]""", formatter_class = RawTextHelpFormatter,\
         epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com", add_help=False)
@@ -265,23 +265,20 @@ def main():
                 exit(1)
             
             if (os_name == "darwin"): 
-                if incog:
-                    if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", "--incognito", url])
-                    else: run(["open", "-na", CHROME_PATH, "--args", "--incognito", f"--profile-directory={profile}", url])
+                if incog: run(["open", "-na", CHROME_PATH, "--args", "--incognito", f"--profile-directory={profile}", url])
                 else:
                     if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
                     else: run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
             elif (os_name == "linux"): 
-                if incog:
-                    if guest: Popen([CHROME_PATH, "--guest", "--incognito", url], stdin=DEVNULL, stderr=DEVNULL, stdout=DEVNULL, start_new_session=True) 
-                    else: Popen([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
+                if incog: 
+                    Popen([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
                 else:
                     if guest: Popen([CHROME_PATH, "--guest", url], stdin=DEVNULL, stderr=DEVNULL, stdout=DEVNULL, start_new_session=True) 
                     else: Popen([CHROME_PATH, f"--profile-directory={profile}", url], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
             elif (os_name == "windows"): 
-                if incog:
-                    if guest: run(['start','chrome.exe', "--guest","--incognito", url],shell=True)
-                    else: run(["start", "chrome.exe", f"--profile-directory={profile}","--incognito", url], shell=True)
+                ### still got problems when promting to send mail in windows using quotes (single or double)
+                url = url.replace("&", "^&") # escaping &
+                if incog: run(["start", "chrome.exe", f"--profile-directory={profile}","--incognito", url], shell=True)
                 else: 
                     if guest: run(['start','chrome.exe', "--guest", url],shell=True)
                     else: run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
