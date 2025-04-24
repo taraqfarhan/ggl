@@ -1,9 +1,9 @@
 # ggl : common internet searches from the command line
 
-This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me. If you really insist, I won't mind tho.
+This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
 
-- google (even with a specific Google Chrome profile if you're using Google Chrome)
-- browse chrome in incognito mode
+- google stuffs (even with a specific profile if you're using Google Chrome, Chromium or Brave Browser)
+- search in incognito mode
 - google images and videos
 - search youtube videos
 - prompt chatgpt, gemini
@@ -13,7 +13,6 @@ This is another life-changing python script to automate a process which will pro
 - search your gmail inbox
 - prompt to send emails (texts only) to someone from the terminal (using gmail)
 
-
 # Usage
 
 ```
@@ -21,11 +20,7 @@ ggl [-p profile] [-i | --incog] [options] <query|prompt>
 ggl [--mail address [--sub subject]] <text>
 ggl [-h | --config]
 
-helper options:
-   -h --help             display the help page
-   --config              open the config file
-
-common options:
+Options:
    -im --img             show the image section for the search
    -v --vid              show the video section from the search
    -y -yt                search the youtube
@@ -41,11 +36,14 @@ For emails (gmail)
    --mail                prompt to send mail to someone with their mail address
    --sub                 option for --mail flag to add a subject (optional)
 
-Only for Google Chrome
+Only for Chrome/Chromium/Brave Browser
    -p                    set a specific chrome profile for searching
    -l --list             list all the chrome profiles
    -i --incog            open Google Chrome in incognito mode
 
+helper options:
+   -h --help             display the help page
+   --config              open the config file
 
 EXAMPLES:
 
@@ -66,7 +64,7 @@ ggl --gmail contract proposal
 ggl --send-mail taraqfarhan@gmail.com send me the docs asap
 ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assignment by tomorrow
 
-Specific to Google Chrome only
+Specific to Chromimum Based Browsers (Google Chrome, Chromium, Brave) only
 ggl -p 3 --img chess board
 ggl -p business -yt How does money work?
 ggl -p guest how to use the dark web
@@ -92,7 +90,7 @@ py /path/to/ggl  # windows
 
 ```
 
-<details markdown='1'><summary>To run ggl globally without specifying `python3 /path/to/ggl` each time refer to this section</summary>
+<details markdown='1'><summary>To run `ggl` globally without specifying `python3 /path/to/ggl` each time refer to this section</summary>
 
 > THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 
@@ -183,36 +181,51 @@ ggl -h
 
 </details>
 
-# Configuration (for Google Chrome profiles)
+# Configuration (for searching with specific profiles)
 
-> IF AND ONLY IF YOU WANT TO USE (flags that are specific to Google Chrome only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
+> IF AND ONLY IF YOU WANT TO USE (flags that are specific to Google Chrome, Chromium & Brave only), YOU NEED TO CONFIGURE THE config.json FILE, OTHERWISE YOU'RE GOOD TO GO. YOU DON'T NEED ANY CONFIGURATIONS (YOU CAN SKIP THIS SECTION COMPLETELY)
 > YOU SHOULD CONFIGURE THE 'config.json' FILE PROPERY TO USE THIS SCRIPT IN ANY OPERATING SYSTEM. OTHERWISE YOU MIGHT GET UNEXPECTED ERROR MESSAGES.
 
-A **config.json** file will be created automatically if you run this scipt for the first time. You will find that configuration file in:
+A **config.json** file will be created automatically if you run this scipt for the first time. You need to configure that **config.json** file. Read the **COMMENTS** from the config file to follow along
+
+1. Set the values (your own customized value) of the keys (Profiles) according to your own needs. 
+2. Then set the Google Chrome or Chromium or Brave Browser's path. Check the path on your computer and set the path to the **config.json** file if needed. These browsers are usually in:
 
 ```
-1. macOS/linux: ~/.config/ggl/config.json (/Users/Username/.config/ggl/config.json)
-2. Windows: %APPDATA%\ggl\config.json (C:\Users\Username\Appdata\Roaming\ggl\config.json)
+1. mac: inside /Application/ or ~/Application/
+      /Applications/Google Chrome.app (for Google Chrome)
+      /Application/Chromium.app (for Chromium)
+      /Application/Brave Browser.app (for Brave)
+2. linux: inside /usr/bin/ (usually in this /usr/bin/ directory, check other bin directories if not found)
+      /usr/bin/chrome (for google chrome)
+      /usr/bin/chromium (for chromium)
+      /usr/bin/brave (or /usr/bin/brave-browser for brave)
+3. windows: usually in one of these directories:
+      %ProgramFiles%\Google\Chrome\Application\chrome.exe
+      %ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe
+      %LocalAppData%\Google\Chrome\Application\chrome.exe
 ```
 
-Now, you need to configure this **config.json** file.
-
-1. Set the values (your own customized value) of the keys (Chrome Profiles) according to your own needs.
-2. (if needed) Then set the Google Chrome's path. Check the path for Google Chrome on your computer and set the path to the **config.json** file if needed.
-
-### How to Find Your Google Chrome Profile Names
-
-Locate Chrome’s User Data Directory:
+### How to Find Your Browser's Profile Names
 
 ```
-1. macOS: ~/Library/Application Support/Google/Chrome/
-2. Linux: ~/.config/google-chrome/
-3. Windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
+1. mac: inside ~/Library/Application Support/ 
+   ~/Library/Application Support/Google/Chrome/ (for Chrome)
+   ~/Library/Application Support/Chromium/ (for Chromium)
+   ~/Library/Application Support/BraveSoftware/Brave-Browser (for Brave)
+2. linux: inside ~/.config/ 
+   ~/.config/google-chrome/ (for google chrome)
+   ~/.config/chromium (for chromium) 
+   ~/.config/BraveSoftware/ (for Brave)
+3. windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
 ```
 
 Inspect the Directory. Match the folder name with the corresponding Chrome profile.
 
 ```
-1. Default: The main profile. (You can change this in the config.json file)
+1. Default: The main profile.
 2. Profile 1, Profile 2, ... Profile <some number> : Additional profiles.
 ```
+
+# Caveats 
+- In **Windows** you can use `ggl` for Google Chrome Profiles only (not for Chromium and Brave)

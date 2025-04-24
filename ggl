@@ -52,15 +52,21 @@ if args.mail is not None:
 if args.sub != "" and args.mail is None: parser.error("--sub requires --mail")
 
 
-def chrome_installed():
+def chromium_based_browser_installed():
     if (os_name == "darwin"): 
+        # also look for chromium or Brave Browser in mac
         paths = [
             "/Applications/Google Chrome.app",
             "~/Applications/Google Chrome.app",
+            "/Applications/Chromium.app",
+            "~/Application/Chromium.app",
+            "/Applications/Brave Browser.app",
+            "~Applications/Brave Browser.app"
         ]
         return any(os.path.exists(os.path.expanduser(path)) for path in paths)
     elif (os_name == "linux"):  
-        return which("google-chrome") is not None or which("google-chrome-stable") is not None
+        return (which("google-chrome") is not None) or (which("google-chrome-stable") is not None) or (which("chromium") is not None) or (which("chromium-stable") is not None) or (which("brave") is not None) or (which("brave-browser") is not None) or (which("brave-browser-stable") is not None)
+    ### figure out the Chromium and Brave paths for windows
     elif (os_name == "windows"):
         paths = [
             os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
@@ -84,8 +90,8 @@ def get_config_file_path():
 config_file_format = r""" 
 "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
-    "Profile 6",
-    "Profile 8",
+    "Profile 1",
+    "Profile 2",
     "Profile 3"
   ],
 "KEYS_FOR_OTHER_PROFILES": ["2", "code", "personal""],
@@ -101,10 +107,27 @@ config_path = get_config_file_path()
 def write_config_file():
     with open(config_path, 'w') as file:  # This creates an 'config.json' file if there is no file in the configured path
         file.write(r"""{
+   "COMMENTS": [
+        "you may have Chromium or Brave Browser installed rather than Google Chrome",
+        "Or you might have Chrome installed in a different path",
+        "for both cases you have to edit CHROME_PATH in this file",
+        "for example replace CHROME_PATH_FOR_LINUX: to /usr/bin/chromium",
+        "Or replace CHROME_PATH_FOR_MAC: to /Applications/Brave Browser.app",
+  
+        "Check for the following directories corresponding to your OS to get the name of the Chrome Profiles",
+        "macOS: ~/Library/Application Support/Google/Chrome/",
+        "macOS: ~/Library/Application Support/BraveSoftware/Brave-Browser/ (if using Brave Browser)",
+        "Linux: ~/.config/google-chrome/",
+        "Linux: ~/.config/chromium (if using chromium)", 
+        "Windows: C:\\Users\\YourUserName\\AppData\\Local\\Google\\Chrome\\User Data\\",
+        "Chrome Profiles (eg. Default, Profile 1, Profile 2, ... Profile <some number>)"
+  ],
+  
+  
   "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
-    "Profile 6",
-    "Profile 8",
+    "Profile 1",
+    "Profile 2",
     "Profile 3"
   ],
   "KEYS_FOR_OTHER_PROFILES": ["3", "code", "personal"],
@@ -114,14 +137,16 @@ def write_config_file():
 }""")
     print(f"""The config file will be opened automatically to you to be edited. Please edit the config.json file from {config_path} if it doesn't open automatically for you.\nThe file should look like the following. Only update the value of the keys and save the file.
   {config_file_format}""")
+    print("\n\nyou can also use --config option to open the config file with ggl manually")
     
 
 def edit_config_file():
     if os_name == "darwin": 
-        run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+        try: run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+        except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
     elif os_name == "linux": 
-        try: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-        except: run(["nano", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+        try: run(["xdg-open", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+        except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
     elif os_name == "windows": 
         try: run(["powershell.exe", "notepad", r'$env:APPDATA\ggl\config.json'])
         except: pass
@@ -161,13 +186,7 @@ def configurations_for_chrome_profile():
   except FileNotFoundError:
     print(f"config.json file was not found in this {config_path} path\n\nCreating an config.json file in {config_path}")
     write_config_file()
-    sleep(3)
-    print(r'''Check your 
-1. macOS: ~/Library/Application Support/Google/Chrome/
-2. Linux: ~/.config/google-chrome/
-3. Windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
-directory to get the name of your Chrome Profiles (eg. Default, Profile 1, Profile 2, ... Profile <some number>)''')
-    sleep(3)
+    sleep(5)
     edit_config_file()
     exit(1)
 
@@ -188,83 +207,86 @@ def get_url():
 
 
 def main():
-    if (args.config): 
-        print("Opening your config.json file")
-        edit_config_file()
-        exit(0)
-    elif(args.help):
-        parser.print_help()
-        exit(0)
-    
-    url = get_url()
-    incog = True if args.incog else False
-
-    if chrome_installed():
-        try: DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
-        except decoder.JSONDecodeError : 
-            print("Check your config.json file to see if there is any problem (like not removing extra (trailing) comma when it's not needed or any other problem)")
-            print(f"\nAn ideal config.json file should look like\n{config_file_format}")
-            print("Automatically openning your config.json file")
-            print(f"If it doesn't open automatically in a few seconds edit the file from {config_path}")
-            sleep(5)
+    try:
+        if (args.config): 
+            print("Opening your config.json file")
             edit_config_file()
-            exit(1)
-            
-        profile = DEFAULT_CHROME_PROFILE
-        guest = False
-
-        if DEFAULT_CHROME_PROFILE or OTHER_PROFILES:
-            if args.p:
-                profile = args.p
-
-                if profile == DEFAULT_CHROME_PROFILE: profile = DEFAULT_CHROME_PROFILE
-                elif profile in ("g", "guest"): guest = True
-                elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
-                    for profile_index, profile_name in enumerate(OTHER_PROFILES):
-                        if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
-                            profile = profile_name
-                            break         
-                else:
-                    print("Error: Invalid profile name is used after -p flag")
-                    print("Use ggl -l or ggl --list to see all the chrome profiles")
-                    exit(1)
-
-            elif args.list:                
-                print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "your default profile (no need to specify -p flag)")
-                for profile_index, profile_name in enumerate(OTHER_PROFILES):
-                    print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
-                print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
-                print(f"\nTo change any of these profile's key configure the config.json file ({config_path})")
-                exit(0)
-            
-        else: 
-            print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
-            exit(1)
+            exit(0)
+        elif(args.help):
+            parser.print_help()
+            exit(0)
         
-        if (os_name == "darwin"): 
-            if incog:
-                if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", "--incognito", url])
-                else: run(["open", "-na", CHROME_PATH, "--args", "--incognito", f"--profile-directory={profile}", url])
-            else:
-                if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
-                else: run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
-        elif (os_name == "linux"): 
-            if incog:
-                if guest: run([CHROME_PATH, "--guest", "--incognito" ,url])
-                else: run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
-            else:
-                if guest: run([CHROME_PATH, "--guest", url])
-                else: run([CHROME_PATH, f"--profile-directory={profile}", url])
-        elif (os_name == "windows"): 
-            if incog:
-                if guest: run(['start','chrome.exe', "--guest","--incognito", url],shell=True)
-                else: run(["start", "chrome.exe", f"--profile-directory={profile}","--incognito", url], shell=True)
+        url = get_url()
+        incog = True if args.incog else False
+
+        if chromium_based_browser_installed():
+            try: DEFAULT_CHROME_PROFILE, OTHER_PROFILES, KEYS_FOR_OTHER_PROFILES, CHROME_PATH = configurations_for_chrome_profile()
+            except decoder.JSONDecodeError : 
+                print("Check your config.json file to see if there is any problem (like not removing extra (trailing) comma when it's not needed or any other problem)")
+                print(f"\nAn ideal config.json file should look like\n{config_file_format}")
+                print("Automatically openning your config.json file")
+                print(f"If it doesn't open automatically in a few seconds edit the file from {config_path}")
+                sleep(5)
+                edit_config_file()
+                exit(1)
+                
+            profile = DEFAULT_CHROME_PROFILE
+            guest = False
+
+            if DEFAULT_CHROME_PROFILE or OTHER_PROFILES:
+                if args.p:
+                    profile = args.p
+
+                    if profile == DEFAULT_CHROME_PROFILE: profile = DEFAULT_CHROME_PROFILE
+                    elif profile in ("g", "guest"): guest = True
+                    elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
+                        for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                            if profile == KEYS_FOR_OTHER_PROFILES[profile_index]: 
+                                profile = profile_name
+                                break         
+                    else:
+                        print("Error: Invalid profile name is used after -p flag")
+                        print("Use ggl -l or ggl --list to see all the chrome profiles")
+                        exit(1)
+
+                elif args.list:                
+                    print(f"{DEFAULT_CHROME_PROFILE}".ljust(30), "your default profile (no need to specify -p flag)")
+                    for profile_index, profile_name in enumerate(OTHER_PROFILES):
+                        print(f"{profile_name}".ljust(30), f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'")                
+                    print("Guest profile".ljust(30), "use key 'g' or 'guest' for the guest profile")
+                    print(f"\nTo change any of these profile's key configure the config.json file ({config_path})")
+                    print("You can also use --config flag with ggl to open the config file")
+                    exit(0)
+                
             else: 
-                if guest: run(['start','chrome.exe', "--guest", url],shell=True)
-                else: run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
-    else:
-        ### what happens if --incog flag is passed when chrome is not being used to search
-        if incog: pass
-        else: webbrowser_open(url)
+                print("You either haven't configured your config.json file properly yet\nor currently you don't have any Chrome Profile")
+                exit(1)
+            
+            if (os_name == "darwin"): 
+                if incog:
+                    if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", "--incognito", url])
+                    else: run(["open", "-na", CHROME_PATH, "--args", "--incognito", f"--profile-directory={profile}", url])
+                else:
+                    if guest: run(["open", "-na", CHROME_PATH, "--args", "--guest", url])
+                    else: run(["open", "-na", CHROME_PATH, "--args", f"--profile-directory={profile}", url])
+            elif (os_name == "linux"): 
+                if incog:
+                    if guest: run([CHROME_PATH, "--guest", "--incognito" ,url])
+                    else: run([CHROME_PATH, f"--profile-directory={profile}", "--incognito", url])
+                else:
+                    if guest: run([CHROME_PATH, "--guest", url])
+                    else: run([CHROME_PATH, f"--profile-directory={profile}", url])
+            elif (os_name == "windows"): 
+                if incog:
+                    if guest: run(['start','chrome.exe', "--guest","--incognito", url],shell=True)
+                    else: run(["start", "chrome.exe", f"--profile-directory={profile}","--incognito", url], shell=True)
+                else: 
+                    if guest: run(['start','chrome.exe', "--guest", url],shell=True)
+                    else: run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
+        else:
+            ### what happens if --incog flag is passed when chrome is not being used to search
+            if incog: pass
+            else: webbrowser_open(url)
+    except KeyboardInterrupt: pass
              
 if __name__ == "__main__": main()
