@@ -1,9 +1,9 @@
 {
   "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
-    "Profile 6",
-    "Profile 3",
-    "Profile 7"
+    "Profile 1",
+    "Profile 2",
+    "Profile 3"
   ],
   "KEYS_FOR_OTHER_PROFILES": ["2", "code", "personal"],
   "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",

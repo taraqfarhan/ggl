@@ -1,6 +1,6 @@
 # ggl : common google searches from the command line
 
-This is another life-changing python script to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
+This is another life-changing tool to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
 
 - google stuffs (even with a specific profile if you're using Google Chrome, Chromium or Brave Browser)
 - search in incognito mode
@@ -74,7 +74,7 @@ ggl -i why bitcoin is illegal in some countries
 
 # How to use this script on your own machine
 
-I will recommend you to use `Google Chrome` on your machine as your default browser to get the most out of this tool. If Google Chrome is installed on your machine, `ggl` will use Google Chrome for browsing, otherwise `ggl` will use your Default Browser.
+I will recommend you to use `Google Chrome` (Chromium or Brave) on your machine as your default browser to get the most out of this tool. If Google Chrome (Chromium, Brave) is installed on your machine, `ggl` will use Google Chrome (Chromium, Brave) for browsing, otherwise `ggl` will use your Default Browser.
 
 Anyway, to use this script just clone this repo using
 
@@ -85,9 +85,8 @@ git clone https://www.github.com/taraqfarhan/ggl
 Then run this python script. Ofc you'll need `python3` installed on your machine first to run a python script duh!
 
 ```bash
-python3 /path/to/ggl  # mac/linux
-py /path/to/ggl  # windows
-
+python3 /path/to/ggl  # mac/linux (like: python3 ggl -h)
+py /path/to/ggl  # windows (like: py ggl -h)
 ```
 
 <details markdown='1'><summary>To run `ggl` globally without specifying `python3 /path/to/ggl or py path/to/ggl` each time (like the EXAMPLES) refer to this section</summary>
@@ -227,7 +226,7 @@ Inspect the Directory. Match the folder name with the corresponding Chrome profi
 2. Profile 1, Profile 2, ... Profile <some number> : Additional profiles.
 ```
 
-# Caveats (Only in Windows)
+# Caveats (Only for Windows)
 
 - In **Windows** you can use `ggl` for Google Chrome Profiles only (not for Chromium and Brave)
-- In **Windows** while prompting to send email if you use quotes in your text you might face problems
+- In **Windows** while prompting to send email if you use quotes in subject (after --sub) or text (at the end) you might face problems

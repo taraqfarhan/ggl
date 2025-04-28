@@ -151,7 +151,10 @@ def edit_config_file():
         elif os_name == "windows": 
             try: run(["powershell.exe", "notepad", r'$env:APPDATA\ggl\config.json'])
             except: pass
-    except FileExistsError or FileNotFoundError: write_config_file() # if file doesn't exist write config.json file automatically
+    except FileExistsError or FileNotFoundError: 
+        print(f"config.json file is not found in {config_path}")
+        print("creating the config file for you")
+        write_config_file() # if file doesn't exist write config.json file automatically
 
 
 def configurations_for_chrome_profile():
