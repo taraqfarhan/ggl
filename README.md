@@ -29,7 +29,7 @@ Options:
    -w --wiki             search the wiki
    -gh --git             search the github
    -s -st --stack        search stack-overflow
-   -d --ddg              search duckduckgo search engine instead of google
+   -d --ddg              search with duckduckgo instead of google
 
 For emails (gmail)
    -gm --gmail           search your mail with that search-query

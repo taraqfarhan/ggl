@@ -54,7 +54,6 @@ if args.sub != "" and args.mail is None: parser.error("--sub requires --mail")
 
 def chromium_based_browser_installed():
     if (os_name == "darwin"): 
-        # also look for chromium or Brave Browser in mac
         paths = [
             "/Applications/Google Chrome.app",
             "~/Applications/Google Chrome.app",
