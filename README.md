@@ -89,57 +89,47 @@ python3 /path/to/ggl  # mac/linux (like: python3 ggl -h)
 py /path/to/ggl  # windows (like: py ggl -h)
 ```
 
+
 <details markdown='1'><summary>To run `ggl` globally without specifying `python3 /path/to/ggl or py path/to/ggl` each time (like the EXAMPLES) refer to this section</summary>
 
-> THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
+
+##### THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 
 ```bash
 python3 path/to/the/ggl/script  # mac/linux
 py path/to/the/ggl/script  # windows
 ```
 
-To use a Python script globally (i.e., you can execute it from anywhere in the terminal) on `Windows`, `macOS`, and `Linux`, you need to ensure the script is accessible from your system's PATH and possibly make it executable.
+### Follow any of the following processes
 
-### **Step 1: Place Your Script in a Directory**
+## Process 1 (mac/linux)
 
-Move the script (`ggl`) to a directory accessible to the PATH. Common locations:
-
-- **macOS/Linux**: Use `/usr/local/bin`, `~/bin`, or another directory in your PATH.
-- **Windows**: A folder like `C:\Scripts` or a directory already in the PATH (e.g., `C:\Python\Scripts`).
-
-To create a new directory for scripts:
-For macOS/linux:
-
+Creating alias
 ```bash
-mkdir -p ~/bin
+echo "alias ggl='python3 $(pwd)/ggl'" >> ~/.zshrc && source ~/.zshrc  # from the ggl folder
 ```
 
-For Windows, manually create a folder, e.g., `C:\Scripts`.
+## Process 2 (mac/linux)
 
-### **Step 2: Add the Script Directory to PATH**
+Creating a symbolic link
+```bash
+sudo ln -s $(pwd)/ggl /usr/bin/ggl  # from the ggl folder
 
-If the directory containing your script is not already in the PATH, you need to add it.
+# you can choose any directory which is in the PATH instead of /usr/bin/
+# use the follwoing command to get all the environment variable paths 
+echo $PATH | tr ':' '\n'
+```
 
-#### **mac/linux**
+## Process 3 (mac/linux/windows)
 
-1. Edit your shell configuration file:
+Environment Variables
 
-   - For **bash**: `~/.bashrc`
-   - For **zsh**: `~/.zshrc`
+#### mac/linux
+```bash
+echo 'export PATH="$PATH:$(pwd)"' >> ~/.zshrc && source ~/.zshrc  # from the ggl folder
+```
 
-2. Add the following line:
-
-   ```bash
-   export PATH="$PATH:~/bin"
-   ```
-
-3. Save the file and reload it:
-   ```bash
-   source ~/.bashrc (for bash)
-   source ~/.zshrc (for zsh)
-   ```
-
-#### **Windows**
+#### Windows
 
 1. Open **Environment Variables**:
 
@@ -149,34 +139,8 @@ If the directory containing your script is not already in the PATH, you need to 
 2. Add the Directory to PATH:
 
    - Under **System Variables** or **User Variables**, find `Path` and click **Edit**.
-   - Add your directory (e.g., `C:\Scripts`).
+   - Add your directory where you have `ggl` file
 
-3. Save and restart your terminal.
-
-### **Step 3: Make the Script Executable**
-
-#### **linux/mac**
-
-Make the script executable:
-
-```bash
-sudo chmod +x ~/bin/ggl
-```
-
-#### **Windows**
-
-No need to make the script executable explicitly.
-But You might need to rename the script from ggl to ggl.py (if needed). Check the following steps to learn more.
-
-### **Step 4: Testing**
-
-Run the script in a terminal to verify it works globally.
-
-Open a new terminal and type:
-
-```bash
-ggl -h
-```
 
 </details>
 

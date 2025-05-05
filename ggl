@@ -108,7 +108,7 @@ def write_config_file():
         file.write(r"""{
    "COMMENTS": [
         "you may have Chromium or Brave Browser installed rather than Google Chrome",
-        "Or you might have Chrome installed in a different path",
+        "Or you might have Chrome/Chromium/Brave installed in a different path",
         "for both cases you have to edit CHROME_PATH in this file",
         "for example replace CHROME_PATH_FOR_LINUX: to /usr/bin/chromium",
         "Or replace CHROME_PATH_FOR_MAC: to /Applications/Brave Browser.app",
