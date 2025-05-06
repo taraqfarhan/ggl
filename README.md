@@ -126,7 +126,7 @@ Environment Variables
 
 #### mac/linux
 ```bash
-echo 'export PATH="$PATH:$(pwd)"' >> ~/.zshrc && source ~/.zshrc  # from the ggl folder
+echo "export PATH='$PATH:$(pwd)'" >> ~/.zshrc && source ~/.zshrc  # from the ggl folder
 ```
 
 #### Windows
