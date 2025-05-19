@@ -66,7 +66,7 @@ ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assig
 
 Specific to Chromimum Based Browsers (Google Chrome, Chromium, Brave) only
 ggl -p 3 --img chess board
-ggl -p business -yt How does money work?
+ggl -p business -yt "How does money work?"
 ggl -p guest how to use the dark web
 ggl -i -p "Profile 3" "build linux kernel from the scratch"
 ggl -i why bitcoin is illegal in some countries
@@ -194,3 +194,4 @@ Inspect the Directory. Match the folder name with the corresponding Chrome profi
 
 - In **Windows** you can use `ggl` for Google Chrome Profiles only (not for Chromium and Brave)
 - In **Windows** while prompting to send email if you use quotes in subject (after --sub) or text (at the end) you might face problems
+- These issues will be fixed soon

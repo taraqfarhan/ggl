@@ -1,11 +1,27 @@
 {
+   "COMMENTS": [
+        "you may have Chromium or Brave Browser installed rather than Google Chrome",
+        "Or you might have Chrome/Chromium/Brave installed in a different path",
+        "for both cases you have to edit CHROME_PATH in this file",
+        "for example replace CHROME_PATH_FOR_LINUX: to /usr/bin/chromium",
+        "Or replace CHROME_PATH_FOR_MAC: to /Applications/Brave Browser.app",
+  
+        "Check for the following directories corresponding to your OS to get the name of the Chrome Profiles",
+        "macOS: ~/Library/Application Support/Google/Chrome/",
+        "macOS: ~/Library/Application Support/BraveSoftware/Brave-Browser/ (if using Brave Browser)",
+        "Linux: ~/.config/google-chrome/",
+        "Linux: ~/.config/chromium (if using chromium)", 
+        "Windows: C:\\Users\\YourUserName\\AppData\\Local\\Google\\Chrome\\User Data\\",
+        "Chrome Profiles (eg. Default, Profile 1, Profile 2, ... Profile <some number>)"
+  ],
+  
   "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
     "Profile 1",
     "Profile 2",
     "Profile 3"
   ],
-  "KEYS_FOR_OTHER_PROFILES": ["2", "code", "personal"],
+  "KEYS_FOR_OTHER_PROFILES": ["3", "code", "personal"],
   "CHROME_PATH_FOR_MAC": "/Applications/Google Chrome.app/",
   "CHROME_PATH_FOR_LINUX": "/usr/bin/google-chrome",
   "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"

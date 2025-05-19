@@ -278,14 +278,14 @@ def main():
                     if guest: Popen([CHROME_PATH, "--guest", url], stdin=DEVNULL, stderr=DEVNULL, stdout=DEVNULL, start_new_session=True) 
                     else: Popen([CHROME_PATH, f"--profile-directory={profile}", url], stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL, start_new_session=True)
             elif (os_name == "windows"): 
-                ### still got problems when promting to send mail in windows using quotes (single or double)
+                ### still got problems when prompting to send mail in windows using quotes (single or double)
                 url = url.replace("&", "^&") # escaping &
                 if incog: run(["start", "chrome.exe", f"--profile-directory={profile}","--incognito", url], shell=True)
                 else: 
                     if guest: run(['start','chrome.exe', "--guest", url],shell=True)
                     else: run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
         else:
-            ### what happens if --incog flag is passed when chrome is not being used to search
+            ### what happens if --incog flag is passed when chrome based browser is not being used to search
             if incog: pass
             else: webbrowser_open(url)
     except KeyboardInterrupt: pass
