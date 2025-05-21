@@ -3,6 +3,19 @@
 This is another life-changing tool to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
 
 - google stuffs (even with a specific profile if you're using Google Chrome, Chromium or Brave Browser)
+- google images, videos
+- google drive, google map, gmail inbox
+- recent (last 1 year) google search results
+- google translate
+- prompt chatgpt, gemini, copilot, perplexity, phind
+- github repos, github gists, github issues, github usernames 
+- stack overflow, stack exchange, super user
+- python3, mdn documentations
+- wikipedia, hacker news
+- youtube, twitter (x), amazon
+- dictionary (merriam webster)
+- prompt to send quick emails (using gmail)
+- search with duckduckgo, brave, bing, yelp, yahoo, qwant
 - search in incognito mode
 
 # Usage
