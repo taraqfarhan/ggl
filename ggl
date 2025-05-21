@@ -7,30 +7,54 @@ from platform import system
 from json import load, decoder
 from subprocess import run, Popen, DEVNULL
 from webbrowser import open as webbrowser_open
-from argparse import ArgumentParser, RawTextHelpFormatter
+from argparse import ArgumentParser
 
 os_name = system().lower()
 
-parser = ArgumentParser(description = "common google searches from the command line", prog = "ggl", \
-usage="""ggl [-h | --config] [-l | -p profile [-i]] [options | [--mail address [--sub subject]]] [query ...]
-options: [-d | -gh | -w | -im | -v | -s | -y | -c | -g | -gm]""", formatter_class = RawTextHelpFormatter,\
-        epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com", add_help=False)
-parser.add_argument("-p", metavar="profile", help="select a specific chrome profile (use profile name or customized key)")
-parser.add_argument("-l", "--list",action="store_true", help="show the customized keys for specific chrome profiles")
-parser.add_argument("-i", "--incog", action="store_true", help="go incognito mode")
-parser.add_argument("query", nargs='*', help="search query")
+parser = ArgumentParser(add_help=False)
+
+# parser = ArgumentParser(description = "common google searches from the command line", prog = "ggl", formatter_class = RawTextHelpFormatter,\
+# epilog = "author: Taraq Farhan\nemail : taraqfarhan@gmail.com")
 
 group = parser.add_mutually_exclusive_group()
-group.add_argument("-d", "--ddg", action="store_true", help="search with duckduckgo instead of google")
+group.add_argument("-i", "-im", "--img", action="store_true", help="show the image seaction from the search")
+group.add_argument("-v", "-vi", "--vid", action="store_true", help="show the video section from the search")
+group.add_argument ("-gd", "--drive", action="store_true", help="search your google drive")
+group.add_argument ("-gr", "--recent", action="store_true", help="show google's recent search results (last 1 year)")
+group.add_argument("-tr", "--gtr", "--trans", action="store_true", help="google translate")
+group.add_argument("--map", "--gmap", action="store_true", help="search google map")
+group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail inbox")
+
+group.add_argument("-so", "--stack-ov", action="store_true", help="search stack-overflow")
+group.add_argument("-se", "--stack-ex",action="store_true", help="search stack-exchange")
+group.add_argument("-py", "--py-docs", action="store_true", help="search python3 docs")
+group.add_argument("--mdn", "--mdn-docs", action="store_true", help="search mozilla web docs")
+group.add_argument("-hn", "--hacker-news", action="store_true", help="search on hacker news")
+group.add_argument("-su", "--super", action="store_true", help="search on super user forum")
 group.add_argument("-gh", "--git", action="store_true", help="search the github repos")
-group.add_argument("-w", "--wiki", action="store_true", help="search the wikipedia pages")
-group.add_argument("-im", "--img", action="store_true", help="show the image seaction from the search")
-group.add_argument("-v", "--vid", action="store_true", help="show the video section from the search")
-group.add_argument("-s", "-st", "--stack", action="store_true", help="search stack-overflow")
-group.add_argument("-y", "-yt", action="store_true", help="search the youtube")
+group.add_argument("--ghu", "--gh-user", action="store_true", help="search a github user")
+group.add_argument("--ghg", "--gh-gists", action="store_true", help="search github gists")
+group.add_argument("--ghi", "--gh-issues", action="store_true", help="search github issues")
+
 group.add_argument("-c", "--gpt", action="store_true", help="prompt chatgpt")
 group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
-group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail inbox")
+group.add_argument("-ph", "--phind", action="store_true", help="prompt phind")
+group.add_argument("-px", "--perplexity", action="store_true", help="prompt perplexity ai")
+group.add_argument("-cp", "--copilot", action="store_true", help="prompt microsoft copilot")
+
+group.add_argument("-y", "-yt", action="store_true", help="search the youtube")
+group.add_argument("-w", "--wiki", action="store_true", help="search the wikipedia pages")
+group.add_argument("-am", "--amz", "--amazon", action="store_true", help="search the amazon store")
+group.add_argument("-x", "--twitter", action="store_true", help="search on twitter")
+group.add_argument("--dict", "--dictionary", action="store_true", help="search merriam webster dictionary")
+
+group.add_argument("-d", "--ddg", action="store_true", help="search with duckduckgo instead of google")
+group.add_argument("-b", "--bing", action="store_true", help="search with bing instead of google")
+group.add_argument("-br", "--brave", action="store_true", help="search with brave instead of google")
+group.add_argument("-qw", "--qwant", action="store_true", help="search with qwant instead of google")
+group.add_argument("-ya", "--yahoo", action="store_true", help="search with yahoo instead of google")
+group.add_argument("-ye", "--yelp", action="store_true", help="search with yelp instead of google")
+
 group.add_argument("--mail", metavar="address", help="specify the recipient's email address")
 parser.add_argument('--sub', metavar="subject", default="", help='subject of the email (optional with --mail)')
 
@@ -38,7 +62,56 @@ helper_grp = parser.add_mutually_exclusive_group()
 helper_grp.add_argument("--config", action="store_true", help="open the config file")
 helper_grp.add_argument("-h", "--help", action="store_true", help="show this help message and exit")
     
+parser.add_argument("-p", "--profile", metavar="profile", help="select a specific chrome profile (use profile name or customized key)")
+parser.add_argument("-l", "--list",action="store_true", help="show the customized keys for specific chrome profiles")
+parser.add_argument("-I", "--incog", action="store_true", help="go incognito mode")
+parser.add_argument("query", nargs='*', help="search query")
+
 args = parser.parse_args()
+
+
+def get_url():
+    if args.ddg: return f"https://duckduckgo.com/?&q={"+".join(args.query)}"
+    elif args.bing: return f"https://www.bing.com/search?q={"+".join(args.query)}"
+    elif args.qwant: return f"https://www.qwant.com/?q={"+".join(args.query)}"
+    elif args.brave: return f"https://search.brave.com/search?q={"+".join(args.query)}"
+    elif args.yahoo: return f"https://search.yahoo.com/search?p={"+".join(args.query)}&ei=UTF-8"
+    elif args.yelp: return f"http://www.yelp.com/search?find_desc={"+".join(args.query)}&src=opensearch"
+
+    elif args.recent: return f"https://www.google.com/search?hl=en&tbo=1&tbs=qdr:y&q={"+".join(args.query)}"
+    elif args.img: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=isch"
+    elif args.vid: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=vid"
+    elif args.drive: return f"https://drive.google.com/drive/search?q={"+".join(args.query)}" 
+    elif args.gtr: return f"https://translate.google.com/?source=osdd#auto|auto|{"+".join(args.query)}"
+    elif args.map: return f"https://www.google.com/maps?q={"+".join(args.query)}"
+
+    elif args.y: return f"https://www.youtube.com/results?search_query={"+".join(args.query)}"
+    elif args.wiki: return f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args.query)}"
+    elif args.amz: return f"https://www.amazon.com/s?k={"+".join(args.query)}"
+    elif args.twitter: return f"https://x.com/search?q={"+".join(args.query)}"
+    elif args.dict: return f"https://www.merriam-webster.com/dictionary/{"+".join(args.query)}"
+
+    elif args.git: return f"https://github.com/search?q={"+".join(args.query)}"
+    elif args.ghu: return f"https://github.com/search?q={"+".join(args.query)}&type=users"
+    elif args.ghg: return f"https://gist.github.com/search?q={"+".join(args.query)}&ref=opensearch"
+    elif args.ghi: return f"https://github.com/issues?utf8=✓&q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22++{"+".join(args.query)}"
+    elif args.stack_ov: return f"https://stackoverflow.com/search?q={"+".join(args.query)}"
+    elif args.stack_ex: return f"https://stackexchange.com/search?q={"+".join(args.query)}"
+    elif args.py_docs: return f"https://docs.python.org/3/search.html?q={"+".join(args.query)}"
+    elif args.mdn: return f"https://developer.mozilla.org/en-US/search?q={"+".join(args.query)}"
+    elif args.hacker_news: return f"https://hn.algolia.com/?q={"+".join(args.query)}"
+    elif args.super: return f"https://superuser.com/search?q={"+".join(args.query)}"
+
+    elif args.gpt: return f"https://chatgpt.com/?q={"+".join(args.query)}" 
+    elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
+    elif args.copilot: return f"https://www.bing.com/copilotsearch?q={"+".join(args.query)}"
+    elif args.phind: return f"https://www.phind.com/search?q={"+".join(args.query)}"
+    elif args.perplexity: return f"https://www.perplexity.ai/search?q={"+".join(args.query)}"
+
+    elif args.gmail: return f"https://mail.google.com/mail/u/0/#search/{"+".join(args.query)}"
+    elif args.mail: return f"https://mail.google.com/mail/?view=cm&fs=1&to={args.mail}&su={args.sub}&body={"+".join(args.query)}"
+    else: return f"https://www.google.com/search?q={"+".join(args.query)}"
+
 
 def valid_email(address):
     regex = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
@@ -99,6 +172,86 @@ config_file_format = r"""
 "CHROME_PATH_FOR_WINDOWS": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 """
 
+# need to figure out how to customize help messages just using the argparse module
+custom_help_message = r"""ggl: common google searches from the command line
+
+usage: ggl [profile selection] [options] query
+
+profile selection: ggl -p name/key [ -I | --incog ] [options] query
+
+Options:        
+help:                       ggl -h|--help
+google-services:            ggl [profile selection] [ -i | -v | -gd | -gr | -tr | --map | -gm ] query
+developer:                  ggl [profile selection] [ -so | -sx | -su | -hn | -py | --mdn | -gh | --ghu | --ghi | --ghg ] query
+ai:                         ggl [profile selection] [ -c | -g | -cp | -px | -ph ] prompt
+misc:                       ggl [profile selection] [ -y | -w | -am | -x | --dict ] query
+other search engines:       ggl [profile selection] [ -d | -b | -br| -qw | -ya | -ye ] query
+mail:                       ggl [profile selection] --mail address [ --sub subject ] text
+
+
+POSTIONAL ARGUMENTS:
+  query                     search query
+
+OPTIONS:
+  -h, --help                show this help message and exit
+
+Google-Services:
+  -i, -im, --img            show the image seaction from the search
+  -v, -vi, --vid            show the video section from the search
+  -gd, --drive              search your google drive
+  -gr, --recent             show google's recent search results (last 1 year)
+  -tr, --gtr, --trans       google translate
+  --map, --gmap             search google map
+  -gm, --gmail              search the gmail inbox
+
+Developer Sites:
+  -so, --stack-ov           search stack-overflow
+  -se, --stack-ex           search stack-exchange
+  -py, --py-docs            search python3 docs
+  --mdn, --mdn-docs         search mozilla web docs
+  -hn, --hacker-news        search on hacker news
+  -su, --super              search on super user forum
+  -gh, --git                search the github repos
+  --ghu, --gh-user          search a github user
+  --ghg, --gh-gists         search github gists
+  --ghi, --gh-issues        search github issues
+  
+AI:
+  -c, --gpt                 prompt chatgpt
+  -g, --gem                 prompt gemini
+  -ph, --phind              prompt phind
+  -px, --perplexity         prompt perplexity ai
+  -cp, --copilot            prompt microsoft copilot
+  
+Misc:  
+  -y, -yt                   search the youtube
+  -w, --wiki                search the wikipedia pages
+  -am, --amz, --amazon      search the amazon store
+  -x, --twitter             search on twitter
+  --dict, --dictionary      search merriam webster dictionary
+
+Other Search Enginers:
+  -d, --ddg                 search with duckduckgo instead of google
+  -b, --bing                search with bing instead of google
+  -br, --brave              search with brave instead of google
+  -qw, --qwant              search with qwant instead of google
+  -ya, --yahoo              search with yahoo instead of google
+  -ye, --yelp               search with yelp instead of google
+
+Mail (gmail):
+  --mail address            specify the recipient's email address
+  --sub subject             subject of the email (optional with --mail)
+
+Profile and Config Options:
+  --config                  open the config file
+  -p --profile name/key     select a specific chrome profile (use profile name or customized key)
+  -l, --list                show the customized keys for specific chrome profiles
+  -I, --incog               go incognito mode
+
+
+author: Taraq Farhan
+email : taraqfarhan@gmail.com
+"""
 
 config_path = get_config_file_path()
 
@@ -195,21 +348,6 @@ def configurations_for_chrome_profile():
     exit(1)
 
 
-def get_url():
-    if args.ddg: return f"https://duckduckgo.com/?&q={"+".join(args.query)}"
-    elif args.img: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=isch"
-    elif args.vid: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=vid"
-    elif args.y: return f"https://www.youtube.com/results?search_query={"+".join(args.query)}"
-    elif args.wiki: return f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args.query)}"
-    elif args.git: return f"https://github.com/search?q={"+".join(args.query)}"
-    elif args.stack: return f"https://stackoverflow.com/search?q={"+".join(args.query)}"
-    elif args.gpt: return f"https://chatgpt.com/?q={"+".join(args.query)}" # https://chatgpt.com/?model=gpt-4&q=%s
-    elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
-    elif args.gmail: return f"https://mail.google.com/mail/u/0/#search/{"+".join(args.query)}"
-    elif args.mail: return f"https://mail.google.com/mail/?view=cm&fs=1&to={args.mail}&su={args.sub}&body={"+".join(args.query)}"
-    else: return f"https://www.google.com/search?q={"+".join(args.query)}"
-
-
 def main():
     try:
         if (args.config): 
@@ -217,7 +355,7 @@ def main():
             edit_config_file()
             exit(0)
         elif(args.help):
-            parser.print_help()
+            print(custom_help_message)
             exit(0)
         
         url = get_url()
@@ -238,8 +376,8 @@ def main():
             guest = False
 
             if DEFAULT_CHROME_PROFILE or OTHER_PROFILES:
-                if args.p:
-                    profile = args.p
+                if args.profile:
+                    profile = args.profile
 
                     if profile == DEFAULT_CHROME_PROFILE: profile = DEFAULT_CHROME_PROFILE
                     elif profile in ("g", "guest"): guest = True
