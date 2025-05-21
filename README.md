@@ -3,50 +3,90 @@
 This is another life-changing tool to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
 
 - google stuffs (even with a specific profile if you're using Google Chrome, Chromium or Brave Browser)
+- google images, videos
+- google drive, google map, gmail inbox
+- recent (last 1 year) google search results
+- google translate
+
+- prompt chatgpt, gemini, copilot, perplexity, phind
+
+- github repos, github gists, github issues, github usernames 
+- stack overflow, stack exchange, super user
+- python3, mdn documentations
+- wikipedia, hacker news
+
+- youtube, twitter (x), amazon
+- dictionary (merriam webster)
+- prompt to send quick emails (using gmail)
+- search with duckduckgo, brave, bing, yelp, yahoo, qwant
 - search in incognito mode
-- google images and videos
-- search youtube videos
-- prompt chatgpt, gemini
-- github repos, stack overflow
-- wikipedia pages
-- search with duckduckgo
-- search your gmail inbox
-- prompt to send emails (texts only) to someone from the terminal (using gmail)
 
 # Usage
 
 ```
-ggl [-p profile] [-i | --incog] [options] <query|prompt>
+ggl [-p profile] [-I | --incog] [options] <query|prompt>
 ggl [--mail address [--sub subject]] <text>
 ggl [-h | --config]
 
 Options:
-   -im --img             show the image section for the search
+helper options:
+   -h --help             display the help page and exit
+
+Google Services:
+   -i --img              show the image section for the search
    -v --vid              show the video section from the search
-   -y -yt                search the youtube
+   -gd --drive           search your google drive
+   -gr --recent          show google's recent search results (last 1 year) 
+   -tr --gtr --trans     google translate
+   --map  --gmap         search google map
+   -gm --gmail           search your mail with that search-query
+
+Developer Sites:
+   -so --stack-ov        search stack-overflow
+   -se  --stack-ex       search stack-exchange
+   -hn  --hacker-news    search on hacker news
+   -su  --super          search on super user forum
+   -py  --py-docs        search python3 docs
+   -gh --git             search the github
+   --ghu  --gh-user      search github usernames
+   --ghg  --gh-gists     search github gists
+   --ghi  --gh-issues    search github issues
+   --mdn  --mdn-docs     search mozilla web docs
+
+Prompting AI:
    -c --gpt              prompt chatgpt
    -g --gem              prompt gemini
+   -cp --copilot         prompt microsoft copilot
+   -ph  --phind          prompt phind
+   -px  --perplexity     prompt perplexity ai
+   
+Misc:
+   -y -yt                search the youtube
    -w --wiki             search the wiki
-   -gh --git             search the github
-   -s -st --stack        search stack-overflow
+   -x  --twitter         search on twitter 
+   -az  --amz  --amazon  search the amazon store
+   --dict, --dictionary  search merriam webster dictionary
+
+Other Search Engines:
    -d --ddg              search with duckduckgo instead of google
+   -b --bing             search with bing instead of google
+   -br  --brave          search with brave instead of google
+   -qw  --qwant          search with qwant instead of google
+   -ya  --yahoo          search with yahoo instead of google
+   -ye  --yelp           search with yelp instead of google
 
-For emails (gmail)
-   -gm --gmail           search your mail with that search-query
-   --mail                prompt to send mail to someone with their mail address
-   --sub                 option for --mail flag to add a subject (optional)
+Promting to send Email (gmail):
+   --mail address        prompt to send mail to someone with their mail address
+   --sub subject         option for --mail flag to add a subject (optional)
 
-Only for Chrome/Chromium/Brave Browser
-   -p                    set a specific chrome profile for searching
+Profile options: (Only for Chrome/Chromium/Brave Browser)
+   -p profile            set a specific chrome profile for searching
    -l --list             list all the chrome profiles
-   -i --incog            open Google Chrome in incognito mode
-
-helper options:
-   -h --help             display the help page
+   -I --incog            open Google Chrome in incognito mode
    --config              open the config file
 
-EXAMPLES:
 
+EXAMPLES:
 ggl why programmers hate everyone
 ggl "What's the capital of Russia"
 ggl 'What does the word "retarded" mean'
@@ -54,22 +94,23 @@ ggl -yt stuxnet documentary
 ggl --img a flycatcher
 ggl --vid how to learn to code
 ggl -w computer science terminologies
-ggl --git taraqfarhan/ggl
-ggl --stack "what language was used to write unix commands"
+ggl -gh taraqfarhan/ggl
+ggl -so "what language was used to write unix commands"
 ggl --ddg why duckduckgo is better than google
 ggl --gpt why we should even bother about the command line interface
-
-Mail (gmail)
 ggl --gmail contract proposal
-ggl --send-mail taraqfarhan@gmail.com send me the docs asap
-ggl --mail taraqfarhan@gmail.com --sub "Assignment Submission" submit your assignment by tomorrow
 
-Specific to Chromimum Based Browsers (Google Chrome, Chromium, Brave) only
+Mail (gmail):
+ggl --send-mail taraqfarhan@gmail.com You have failed again
+ggl --mail taraqfarhan@gmail.com --sub "Semester Final Result" You have failed again 
+
+Using a specific profile:
+ggl -p <profile name | customized key> [options] [search query ...]
 ggl -p 3 --img chess board
 ggl -p business -yt "How does money work?"
 ggl -p guest how to use the dark web
-ggl -i -p "Profile 3" "build linux kernel from the scratch"
-ggl -i why bitcoin is illegal in some countries
+ggl -p "Profile 3" -I "build linux kernel from the scratch"
+ggl -I why bitcoin is illegal in some countries
 ```
 
 # How to use this script on your own machine
@@ -194,4 +235,4 @@ Inspect the Directory. Match the folder name with the corresponding Chrome profi
 
 - In **Windows** you can use `ggl` for Google Chrome Profiles only (not for Chromium and Brave)
 - In **Windows** while prompting to send email if you use quotes in subject (after --sub) or text (at the end) you might face problems
-- These issues will be fixed soon
+- If anyone can help me with optimizing this tool for windows please open up a pull request
