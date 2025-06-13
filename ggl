@@ -27,7 +27,9 @@ group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail
 
 group.add_argument("-so", "--stack-ov", action="store_true", help="search stack-overflow")
 group.add_argument("-se", "--stack-ex",action="store_true", help="search stack-exchange")
+group.add_argument("--man", "--manpage", action ="store_true", help="search for linux manual pages")
 group.add_argument("-py", "--py-docs", action="store_true", help="search python3 docs")
+group.add_argument("--cpp", "--cppreference", action="store_true", help="search cppreference")
 group.add_argument("--mdn", "--mdn-docs", action="store_true", help="search mozilla web docs")
 group.add_argument("-hn", "--hacker-news", action="store_true", help="search on hacker news")
 group.add_argument("-su", "--super", action="store_true", help="search on super user forum")
@@ -37,7 +39,7 @@ group.add_argument("--ghg", "--gh-gists", action="store_true", help="search gith
 group.add_argument("--ghi", "--gh-issues", action="store_true", help="search github issues")
 
 group.add_argument("-c", "--gpt", action="store_true", help="prompt chatgpt")
-group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
+# group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
 group.add_argument("-ph", "--phind", action="store_true", help="prompt phind")
 group.add_argument("-px", "--perplexity", action="store_true", help="prompt perplexity ai")
 group.add_argument("-cp", "--copilot", action="store_true", help="prompt microsoft copilot")
@@ -98,12 +100,14 @@ def get_url():
     elif args.stack_ov: return f"https://stackoverflow.com/search?q={"+".join(args.query)}"
     elif args.stack_ex: return f"https://stackexchange.com/search?q={"+".join(args.query)}"
     elif args.py_docs: return f"https://docs.python.org/3/search.html?q={"+".join(args.query)}"
+    elif args.man: return f"https://linux.die.net/man/1/{"+".join(args.query)}"
+    elif args.cpp: return f"https://en.cppreference.com/w/Special:Search/{"+".join(args.query)}"
     elif args.mdn: return f"https://developer.mozilla.org/en-US/search?q={"+".join(args.query)}"
     elif args.hacker_news: return f"https://hn.algolia.com/?q={"+".join(args.query)}"
     elif args.super: return f"https://superuser.com/search?q={"+".join(args.query)}"
 
     elif args.gpt: return f"https://chatgpt.com/?q={"+".join(args.query)}" 
-    elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
+    # elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
     elif args.copilot: return f"https://www.bing.com/copilotsearch?q={"+".join(args.query)}"
     elif args.phind: return f"https://www.phind.com/search?q={"+".join(args.query)}"
     elif args.perplexity: return f"https://www.perplexity.ai/search?q={"+".join(args.query)}"
@@ -207,7 +211,9 @@ Google-Services:
 Developer Sites:
   -so, --stack-ov           search stack-overflow
   -se, --stack-ex           search stack-exchange
+  --man --manpage           search for linux manual pages
   -py, --py-docs            search python3 docs
+  --cpp, --cppreference     search cppreference 
   --mdn, --mdn-docs         search mozilla web docs
   -hn, --hacker-news        search on hacker news
   -su, --super              search on super user forum
@@ -218,7 +224,6 @@ Developer Sites:
   
 AI:
   -c, --gpt                 prompt chatgpt
-  -g, --gem                 prompt gemini
   -ph, --phind              prompt phind
   -px, --perplexity         prompt perplexity ai
   -cp, --copilot            prompt microsoft copilot
@@ -250,8 +255,7 @@ Profile and Config Options:
 
 
 author: Taraq Farhan
-email : taraqfarhan@gmail.com
-"""
+email : taraqfarhan@gmail.com"""
 
 config_path = get_config_file_path()
 
