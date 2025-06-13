@@ -7,10 +7,10 @@ This is another life-changing tool to automate a process which will prolly save 
 - google drive, google map, gmail inbox
 - recent (last 1 year) google search results
 - google translate
-- prompt chatgpt, gemini, copilot, perplexity, phind
+- prompt chatgpt, copilot, perplexity, phind
 - github repos, github gists, github issues, github usernames 
 - stack overflow, stack exchange, super user
-- python3, mdn documentations
+- python3, c/c++ and mdn documentations, linux manpages
 - wikipedia, hacker news
 - youtube, twitter (x), amazon
 - dictionary (merriam webster)
@@ -43,6 +43,8 @@ Developer Sites:
    -hn  --hacker-news    search on hacker news
    -su  --super          search on super user forum
    -py  --py-docs        search python3 docs
+   --cpp --cppreference  search cppreference
+   --man --manpage       search for linux manual pages
    -gh --git             search the github
    --ghu  --gh-user      search github usernames
    --ghg  --gh-gists     search github gists
@@ -51,7 +53,6 @@ Developer Sites:
 
 Prompting AI:
    -c --gpt              prompt chatgpt
-   -g --gem              prompt gemini
    -cp --copilot         prompt microsoft copilot
    -ph  --phind          prompt phind
    -px  --perplexity     prompt perplexity ai
@@ -220,14 +221,15 @@ A **config.json** file will be created automatically if you run this scipt for t
 3. windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
 ```
 
-Inspect the Directory. Match the folder name with the corresponding Chrome profile.
+Inspect the Directory. Match the folder name with the corresponding Chrome profile. 
+Directories might be hidden, if you don't find the directories then google `how to see hidden file and directories for your OS`. For mac its `CMD + SHIFT + .`
 
 ```
 1. Default: The main profile.
 2. Profile 1, Profile 2, ... Profile <some number> : Additional profiles.
 ```
 
-# Caveats (Only for Windows)
+# Caveats (Only on Windows)
 
 - In **Windows** you can use `ggl` for Google Chrome Profiles only (not for Chromium and Brave)
 - In **Windows** while prompting to send email if you use quotes in subject (after --sub) or text (at the end) you might face problems
