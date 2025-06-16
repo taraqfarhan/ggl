@@ -29,7 +29,7 @@ group.add_argument("-so", "--stack-ov", action="store_true", help="search stack-
 group.add_argument("-se", "--stack-ex",action="store_true", help="search stack-exchange")
 group.add_argument("--man", "--manpage", action ="store_true", help="search for linux manual pages")
 group.add_argument("-py", "--py-docs", action="store_true", help="search python3 docs")
-group.add_argument("--cpp", "--cppreference", action="store_true", help="search cppreference")
+# group.add_argument("--cpp", "--cppreference", action="store_true", help="search cppreference")
 group.add_argument("--mdn", "--mdn-docs", action="store_true", help="search mozilla web docs")
 group.add_argument("-hn", "--hacker-news", action="store_true", help="search on hacker news")
 group.add_argument("-su", "--super", action="store_true", help="search on super user forum")
@@ -48,6 +48,7 @@ group.add_argument("-y", "-yt", action="store_true", help="search the youtube")
 group.add_argument("-w", "--wiki", action="store_true", help="search the wikipedia pages")
 group.add_argument("-am", "--amz", "--amazon", action="store_true", help="search the amazon store")
 group.add_argument("-x", "--twitter", action="store_true", help="search on twitter")
+group.add_argument("-fb", "--facebook", action="store_true", help="search on facebook")
 group.add_argument("--dict", "--dictionary", action="store_true", help="search merriam webster dictionary")
 
 group.add_argument("-d", "--ddg", action="store_true", help="search with duckduckgo instead of google")
@@ -73,48 +74,49 @@ args = parser.parse_args()
 
 
 def get_url():
-    if args.ddg: return f"https://duckduckgo.com/?&q={"+".join(args.query)}"
-    elif args.bing: return f"https://www.bing.com/search?q={"+".join(args.query)}"
-    elif args.qwant: return f"https://www.qwant.com/?q={"+".join(args.query)}"
-    elif args.brave: return f"https://search.brave.com/search?q={"+".join(args.query)}"
-    elif args.yahoo: return f"https://search.yahoo.com/search?p={"+".join(args.query)}&ei=UTF-8"
-    elif args.yelp: return f"http://www.yelp.com/search?find_desc={"+".join(args.query)}&src=opensearch"
+    if args.ddg: return f"https://duckduckgo.com/?&q={'+'.join(args.query)}"
+    elif args.bing: return f"https://www.bing.com/search?q={'+'.join(args.query)}"
+    elif args.qwant: return f"https://www.qwant.com/?q={'+'.join(args.query)}"
+    elif args.brave: return f"https://search.brave.com/search?q={'+'.join(args.query)}"
+    elif args.yahoo: return f"https://search.yahoo.com/search?p={'+'.join(args.query)}&ei=UTF-8"
+    elif args.yelp: return f"http://www.yelp.com/search?find_desc={'+'.join(args.query)}&src=opensearch"
 
-    elif args.recent: return f"https://www.google.com/search?hl=en&tbo=1&tbs=qdr:y&q={"+".join(args.query)}"
-    elif args.img: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=isch"
-    elif args.vid: return f"https://www.google.com/search?q={"+".join(args.query)}&tbm=vid"
-    elif args.drive: return f"https://drive.google.com/drive/search?q={"+".join(args.query)}" 
-    elif args.gtr: return f"https://translate.google.com/?source=osdd#auto|auto|{"+".join(args.query)}"
-    elif args.map: return f"https://www.google.com/maps?q={"+".join(args.query)}"
+    elif args.recent: return f"https://www.google.com/search?hl=en&tbo=1&tbs=qdr:y&q={'+'.join(args.query)}"
+    elif args.img: return f"https://www.google.com/search?q={'+'.join(args.query)}&tbm=isch"
+    elif args.vid: return f"https://www.google.com/search?q={'+'.join(args.query)}&tbm=vid"
+    elif args.drive: return f"https://drive.google.com/drive/search?q={'+'.join(args.query)}" 
+    elif args.gtr: return f"https://translate.google.com/?source=osdd#auto|auto|{'+'.join(args.query)}"
+    elif args.map: return f"https://www.google.com/maps?q={'+'.join(args.query)}"
 
-    elif args.y: return f"https://www.youtube.com/results?search_query={"+".join(args.query)}"
-    elif args.wiki: return f"https://en.wikipedia.org/wiki/Special:Search?search={"+".join(args.query)}"
-    elif args.amz: return f"https://www.amazon.com/s?k={"+".join(args.query)}"
-    elif args.twitter: return f"https://x.com/search?q={"+".join(args.query)}"
-    elif args.dict: return f"https://www.merriam-webster.com/dictionary/{"+".join(args.query)}"
+    elif args.y: return f"https://www.youtube.com/results?search_query={'+'.join(args.query)}"
+    elif args.wiki: return f"https://en.wikipedia.org/wiki/Special:Search?search={'+'.join(args.query)}"
+    elif args.amz: return f"https://www.amazon.com/s?k={'+'.join(args.query)}"
+    elif args.twitter: return f"https://x.com/search?q={'+'.join(args.query)}"
+    elif args.facebook: return f"https://www.facebook.com/search?q={'+'.join(args.query)}"
+    elif args.dict: return f"https://www.merriam-webster.com/dictionary/{'+'.join(args.query)}"
 
-    elif args.git: return f"https://github.com/search?q={"+".join(args.query)}"
-    elif args.ghu: return f"https://github.com/search?q={"+".join(args.query)}&type=users"
-    elif args.ghg: return f"https://gist.github.com/search?q={"+".join(args.query)}&ref=opensearch"
-    elif args.ghi: return f"https://github.com/issues?utf8=✓&q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22++{"+".join(args.query)}"
-    elif args.stack_ov: return f"https://stackoverflow.com/search?q={"+".join(args.query)}"
-    elif args.stack_ex: return f"https://stackexchange.com/search?q={"+".join(args.query)}"
-    elif args.py_docs: return f"https://docs.python.org/3/search.html?q={"+".join(args.query)}"
-    elif args.man: return f"https://linux.die.net/man/1/{"+".join(args.query)}"
-    elif args.cpp: return f"https://en.cppreference.com/w/Special:Search/{"+".join(args.query)}"
-    elif args.mdn: return f"https://developer.mozilla.org/en-US/search?q={"+".join(args.query)}"
-    elif args.hacker_news: return f"https://hn.algolia.com/?q={"+".join(args.query)}"
-    elif args.super: return f"https://superuser.com/search?q={"+".join(args.query)}"
+    elif args.git: return f"https://github.com/search?q={'+'.join(args.query)}"
+    elif args.ghu: return f"https://github.com/search?q={'+'.join(args.query)}&type=users"
+    elif args.ghg: return f"https://gist.github.com/search?q={'+'.join(args.query)}&ref=opensearch"
+    elif args.ghi: return f"https://github.com/issues?utf8=✓&q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22++{'+'.join(args.query)}"
+    elif args.stack_ov: return f"https://stackoverflow.com/search?q={'+'.join(args.query)}"
+    elif args.stack_ex: return f"https://stackexchange.com/search?q={'+'.join(args.query)}"
+    elif args.py_docs: return f"https://docs.python.org/3/search.html?q={'+'.join(args.query)}"
+    elif args.man: return f"https://linux.die.net/man/1/{'+'.join(args.query)}"
+    # elif args.cpp: return f"https://en.cppreference.com/w/Special:Search/{'+'.join(args.query)}"
+    elif args.mdn: return f"https://developer.mozilla.org/en-US/search?q={'+'.join(args.query)}"
+    elif args.hacker_news: return f"https://hn.algolia.com/?q={'+'.join(args.query)}"
+    elif args.super: return f"https://superuser.com/search?q={'+'.join(args.query)}"
 
-    elif args.gpt: return f"https://chatgpt.com/?q={"+".join(args.query)}" 
-    # elif args.gem: return f"https://gemini.google.com/search?q={"+".join(args.query)}"
-    elif args.copilot: return f"https://www.bing.com/copilotsearch?q={"+".join(args.query)}"
-    elif args.phind: return f"https://www.phind.com/search?q={"+".join(args.query)}"
-    elif args.perplexity: return f"https://www.perplexity.ai/search?q={"+".join(args.query)}"
+    elif args.gpt: return f"https://chatgpt.com/?q={'+'.join(args.query)}" 
+    # elif args.gem: return f"https://gemini.google.com/search?q={'+'.join(args.query)}"
+    elif args.copilot: return f"https://www.bing.com/copilotsearch?q={'+'.join(args.query)}"
+    elif args.phind: return f"https://www.phind.com/search?q={'+'.join(args.query)}"
+    elif args.perplexity: return f"https://www.perplexity.ai/search?q={'+'.join(args.query)}"
 
-    elif args.gmail: return f"https://mail.google.com/mail/u/0/#search/{"+".join(args.query)}"
-    elif args.mail: return f"https://mail.google.com/mail/?view=cm&fs=1&to={args.mail}&su={args.sub}&body={"+".join(args.query)}"
-    else: return f"https://www.google.com/search?q={"+".join(args.query)}"
+    elif args.gmail: return f"https://mail.google.com/mail/u/0/#search/{'+'.join(args.query)}"
+    elif args.mail: return f"https://mail.google.com/mail/?view=cm&fs=1&to={args.mail}&su={args.sub}&body={'+'.join(args.query)}"
+    else: return f"https://www.google.com/search?q={'+'.join(args.query)}"
 
 
 def valid_email(address):
@@ -154,13 +156,14 @@ def chromium_based_browser_installed():
 
 
 def get_config_file_path():
-    flag = True
-    if (os_name == "windows"): config_dir = os.path.join(os.getenv("APPDATA"), "ggl")
-    elif (os_name in ("darwin", "linux")): config_dir = os.path.join(os.getenv("HOME"), ".config", "ggl")
-    else: flag = False
-    if flag == True:
-        os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
-        return os.path.join(config_dir, "config.json") # Return the full path to the config file
+    if (os_name == "windows"): config_dir = os.path.join(str(os.getenv("APPDATA")), "ggl")
+    elif (os_name in ("darwin", "linux")): config_dir = os.path.join(str(os.getenv("HOME")), ".config", "ggl")
+    else: 
+        print("Unsupported OS")
+        quit(1)
+
+    os.makedirs(config_dir, exist_ok = True) # Ensure the config directory exists and Create the directory if it doesn't exist
+    return os.path.join(config_dir, "config.json") # Return the full path to the config file
 
 
 config_file_format = r""" 
@@ -213,7 +216,6 @@ Developer Sites:
   -se, --stack-ex           search stack-exchange
   --man --manpage           search for linux manual pages
   -py, --py-docs            search python3 docs
-  --cpp, --cppreference     search cppreference 
   --mdn, --mdn-docs         search mozilla web docs
   -hn, --hacker-news        search on hacker news
   -su, --super              search on super user forum
@@ -233,6 +235,7 @@ Misc:
   -w, --wiki                search the wikipedia pages
   -am, --amz, --amazon      search the amazon store
   -x, --twitter             search on twitter
+  -fb, --facebook           search on facebook
   --dict, --dictionary      search merriam webster dictionary
 
 Other Search Enginers:
@@ -299,11 +302,11 @@ def write_config_file():
 def edit_config_file():
     try:
         if os_name == "darwin": 
-            try: run(["open", "-e", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-            except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+            try: run(["open", "-e", os.path.join(str(os.getenv("HOME")), ".config", "ggl", "config.json")])
+            except: run(["vi", os.path.join(str(os.getenv("HOME")), ".config", "ggl", "config.json")])
         elif os_name == "linux": 
-            try: run(["xdg-open", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
-            except: run(["vi", os.path.join(os.getenv("HOME"), ".config", "ggl", "config.json")])
+            try: run(["xdg-open", os.path.join(str(os.getenv("HOME")), ".config", "ggl", "config.json")])
+            except: run(["vi", os.path.join(str(os.getenv("HOME")), ".config", "ggl", "config.json")])
         elif os_name == "windows": 
             try: run(["powershell.exe", "notepad", r'$env:APPDATA\ggl\config.json'])
             except: pass
@@ -335,6 +338,10 @@ def configurations_for_chrome_profile():
             if (os_name == "darwin"): CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
             elif (os_name == "linux"): CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
             elif (os_name == "windows"): CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
+            else: 
+                print("Unsupported OS.")
+                quit(1)
+            
         else:
             print("Looks like your config.json file is empty. Writing the empty file with default values.")
             write_config_file()
@@ -426,6 +433,9 @@ def main():
                 else: 
                     if guest: run(['start','chrome.exe', "--guest", url],shell=True)
                     else: run(["start", "chrome.exe", f"--profile-directory={profile}", url], shell=True)
+            else:
+                print("Unsupported OS")
+                quit(1)
         else:
             ### what happens if --incog flag is passed when chrome based browser is not being used to search
             if incog: pass

@@ -10,9 +10,9 @@ This is another life-changing tool to automate a process which will prolly save 
 - prompt chatgpt, copilot, perplexity, phind
 - github repos, github gists, github issues, github usernames 
 - stack overflow, stack exchange, super user
-- python3, c/c++ and mdn documentations, linux manpages
+- python3, mdn documentations and linux manpages
 - wikipedia, hacker news
-- youtube, twitter (x), amazon
+- youtube, facebook, twitter (x), amazon
 - dictionary (merriam webster)
 - prompt to send quick emails (using gmail)
 - search with duckduckgo, brave, bing, yelp, yahoo, qwant
@@ -43,7 +43,6 @@ Developer Sites:
    -hn  --hacker-news    search on hacker news
    -su  --super          search on super user forum
    -py  --py-docs        search python3 docs
-   --cpp --cppreference  search cppreference
    --man --manpage       search for linux manual pages
    -gh --git             search the github
    --ghu  --gh-user      search github usernames
@@ -61,6 +60,7 @@ Misc:
    -y -yt                search the youtube
    -w --wiki             search the wiki
    -x  --twitter         search on twitter 
+   -fb --facebook        search on facebook
    -az  --amz  --amazon  search the amazon store
    --dict, --dictionary  search merriam webster dictionary
 
