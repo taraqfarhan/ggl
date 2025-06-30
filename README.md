@@ -1,6 +1,6 @@
 # ggl : common google searches from the command line
 
-This is another life-changing tool to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a programmer need this kinda productivity. You don't need to thank me.
+This is another life-changing tool to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a computer guy, need this kinda productivity.
 
 - google stuffs (even with a specific profile if you're using Google Chrome, Chromium or Brave Browser)
 - google images, videos
@@ -80,34 +80,32 @@ Profile options: (Only for Chrome/Chromium/Brave Browser)
    -p profile            set a specific chrome profile for searching
    -l --list             list all the chrome profiles
    -I --incog            open Google Chrome in incognito mode
-   --config              open the config file
+   --conf --config       open the config file
 
 
 EXAMPLES:
 ggl why programmers hate everyone
-ggl "What's the capital of Russia"
-ggl 'What does the word "retarded" mean'
 ggl -yt stuxnet documentary
 ggl --img a flycatcher
 ggl --vid how to learn to code
-ggl -w computer science terminologies
+ggl -w computer science
 ggl -gh taraqfarhan/ggl
-ggl -so "what language was used to write unix commands"
+ggl -so what language was used to write unix commands
 ggl --ddg why duckduckgo is better than google
 ggl --gpt why we should even bother about the command line interface
 ggl --gmail contract proposal
 
 Mail (gmail):
-ggl --send-mail taraqfarhan@gmail.com You have failed again
-ggl --mail taraqfarhan@gmail.com --sub "Semester Final Result" You have failed again 
+ggl --send-mail taraqfarhan@gmail.com 'why are you so retarted?'
+ggl --mail taraqfarhan@gmail.com --sub 'quizz time' 'why are you so retarted?'
 
 Using a specific profile:
 ggl -p <profile name | customized key> [options] [search query ...]
 ggl -p 3 --img chess board
 ggl -p business -yt "How does money work?"
 ggl -p guest how to use the dark web
-ggl -p "Profile 3" -I "build linux kernel from the scratch"
 ggl -I why bitcoin is illegal in some countries
+ggl -p "Profile 3" -I "build linux kernel from the scratch"
 ```
 
 # How to use this script on your own machine
