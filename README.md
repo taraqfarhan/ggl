@@ -15,7 +15,7 @@ This is another life-changing tool to automate a process which will prolly save 
 - youtube, facebook, twitter (x), amazon
 - dictionary (merriam webster)
 - prompt to send quick emails (using gmail)
-- search with duckduckgo, brave, bing, yelp, yahoo, qwant
+- search with duckduckgo, startpage, brave, bing, yelp, yahoo, qwant
 - search in incognito mode
 
 # Usage
@@ -66,6 +66,7 @@ Misc:
 
 Other Search Engines:
    -d --ddg              search with duckduckgo instead of google
+   -s -sp                search with startpage instead of google
    -b --bing             search with bing instead of google
    -br  --brave          search with brave instead of google
    -qw  --qwant          search with qwant instead of google
