@@ -3,16 +3,15 @@
 This is another life-changing tool to automate a process which will prolly save your 5-10 seconds of your time. Of course, you as a computer guy, need this kinda productivity.
 
 - google stuffs (even with a specific profile if you're using Google Chrome, Chromium or Brave Browser)
-- google images, videos
+- google/bing/duckduckgp images, videos and maps
 - google drive, google map, gmail inbox
 - recent (last 1 year) google search results
 - google translate
-- prompt chatgpt, copilot, perplexity, phind
+- prompt chatgpt, gemini (google ai mode), copilot, perplexity, phind
 - github repos, github gists, github issues, github usernames 
 - stack overflow, stack exchange, super user
 - python3, mdn documentations and linux manpages
-- wikipedia, hacker news
-- youtube, facebook, twitter (x), amazon
+- wikipedia, reddit, youtube, facebook, twitter (x), hacker news and amazon
 - dictionary (merriam webster)
 - prompt to send quick emails (using gmail)
 - search with duckduckgo, startpage, brave, bing, yelp, yahoo, qwant
@@ -27,15 +26,27 @@ ggl [ --mail address [--sub subject] ] text
 Options:
 helper options:
    -h --help             display the help page and exit
+   --conf --config       open the config file
 
-Google Services:
-   -i --img              show the image section for the search
-   -v --vid              show the video section from the search
-   -gd --drive           search your google drive
-   -gr --recent          show google's recent search results (last 1 year) 
+Services:
+  Images:
+   -i  -im  --img        google images
+   -di --dim --dimg      duckduckgo images
+   -bi --bim --bimg      bing images
+  Videos:
+   -v  -vi  --vid        google videos
+   -dv --dvid --dvideo   duckduckgo videos
+   -bv --bvid --bvideo   bing videos
+  Maps:
+   --map --gmap          google map
+   -dm  --dmap           duckduckgo map
+   -am  --amap --apple-map  apple map
+   -bm  --bmap --bing-map   bing map
+  Other Google Services:
+   -gd --drive           google drive
+   -gr --recent          google search (last 1 year)
    -tr --gtr --trans     google translate
-   --map  --gmap         search google map
-   -gm --gmail           search your mail with that search-query
+   -gm --gmail           gmail inbox search
 
 Developer Sites:
    -so --stack-ov        search stack-overflow
@@ -52,6 +63,7 @@ Developer Sites:
 
 Prompting AI:
    -c --gpt              prompt chatgpt
+   -g --gem              prompt gemini (google ai mode)
    -cp --copilot         prompt microsoft copilot
    -ph  --phind          prompt phind
    -px  --perplexity     prompt perplexity ai
@@ -59,10 +71,11 @@ Prompting AI:
 Misc:
    -y -yt                search the youtube
    -w --wiki             search the wiki
+   -r  --reddit          search on reddit
    -x  --twitter         search on twitter 
    -fb --facebook        search on facebook
-   -az  --amz  --amazon  search the amazon store
-   --dict, --dictionary  search merriam webster dictionary
+   --amz  --amazon       search the amazon store
+   -mw, --dict           search merriam webster dictionary
 
 Other Search Engines:
    -d --ddg              search with duckduckgo instead of google
@@ -79,8 +92,8 @@ Promting to send Email (gmail):
 
 Profile options: (Only for Chrome/Chromium/Brave Browser)
    -p profile            set a specific chrome profile for searching
-   -l --list             list all the chrome profiles
-   -I --incog            open Google Chrome in incognito mode
+   -l --list             list all the chrome profiles and their keys
+   -I --incog            open Google Chrome/Chromium or Brave in incognito mode
    --conf --config       open the config file
 
 

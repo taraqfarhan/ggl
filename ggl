@@ -22,62 +22,95 @@ group.add_argument(
     "-im",
     "--img",
     action="store_true",
-    help="show the image seaction from the search",
+    help="search google images",
 )
+group.add_argument("-di", "--dim", "--dimg", action="store_true",
+                   help="search duckduckgo images")
+group.add_argument("-bi", "--bim", "--bimg", "--bing-image", action="store_true",
+                   help="search bing images")
 group.add_argument(
     "-v",
     "-vi",
     "--vid",
     action="store_true",
-    help="show the video section from the search",
+    help="search google videos",
 )
-group.add_argument("-gd", "--drive", action="store_true", help="search your google drive")
+group.add_argument("-dv", "--dvid", "--dvideo", action="store_true",
+                   help="search duckduckgo videos")
+group.add_argument("-bv", "--bvid", "--bvideo", "--bing-video", action="store_true",
+                   help="search bing videos")
+group.add_argument("-gd", "--drive", action="store_true",
+                   help="search your google drive")
 group.add_argument(
     "-gr",
     "--recent",
     action="store_true",
     help="show google's recent search results (last 1 year)",
 )
-group.add_argument("-tr", "--gtr", "--trans", action="store_true", help="google translate")
-group.add_argument("--map", "--gmap", action="store_true", help="search google map")
-group.add_argument("-gm", "--gmail", action="store_true", help="search the gmail inbox")
+group.add_argument("-tr", "--gtr", "--trans",
+                   action="store_true", help="google translate")
+group.add_argument("-m", "--map", "--gmap", action="store_true",
+                   help="search google map")
+group.add_argument("-dm", "--dmap", action="store_true", help="search duckduckgo map")
+group.add_argument("-am", "--amap", "--apple-map", action="store_true",
+                   help="search apple map")
+group.add_argument("-bm", "--bmap", "--bing-map", action="store_true", help="search bing map")
 
-group.add_argument("-so", "--stack-ov", action="store_true", help="search stack-overflow")
-group.add_argument("-se", "--stack-ex", action="store_true", help="search stack-exchange")
+group.add_argument("-gm", "--gmail", action="store_true",
+                   help="search the gmail inbox")
+
+group.add_argument("-so", "--stack-ov", action="store_true",
+                   help="search stack-overflow")
+group.add_argument("-se", "--stack-ex", action="store_true",
+                   help="search stack-exchange")
 group.add_argument(
     "--man",
     "--manpage",
     action="store_true",
     help="search for linux manual pages",
 )
-group.add_argument("-py", "--py-docs", action="store_true", help="search python3 docs")
+group.add_argument("-py", "--py-docs", action="store_true",
+                   help="search python3 docs")
 # group.add_argument("--cpp", "--cppreference", action="store_true", help="search cppreference")
-group.add_argument("--mdn", "--mdn-docs", action="store_true", help="search mozilla web docs")
-group.add_argument("-hn", "--hacker-news", action="store_true", help="search on hacker news")
-group.add_argument("-su", "--super", action="store_true", help="search on super user forum")
-group.add_argument("-gh", "--git", action="store_true", help="search the github repos")
-group.add_argument("--ghu", "--gh-user", action="store_true", help="search a github user")
-group.add_argument("--ghg", "--gh-gists", action="store_true", help="search github gists")
-group.add_argument("--ghi", "--gh-issues", action="store_true", help="search github issues")
+group.add_argument("--mdn", "--mdn-docs", action="store_true",
+                   help="search mozilla web docs")
+group.add_argument("-hn", "--hacker-news",
+                   action="store_true", help="search on hacker news")
+group.add_argument("-su", "--super", action="store_true",
+                   help="search on super user forum")
+group.add_argument("-gh", "--git", action="store_true",
+                   help="search the github repos")
+group.add_argument("--ghu", "--gh-user", action="store_true",
+                   help="search a github user")
+group.add_argument("--ghg", "--gh-gists", action="store_true",
+                   help="search github gists")
+group.add_argument("--ghi", "--gh-issues",
+                   action="store_true", help="search github issues")
 
 group.add_argument("-c", "--gpt", action="store_true", help="prompt chatgpt")
-# group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
+group.add_argument("-g", "--gem", action="store_true", help="prompt gemini")
 group.add_argument("-ph", "--phind", action="store_true", help="prompt phind")
-group.add_argument("-px", "--perplexity", action="store_true", help="prompt perplexity ai")
-group.add_argument("-cp", "--copilot", action="store_true", help="prompt microsoft copilot")
+group.add_argument("-px", "--perplexity", action="store_true",
+                   help="prompt perplexity ai")
+group.add_argument("-cp", "--copilot", action="store_true",
+                   help="prompt microsoft copilot")
 
 group.add_argument("-y", "-yt", action="store_true", help="search the youtube")
-group.add_argument("-w", "--wiki", action="store_true", help="search the wikipedia pages")
+group.add_argument("-w", "--wiki", action="store_true",
+                   help="search the wikipedia pages")
 group.add_argument(
-    "-am",
     "--amz",
     "--amazon",
     action="store_true",
     help="search the amazon store",
 )
-group.add_argument("-x", "--twitter", action="store_true", help="search on twitter")
-group.add_argument("-fb", "--facebook", action="store_true", help="search on facebook")
+group.add_argument("-r", "--reddit", action="store_true")
+group.add_argument("-x", "--twitter", action="store_true",
+                   help="search on twitter")
+group.add_argument("-fb", "--facebook", action="store_true",
+                   help="search on facebook")
 group.add_argument(
+    "-mw",
     "--dict",
     "--dictionary",
     action="store_true",
@@ -127,7 +160,8 @@ group.add_argument(
     help="search with yelp instead of google",
 )
 
-group.add_argument("--mail", metavar="address", help="specify the recipient's email address")
+group.add_argument("--mail", metavar="address",
+                   help="specify the recipient's email address")
 parser.add_argument(
     "--sub",
     metavar="subject",
@@ -136,8 +170,10 @@ parser.add_argument(
 )
 
 helper_grp = parser.add_mutually_exclusive_group()
-helper_grp.add_argument("--config", action="store_true", help="open the config file")
-helper_grp.add_argument("-h", "--help", action="store_true", help="show this help message and exit")
+helper_grp.add_argument("--config", action="store_true",
+                        help="open the config file")
+helper_grp.add_argument("-h", "--help", action="store_true",
+                        help="show this help message and exit")
 
 parser.add_argument(
     "-p",
@@ -151,7 +187,8 @@ parser.add_argument(
     action="store_true",
     help="show the customized keys for specific chrome profiles",
 )
-parser.add_argument("-I", "--incog", action="store_true", help="go incognito mode")
+parser.add_argument("-I", "--incog", action="store_true",
+                    help="go incognito mode")
 parser.add_argument("query", nargs="*", help="search query")
 
 args = parser.parse_args()
@@ -176,18 +213,35 @@ def get_url():
     elif args.recent:
         return f"https://www.google.com/search?hl=en&tbo=1&tbs=qdr:y&q={'+'.join(args.query)}"
     elif args.img:
-        return (f"https://www.google.com/search?q={'+'.join(args.query)}&tbm=isch")
+        return f"https://www.google.com/search?q={'+'.join(args.query)}&tbm=isch"
+    elif args.dim:
+        return f"https://duckduckgo.com/?q={'+'.join(args.query)}&iax=images&ia=images"
+    elif args.bim:
+        return f"https://www.bing.com/images/search?q={'+'.join(args.query)}"
     elif args.vid:
         return f"https://www.google.com/search?q={'+'.join(args.query)}&tbm=vid"
+    elif args.dvid:
+        return f"https://duckduckgo.com/?q={'+'.join(args.query)}&iax=videos&ia=videos"
+    elif args.bvid:
+        return f"https://www.bing.com/videos/search?q={'+'.join(args.query)}"
     elif args.drive:
         return f"https://drive.google.com/drive/search?q={'+'.join(args.query)}"
     elif args.gtr:
         return f"https://translate.google.com/?source=osdd#auto|auto|{'+'.join(args.query)}"
     elif args.map:
         return f"https://www.google.com/maps?q={'+'.join(args.query)}"
+    elif args.dmap:
+        return f"https://duckduckgo.com/?q={'+'.join(args.query)}&iaxm=maps"
+    elif args.amap:
+        return f"https://maps.apple.com/place?address={'+'.join(args.query)}"
+    elif args.bmap:
+        return f"https://www.bing.com/maps/search?q={'+'.join(args.query)}"
+
 
     elif args.y:
         return f"https://www.youtube.com/results?search_query={'+'.join(args.query)}"
+    elif args.reddit:
+        return f"https://www.reddit.com/search/?q={'+'.join(args.query)}"
     elif args.wiki:
         return f"https://en.wikipedia.org/wiki/Special:Search?search={'+'.join(args.query)}"
     elif args.amz:
@@ -225,7 +279,8 @@ def get_url():
 
     elif args.gpt:
         return f"https://chatgpt.com/?q={'+'.join(args.query)}"
-    # elif args.gem: return f"https://gemini.google.com/search?q={'+'.join(args.query)}"
+    elif args.gem: 
+        return f"https://www.google.com/search?udm=50&source=searchlabs&q={'+'.join(args.query)}"
     elif args.copilot:
         return f"https://www.bing.com/copilotsearch?q={'+'.join(args.query)}"
     elif args.phind:
@@ -247,13 +302,14 @@ def valid_email(address):
     return True if fullmatch(regex, address) else False
 
 
-### using brute-force method to make --sub optional when --mail is specified (this portion should be improved)
+# using brute-force method to make --sub optional when --mail is specified (this portion should be improved)
 if args.mail is not None:
     if not valid_email(args.mail):
         parser.error(f"Invalid email address {args.mail}")
     if not args.query:
         parser.error("A text message is required when using --mail")
-if args.sub != "" and args.mail is None: parser.error("--sub requires --mail")
+if args.sub != "" and args.mail is None:
+    parser.error("--sub requires --mail")
 
 
 def chromium_based_browser_installed():
@@ -277,15 +333,19 @@ def chromium_based_browser_installed():
             or (which("brave-browser") is not None)
             or (which("brave-browser-stable") is not None)
         )
-    ### figure out the Chromium and Brave paths for windows
+    # figure out the Chromium and Brave paths for windows
     elif os_name == "windows":
         paths = [
-            os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
-            os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
-            os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
+            os.path.expandvars(
+                r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
+            os.path.expandvars(
+                r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
+            os.path.expandvars(
+                r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
         ]
         return any(os.path.exists(path) for path in paths)
-    else: return False
+    else:
+        return False
 
 
 def get_config_file_path():
@@ -297,11 +357,13 @@ def get_config_file_path():
         print("Unsupported OS")
         quit(1)
 
-    os.makedirs(config_dir, exist_ok=True)  # Ensure the config directory exists and Create the directory if it doesn't exist
-    return os.path.join(config_dir, "config.json")  # Return the full path to the config file
+    # Ensure the config directory exists and Create the directory if it doesn't exist
+    os.makedirs(config_dir, exist_ok=True)
+    # Return the full path to the config file
+    return os.path.join(config_dir, "config.json")
 
 
-config_file_format = r""" 
+config_file_format = r"""
 "DEFAULT_PROFILE": "Default",
   "OTHER_PROFILES": [
     "Profile 1",
@@ -321,66 +383,83 @@ usage: ggl [profile selection] [options] query
 
 profile selection: ggl -p name/key [ -I | --incog ] [options] query
 
-Options:        
-help:                       ggl -h|--help
-google-services:            ggl [profile selection] [ -i | -v | -gd | -gr | -tr | --map | -gm ] query
-developer:                  ggl [profile selection] [ -so | -sx | -su | -hn | -py | --mdn | -gh | --ghu | --ghi | --ghg ] query
-ai:                         ggl [profile selection] [ -c | -g | -cp | -px | -ph ] prompt
-misc:                       ggl [profile selection] [ -y | -w | -am | -x | --dict ] query
-other search engines:       ggl [profile selection] [ -d | -s | -b | -br| -qw | -ya | -ye ] query
-mail:                       ggl [profile selection] --mail address [ --sub subject ] text
+Options:
+help:                       ggl -h | --help
+image services:             ggl [profile] [ -i | -di | -bi ] query
+video services:             ggl [profile] [ -v | -dv | -bv ] query
+map services:               ggl [profile] [ -m | -dm | -am | -bm ] query
+other google services:      ggl [profile] [ -gd | -gr | -gm | -tr ] query
+developer:                  ggl [profile] [ -so | -se | -su | -hn | -py | --mdn | -gh | --ghu | --ghi | --ghg | --man ] query
+ai:                         ggl [profile] [ -c | -g | -cp | -px | -ph ] prompt
+misc:                       ggl [profile] [ -y | -w | -r | -x | -fb | -mw | --amz ] query
+other search engines:       ggl [profile] [ -d | -s | -b | -br | -qw | -ya | -ye ] query
+mail:                       ggl [profile] --mail address [ --sub subject ] text
 
 
-POSTIONAL ARGUMENTS:
-  query                     search query
+POSITIONAL ARGUMENTS:
+    query                     search query
 
 OPTIONS:
-  -h, --help                show this help message and exit
+    -h, --help                show this help message and exit
+    --config                  open the config file
 
-Google-Services:
-  -i, -im, --img            show the image seaction from the search
-  -v, -vi, --vid            show the video section from the search
-  -gd, --drive              search your google drive
-  -gr, --recent             show google's recent search results (last 1 year)
-  -tr, --gtr, --trans       google translate
-  --map, --gmap             search google map
-  -gm, --gmail              search the gmail inbox
+Services:
+    Images:
+        -i, -im, --img          google images
+        -di, --dim, --dimg      duckduckgo images
+        -bi, --bim, --bimg      bing images
+    Videos:
+        -v, -vi, --vid          google videos
+        -dv, --dvid, --dvideo   duckduckgo videos
+        -bv, --bvid, --bvideo   bing videos
+    Maps:
+        -m, --map, --gmap         google map
+        -dm, --dmap               duckduckgo map
+        -am, --amap, --apple-map  apple map
+        -bm, --bmap, --bing-map   bing map
+    Other:
+        -gd, --drive            google drive
+        -gr, --recent           google search (last 1 year)
+        -tr, --gtr, --trans     google translate
+        -gm, --gmail            gmail inbox search
 
 Developer Sites:
-  -so, --stack-ov           search stack-overflow
-  -se, --stack-ex           search stack-exchange
-  --man --manpage           search for linux manual pages
-  -py, --py-docs            search python3 docs
-  --mdn, --mdn-docs         search mozilla web docs
-  -hn, --hacker-news        search on hacker news
-  -su, --super              search on super user forum
-  -gh, --git                search the github repos
-  --ghu, --gh-user          search a github user
-  --ghg, --gh-gists         search github gists
-  --ghi, --gh-issues        search github issues
-  
-AI:
-  -c, --gpt                 prompt chatgpt
-  -ph, --phind              prompt phind
-  -px, --perplexity         prompt perplexity ai
-  -cp, --copilot            prompt microsoft copilot
-  
-Misc:  
-  -y, -yt                   search the youtube
-  -w, --wiki                search the wikipedia pages
-  -am, --amz, --amazon      search the amazon store
-  -x, --twitter             search on twitter
-  -fb, --facebook           search on facebook
-  --dict, --dictionary      search merriam webster dictionary
+    -so, --stack-ov           stack overflow
+    -se, --stack-ex           stack exchange
+    --man, --manpage          linux manual pages
+    -py, --py-docs            python3 docs
+    --mdn, --mdn-docs         mozilla web docs
+    -hn, --hacker-news        hacker news
+    -su, --super              super user
+    -gh, --git                github repos
+    --ghu, --gh-user          github users
+    --ghg, --gh-gists         github gists
+    --ghi, --gh-issues        github issues
 
-Other Search Enginers:
-  -d, --ddg                 search with duckduckgo instead of google
-  -s, -sp                   search with startpage instead of google
-  -b, --bing                search with bing instead of google
-  -br, --brave              search with brave instead of google
-  -qw, --qwant              search with qwant instead of google
-  -ya, --yahoo              search with yahoo instead of google
-  -ye, --yelp               search with yelp instead of google
+AI:
+    -c, --gpt                 chatgpt
+    -g, --gem                 gemini (ai mode)
+    -cp, --copilot            microsoft copilot
+    -px, --perplexity         perplexity ai
+    -ph, --phind              phind
+
+Misc:
+    -y, -yt                   youtube
+    -w, --wiki                wikipedia
+    -r, --reddit              reddit
+    -x, --twitter             twitter (x)
+    -fb, --facebook           facebook
+    --amz, --amazon           amazon store
+    -mw, --dict               merriam webster dictionary
+
+Other Search Engines:
+    -d, --ddg                 duckduckgo
+    -s, -sp                   startpage
+    -b, --bing                bing
+    -br, --brave              brave
+    -qw, --qwant              qwant
+    -ya, --yahoo              yahoo
+    -ye, --yelp               yelp
 
 Mail (gmail):
   --mail address            specify the recipient's email address
@@ -400,7 +479,8 @@ config_path = get_config_file_path()
 
 
 def write_config_file():
-    with open(config_path, "w") as file:  # This creates an 'config.json' file if there is no file in the configured path
+    # This creates an 'config.json' file if there is no file in the configured path
+    with open(config_path, "w") as file:
         file.write(
             r"""{
    "COMMENTS": [
@@ -501,7 +581,8 @@ def edit_config_file():
                         r"$env:APPDATA\ggl\config.json",
                     ]
                 )
-            except: pass
+            except:
+                pass
     except FileExistsError or FileNotFoundError:
         print(f"config.json file is not found in {config_path}")
         print("creating the config file for you")
@@ -524,14 +605,17 @@ def configurations_for_chrome_profile():
                 # remove garbage elements if OTHER_PROFILES have more options than KEYS_FOR_OTHER_PROFILES or vice-versa
                 if len_other_profiles != len_keys:
                     min_len = min(len_other_profiles, len_keys)
-                    if len_other_profiles > min_len: 
+                    if len_other_profiles > min_len:
                         config["OTHER_PROFILES"] = other_profiles[:min_len]
-                    elif len_keys > min_len: 
+                    elif len_keys > min_len:
                         config["KEYS_FOR_OTHER_PROFILES"] = keys[:min_len]
 
-                if os_name == "darwin": CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
-                elif os_name == "linux": CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
-                elif os_name == "windows": CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
+                if os_name == "darwin":
+                    CHROME_PATH = config["CHROME_PATH_FOR_MAC"]
+                elif os_name == "linux":
+                    CHROME_PATH = config["CHROME_PATH_FOR_LINUX"]
+                elif os_name == "windows":
+                    CHROME_PATH = config["CHROME_PATH_FOR_WINDOWS"]
                 else:
                     print("Unsupported OS.")
                     quit(1)
@@ -554,7 +638,8 @@ def configurations_for_chrome_profile():
 
     except FileNotFoundError:
         print(
-            f"config.json file was not found in this {config_path} path\n\nCreating an config.json file in {config_path}"
+            f"config.json file was not found in this {
+                config_path} path\n\nCreating an config.json file in {config_path}"
         )
         write_config_file()
         sleep(5)
@@ -587,10 +672,12 @@ def main():
                 print(
                     "Check your config.json file to see if there is any problem (like not removing extra (trailing) comma when it's not needed or any other problem)"
                 )
-                print(f"\nAn ideal config.json file should look like\n{config_file_format}")
+                print(f"\nAn ideal config.json file should look like\n{
+                      config_file_format}")
                 print("Automatically openning your config.json file")
                 print(
-                    f"If it doesn't open automatically in a few seconds edit the file from {config_path}"
+                    f"If it doesn't open automatically in a few seconds edit the file from {
+                        config_path}"
                 )
                 sleep(5)
                 edit_config_file()
@@ -603,8 +690,10 @@ def main():
                 if args.profile:
                     profile = args.profile
 
-                    if profile == DEFAULT_CHROME_PROFILE: profile = DEFAULT_CHROME_PROFILE
-                    elif profile in ("g", "guest"): guest = True
+                    if profile == DEFAULT_CHROME_PROFILE:
+                        profile = DEFAULT_CHROME_PROFILE
+                    elif profile in ("g", "guest"):
+                        guest = True
                     elif (profile in OTHER_PROFILES) or (profile in KEYS_FOR_OTHER_PROFILES):
                         for profile_index, profile_name in enumerate(OTHER_PROFILES):
                             if (profile == KEYS_FOR_OTHER_PROFILES[profile_index]):
@@ -612,7 +701,8 @@ def main():
                                 break
                     else:
                         print("Error: Invalid profile name is used after -p flag")
-                        print("Use ggl -l or ggl --list to see all the chrome profiles")
+                        print(
+                            "Use ggl -l or ggl --list to see all the chrome profiles")
                         exit(1)
 
                 elif args.list:
@@ -623,16 +713,19 @@ def main():
                     for profile_index, profile_name in enumerate(OTHER_PROFILES):
                         print(
                             f"{profile_name}".ljust(30),
-                            f"your customized key : '{KEYS_FOR_OTHER_PROFILES[profile_index]}'",
+                            f"your customized key : '{
+                                KEYS_FOR_OTHER_PROFILES[profile_index]}'",
                         )
                     print(
                         "Guest profile".ljust(30),
                         "use key 'g' or 'guest' for the guest profile",
                     )
                     print(
-                        f"\nTo change any of these profile's key configure the config.json file ({config_path})"
+                        f"\nTo change any of these profile's key configure the config.json file ({
+                            config_path})"
                     )
-                    print("You can also use --config flag with ggl to open the config file")
+                    print(
+                        "You can also use --config flag with ggl to open the config file")
                     exit(0)
 
             else:
@@ -713,7 +806,7 @@ def main():
                             start_new_session=True,
                         )
             elif os_name == "windows":
-                ### still got problems when prompting to send mail in windows using quotes (single or double)
+                # still got problems when prompting to send mail in windows using quotes (single or double)
                 url = url.replace("&", "^&")  # escaping &
                 if incog:
                     run(
@@ -727,7 +820,8 @@ def main():
                         shell=True,
                     )
                 else:
-                    if guest: run(["start", "chrome.exe", "--guest", url], shell=True)
+                    if guest:
+                        run(["start", "chrome.exe", "--guest", url], shell=True)
                     else:
                         run(
                             [
@@ -742,11 +836,14 @@ def main():
                 print("Unsupported OS")
                 quit(1)
         else:
-            ### what happens if --incog flag is passed when chrome based browser is not being used to search
-            if incog: pass
-            else: webbrowser_open(url)
-    except KeyboardInterrupt: pass
+            # what happens if --incog flag is passed when chrome based browser is not being used to search
+            if incog:
+                pass
+            else:
+                webbrowser_open(url)
+    except KeyboardInterrupt:
+        pass
 
 
-if __name__ == "__main__": main()
-
+if __name__ == "__main__":
+    main()
