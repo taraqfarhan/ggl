@@ -15,10 +15,10 @@
         "Chrome Profiles (eg. Default, Profile 1, Profile 2, ... Profile <some number>)"
   ],
   
-  "DEFAULT_PROFILE": "Default",
+  "DEFAULT_PROFILE": "Profile 1",
   "OTHER_PROFILES": [
-    "Profile 1",
     "Profile 2",
+    "Default",
     "Profile 3"
   ],
   "KEYS_FOR_OTHER_PROFILES": ["3", "code", "personal"],
