@@ -8,7 +8,7 @@ This is another life-changing tool to automate a process which will prolly save 
 - recent (last 1 year) google search results
 - google translate
 - prompt chatgpt, gemini (google ai mode), copilot, perplexity, phind
-- github repos, github gists, github issues, github usernames 
+- github repos, github gists, github issues, github usernames
 - stack overflow, stack exchange, super user
 - python3, mdn documentations and linux manpages
 - wikipedia, reddit, youtube, facebook, twitter (x), hacker news and amazon
@@ -20,8 +20,8 @@ This is another life-changing tool to automate a process which will prolly save 
 # Usage
 
 ```
-ggl [ -p profile ] [ -I | --incog ] [options] query
-ggl [ --mail address [--sub subject] ] text
+ggl [ -p profile ] [ -I | --incog ] [options] "query"
+ggl [ --mail address [--sub subject] ] "text"
 
 Options:
 helper options:
@@ -67,12 +67,12 @@ Prompting AI:
    -cp --copilot         prompt microsoft copilot
    -ph  --phind          prompt phind
    -px  --perplexity     prompt perplexity ai
-   
+
 Misc:
    -y -yt                search the youtube
    -w --wiki             search the wiki
    -r  --reddit          search on reddit
-   -x  --twitter         search on twitter 
+   -x  --twitter         search on twitter
    -fb --facebook        search on facebook
    --amz  --amazon       search the amazon store
    -mw, --dict           search merriam webster dictionary
@@ -97,28 +97,28 @@ Profile options: (Only for Chrome/Chromium/Brave Browser)
    --conf --config       open the config file
 
 
-EXAMPLES:
-ggl why programmers hate everyone
-ggl -yt stuxnet documentary
-ggl --img a flycatcher
-ggl --vid how to learn to code
-ggl -w computer science
-ggl -gh taraqfarhan/ggl
-ggl -so what language was used to write unix commands
-ggl --ddg why duckduckgo is better than google
-ggl --gpt why we should even bother about the command line interface
-ggl --gmail contract proposal
+EXAMPLES: (Use quotes around the query)
+ggl "why programmers hate everyone"
+ggl -yt "stuxnet documentary"
+ggl --img "a flycatcher"
+ggl --vid "how to learn to code"
+ggl -w "computer science"
+ggl -gh "taraqfarhan/ggl"
+ggl -so "what language was used to write unix commands"
+ggl --ddg "why duckduckgo is better than google"
+ggl --gpt "why we should even bother about the command line interface"
+ggl --gmail "contract proposal"
 
 Mail (gmail):
 ggl --send-mail taraqfarhan@gmail.com 'why are you so retarted?'
 ggl --mail taraqfarhan@gmail.com --sub 'quizz time' 'why are you so retarted?'
 
 Using a specific profile:
-ggl -p <profile name | customized key> [options] [search query ...]
-ggl -p 3 --img chess board
+ggl -p <profile name | customized key> [options] "[search query ...]"
+ggl -p 3 --img "chess board"
 ggl -p business -yt "How does money work?"
-ggl -p guest how to use the dark web
-ggl -I why bitcoin is illegal in some countries
+ggl -p guest "how to use the dark web"
+ggl -I "why bitcoin is illegal in some countries"
 ggl -p "Profile 3" -I "build linux kernel from the scratch"
 ```
 
@@ -139,9 +139,7 @@ python3 /path/to/ggl  # mac/linux (like: python3 ggl -h)
 py /path/to/ggl  # windows (like: py ggl -h)
 ```
 
-
 <details markdown='1'><summary>To run `ggl` globally without specifying `python3 /path/to/ggl or py path/to/ggl` each time (like the EXAMPLES) refer to this section</summary>
-
 
 ##### THIS SECTION IS FOR THOSE WHO WANT TO RUN IT GLOBALLY, ANYWHERE FROM THE TERMINAL. OTHERWISE, YOU'LL HAVE TO EXPLICITLY SPECIFY THE PATH OF THE SCRIPT EACH TIME
 
@@ -155,6 +153,7 @@ py path/to/the/ggl/script  # windows
 ## Process 1 (mac/linux)
 
 Creating alias
+
 ```bash
 echo "alias ggl='python3 $(pwd)/ggl'" >> ~/.zshrc && source ~/.zshrc  # from the ggl folder
 ```
@@ -162,11 +161,12 @@ echo "alias ggl='python3 $(pwd)/ggl'" >> ~/.zshrc && source ~/.zshrc  # from the
 ## Process 2 (mac/linux)
 
 Creating a symbolic link
+
 ```bash
 sudo ln -s $(pwd)/ggl /usr/bin/ggl  # from the ggl folder
 
 # you can choose any directory which is in the PATH instead of /usr/bin/
-# use the follwoing command to get all the environment variable paths 
+# use the follwoing command to get all the environment variable paths
 echo $PATH | tr ':' '\n'
 ```
 
@@ -175,6 +175,7 @@ echo $PATH | tr ':' '\n'
 Environment Variables
 
 #### mac/linux
+
 ```bash
 echo "export PATH='$PATH:$(pwd)'" >> ~/.zshrc && source ~/.zshrc  # from the ggl folder
 ```
@@ -190,7 +191,6 @@ echo "export PATH='$PATH:$(pwd)'" >> ~/.zshrc && source ~/.zshrc  # from the ggl
 
    - Under **System Variables** or **User Variables**, find `Path` and click **Edit**.
    - Add your directory where you have `ggl` file
-
 
 </details>
 
@@ -233,7 +233,7 @@ A **config.json** file will be created automatically if you run this scipt for t
 3. windows: C:\Users\YourUserName\AppData\Local\Google\Chrome\User Data\
 ```
 
-Inspect the Directory. Match the folder name with the corresponding Chrome profile. 
+Inspect the Directory. Match the folder name with the corresponding Chrome profile.
 Directories might be hidden, if you don't find the directories then google `how to see hidden file and directories for your OS`. For mac its `CMD + SHIFT + .`
 
 ```
